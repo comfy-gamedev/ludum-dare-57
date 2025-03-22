@@ -1,0 +1,5 @@
+
+[ul]
+Use as few materials as possible.
+Do not use [code]GPUParticles[/code].
+[/ul]

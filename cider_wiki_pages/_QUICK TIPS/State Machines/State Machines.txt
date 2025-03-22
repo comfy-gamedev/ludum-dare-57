@@ -1,0 +1,25 @@
+The script editor has a new `Cider State` menu.
+
+[[img:img_4.webp]]
+
+This menu can setup the state machine, add new states, and quickly navigate to a state.
+
+The states are generated with all supported functions present, but none of these functions are required, and may be deleted.
+
+[font s=24]_cider_state[/font]
+
+The state setup introduces a `_cider_state` var, which holds the state machine itself, `CiderState`.
+
+`CiderState` has only one interesting property:
+
+`current_state: StringName`
+
+This is the name of the current state. If it is `&""`, the state machine is disabled.
+
+When set, it will perform the necessary `exit`/`enter` calls for the states involved.
+
+[font s=24]goto[/font]
+
+This is a helper method that sets `current_state`.
+
+It doesn't do anything special, it's just easier to type.
