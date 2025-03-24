@@ -1,13 +1,41 @@
 #!/usr/bin/env sh
 GODOT="godot"
 
-BEFORE_FILES=$(git ls-files -o --exclude-standard)
-"$GODOT" --import --headless
-AFTER_FILES=$(git ls-files -o --exclude-standard)
+TMP=".git/pre-commit-tmp"
+mkdir -p "$TMP"
 
-if [ "$BEFORE_FILES" != "$AFTER_FILES" ]
+if [ -n "$PRECOMMIT_DRY_RUN" ] && [ "$PRECOMMIT_DRY_RUN" -eq 1 ]
 then
-	echo >&2 "Untracked files changed after import. Please review!"
+	echo -e "A\nB" > "$TMP/before-files"
+	echo -e "A\nC" > "$TMP/after-files"
+else
+	git ls-files -o --exclude-standard | sort > "$TMP/before-files"
+	"$GODOT" --import --headless
+	git ls-files -o --exclude-standard | sort > "$TMP/after-files"
+fi
+
+FILES_REMOVED=$(comm -23 "$TMP/before-files" "$TMP/after-files")
+FILES_ADDED=$(comm -13 "$TMP/before-files" "$TMP/after-files")
+
+if [ -n "$FILES_REMOVED$FILES_ADDED" ]
+then
+	printf >&2 "$(tput bel)"
+	if [ -n "$FILES_REMOVED" ]
+	then
+		printf >&2 "$(tput bold)$(tput setaf 11)Existing files removed by import:$(tput sgr 0)\n\n"
+		printf >&2 "$FILES_REMOVED\n\n"
+	fi
+	if [ -n "$FILES_ADDED" ]
+	then
+		printf >&2 "$(tput bold)$(tput setaf 11)New files added by import:$(tput sgr 0)\n\n"
+		printf >&2 "$FILES_ADDED\n\n"
+	fi
+	printf >&2 "$(tput bold)$(tput setaf 9)$(tput setab 15)>>> ABORTING COMMIT, PLEASE REVIEW <<<$(tput sgr 0)\n\n"
 	exit 1
+fi
+
+if [ -n "$PRECOMMIT_DRY_RUN" ] && [ "$PRECOMMIT_DRY_RUN" -eq 1 ]
+then
+	exit 2
 fi
 
