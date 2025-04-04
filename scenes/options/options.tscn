@@ -53,5 +53,14 @@ size_flags_vertical = 3
 [node name="Bong001" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_qe4tn")
 
-[node name="scarySFX" type="AudioStreamPlayer" parent="."]
+[node name="ScarySFX" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_bcrey")
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 885.0
+offset_right = 961.0
+offset_bottom = 47.0
+text = "Back"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

@@ -8,7 +8,7 @@ var _save_queued: bool = false
 
 @onready var tab_container: TabContainer = %TabContainer
 @onready var bong_001: AudioStreamPlayer = $Bong001
-@onready var scary_sfx := $scarySFX
+@onready var scary_sfx := $ScarySFX
 
 func _ready() -> void:
 	
@@ -159,4 +159,7 @@ func _setting_changed(setting_name: StringName) -> void:
 			if !Settings.misc_arachnophobia_mode:
 				scary_sfx.play()
 			$TextureRect.visible = !$TextureRect.visible
-			
+
+
+func _on_back_button_pressed() -> void:
+	SceneGirl.change_scene("res://scenes/main_menu/main_menu.tscn")
