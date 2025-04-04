@@ -60,6 +60,7 @@ shape = SubResource("CircleShape2D_5boca")
 
 [node name="Sprite" type="Sprite2D" parent="BouncingCharacterBody2D"]
 z_index = -1
+position = Vector2(-232, -196)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_kqmhi")
 
