@@ -8,6 +8,7 @@ var _save_queued: bool = false
 
 @onready var tab_container: TabContainer = %TabContainer
 @onready var bong_001: AudioStreamPlayer = $Bong001
+@onready var scary_sfx := $scarySFX
 
 func _ready() -> void:
 	
@@ -154,3 +155,8 @@ func _setting_changed(setting_name: StringName) -> void:
 		&"audio_sfx_volume":
 			bong_001.bus = "SFX"
 			bong_001.play()
+		&"misc_arachnophobia_mode":
+			if !Settings.misc_arachnophobia_mode:
+				scary_sfx.play()
+			$TextureRect.visible = !$TextureRect.visible
+			

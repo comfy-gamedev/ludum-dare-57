@@ -29,6 +29,12 @@ const CONFIG_FILE = "user://settings.cfg"
 		video_fullscreen = v
 		get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if v else Window.MODE_WINDOWED
 
+@export_group("Misc", "misc_")
+
+@export var misc_arachnophobia_mode: bool = true:
+	set(v):
+		misc_arachnophobia_mode = v
+
 
 #region Plumbing
 
