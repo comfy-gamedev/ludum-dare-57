@@ -10,7 +10,7 @@ func _ready() -> void:
 
 
 func _on_start_game_button_pressed() -> void:
-	SceneGirl.change_scene("res://scenes/main_gameplay/main_gameplay.tscn")
+	SceneGirl.change_scene("res://scenes/navigation/navigation.tscn")
 
 
 func _on_how_to_play_button_pressed() -> void:
