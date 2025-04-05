@@ -1,6 +1,6 @@
 extends TextureButton
 
-var type := Globals.LOCATION_TYPES.ENEMY
+var type := Enums.LOCATION_TYPES.ENEMY
 
 var next_nodes : Array[Node] = []
 

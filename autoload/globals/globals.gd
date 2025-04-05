@@ -7,17 +7,6 @@ extends Node
 ## Displays a debug overlay when the user hits the F1 key.
 ## All variables are displayed automatically.
 
-enum LOCATION_TYPES {
-	ENEMY,
-	ELITE,
-	TREASURE,
-	EVENT,
-	EMPTY,
-	BOSS,
-	MUTATION,
-	SHOP,
-	STORY
-}
 
 ## Emitted when any variable changes.
 signal changed(prop_name: StringName)
