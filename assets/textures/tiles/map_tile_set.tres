@@ -1,8 +1,7 @@
-[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://efplr82wukuj"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://efplr82wukuj"]
 
 [ext_resource type="Texture2D" uid="uid://du0thy4vkhvse" path="res://assets/textures/tiles/pipework.png" id="1_ixtdv"]
 [ext_resource type="Texture2D" uid="uid://lm7wek6jdbmw" path="res://assets/textures/location_symbols.png" id="2_2kbuo"]
-[ext_resource type="Texture2D" uid="uid://cckycdowaaffi" path="res://assets/textures/tiles/locationSheet.png" id="3_2g3mr"]
 [ext_resource type="Texture2D" uid="uid://dw4gmlyxnfe1r" path="res://assets/textures/tiles/Location spaces.png" id="3_tv6qs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2kbuo"]
@@ -106,10 +105,6 @@ texture_region_size = Vector2i(32, 32)
 2:2/0 = 0
 3:2/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_f5sun"]
-texture = ExtResource("3_2g3mr")
-texture_region_size = Vector2i(32, 32)
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqv7p"]
 texture = ExtResource("3_tv6qs")
 texture_region_size = Vector2i(32, 32)
@@ -131,5 +126,4 @@ custom_data_layer_0/name = "Destination"
 custom_data_layer_0/type = 21
 sources/0 = SubResource("TileSetAtlasSource_2kbuo")
 sources/1 = SubResource("TileSetAtlasSource_tv6qs")
-sources/2 = SubResource("TileSetAtlasSource_f5sun")
 sources/3 = SubResource("TileSetAtlasSource_aqv7p")
