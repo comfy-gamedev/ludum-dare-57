@@ -1,0 +1,19 @@
+[remap]
+
+importer="godot-krita-importer"
+type="PackedScene"
+uid="uid://qki21f0vorn2"
+path="res://.godot/imported/Lead Pipe.kra-35f57ea659588b9e1f7d06edc069eaec.scn"
+
+[deps]
+
+source_file="res://assets/textures/weapon_sprites/Lead Pipe.kra"
+dest_files=["res://.godot/imported/Lead Pipe.kra-35f57ea659588b9e1f7d06edc069eaec.scn"]
+
+[params]
+
+ignore_invisible_layers=false
+texture_filter=0
+crop_to_visible=true
+center_sprites=true
+import_as_files=false
