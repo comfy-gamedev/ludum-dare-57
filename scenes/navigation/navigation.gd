@@ -11,9 +11,22 @@ var button_type := preload("res://scenes/navigation/location_node.tscn")
 @onready var container := $NodeContainer
 @onready var tilemap := $TileMapLayer
 
+var current_node:= Vector2i(0, 0)
+
 func _ready() -> void:
-	get_next_nodes(Vector2i(7, 0))
+	pass
+
+func _enter_tree() -> void:
+	if current_node == Vector2i(0, 0):
+		for i in 20:
+			if tilemap.get_cell_source_id(Vector2(i, 0)) > -1:
+				current_node = Vector2(i, 0)
+				break
 	
+	#disable all nodes
+	#mark current node as current
+	#mark available nodes as enabled #get_next_nodes(current_node)
+	pass
 
 func get_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 	var current_pipe := coord + Vector2i(0, 1)
@@ -53,6 +66,6 @@ func get_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
-		if tilemap.get_cell_source_id(tile_coord) == 2:
+		if tilemap.get_cell_source_id(tile_coord) == 3:
 			#switch event scenes here
 			SceneGirl.change_scene("res://scenes/main_gameplay/main_gameplay.tscn")
