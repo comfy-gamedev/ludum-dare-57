@@ -7,6 +7,8 @@ extends Resource
 @export var count: int
 @export var roll_effects: Array[RollEffect]
 
+var _battle_sprite: DieSprite
+
 func _init(
 	p_name: String = "",
 	p_item_image: Texture2D = null,

@@ -1,11 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://b0dxaakc5f5v5"]
+[gd_scene load_steps=18 format=3 uid="uid://b0dxaakc5f5v5"]
 
 [ext_resource type="Script" uid="uid://551loo5ebbr4" path="res://scenes/battle/battle_test.gd" id="1_7y2bw"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://node_types/stuff_die/stuff_die.gd" id="2_1psvw"]
-[ext_resource type="PackedScene" uid="uid://jbx7rf6o0vao" path="res://scenes/battle/battle.tscn" id="2_uw8oo"]
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://node_types/stuff_die/stuff_die_face.gd" id="3_i1e0v"]
 [ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://node_types/stuff_die/roll_effect.gd" id="4_5ui55"]
 [ext_resource type="PackedScene" uid="uid://db46o3d7kmanp" path="res://actors/die_sprite.tscn" id="6_i1e0v"]
+[ext_resource type="Shader" uid="uid://cc7ef44h1xv2q" path="res://assets/materials/die_sprite_material.gdshader" id="7_5ui55"]
 
 [sub_resource type="Resource" id="Resource_sbmo0"]
 script = ExtResource("3_i1e0v")
@@ -53,6 +53,12 @@ count = 20
 roll_effects = Array[ExtResource("4_5ui55")]([])
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sbmo0"]
+resource_local_to_scene = true
+shader = ExtResource("7_5ui55")
+shader_parameter/outline_color = Color(0, 0, 0, 0)
+shader_parameter/inverse_scale = 0.938
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_5ui55"]
 viewport_path = NodePath("SubViewport")
 
@@ -76,9 +82,8 @@ metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
 script = ExtResource("1_7y2bw")
 test_equipment = Array[ExtResource("2_1psvw")]([SubResource("Resource_1ditj")])
 
-[node name="Battle" parent="." instance=ExtResource("2_uw8oo")]
-
 [node name="DieSprite" parent="." instance=ExtResource("6_i1e0v")]
+material = SubResource("ShaderMaterial_sbmo0")
 position = Vector2(125, 133)
 texture = SubResource("ViewportTexture_5ui55")
 die = SubResource("Resource_wc0ik")

@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=13 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://efbeduxef51k" path="res://assets/textures/frame1.png" id="2_h0kxc"]
 [ext_resource type="Texture2D" uid="uid://34eii73tw5th" path="res://assets/textures/bg1.png" id="3_fh7rg"]
 [ext_resource type="Texture2D" uid="uid://dcl1k77dypywc" path="res://assets/textures/rat.png" id="4_pll4o"]
+[ext_resource type="Texture2D" uid="uid://emwmyn8543" path="res://assets/textures/reroll.png" id="5_fh7rg"]
+[ext_resource type="Texture2D" uid="uid://bkrd5le3mc5w0" path="res://assets/textures/Slyme2.png" id="5_pll4o"]
+[ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="6_pll4o"]
+[ext_resource type="Texture2D" uid="uid://xuty4hsyvoak" path="res://assets/textures/heart.png" id="8_py4tk"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_py4tk"]
 texture = ExtResource("2_h0kxc")
@@ -12,12 +16,28 @@ texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_py4tk"]
+font = ExtResource("6_pll4o")
+font_size = 19
+
+[sub_resource type="LabelSettings" id="LabelSettings_agsc7"]
+font = ExtResource("6_pll4o")
+font_size = 19
+
+[sub_resource type="LabelSettings" id="LabelSettings_oiw7q"]
+font = ExtResource("6_pll4o")
+font_size = 19
+
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_0yh6x")
 hand_width = 360.0
+rolled_width = 360.0
 
 [node name="Hand" type="Node2D" parent="."]
 position = Vector2(300, 500)
+
+[node name="Rolled" type="Node2D" parent="."]
+position = Vector2(300, 373.98)
 
 [node name="Frame" type="Node2D" parent="."]
 
@@ -47,10 +67,66 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 texture = ExtResource("3_fh7rg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="EnemySprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(615, 149)
 texture = ExtResource("4_pll4o")
 
-[node name="Sprite2D2" type="Sprite2D" parent="."]
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(327, 147)
-texture = ExtResource("4_pll4o")
+texture = ExtResource("5_pll4o")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(123, 331)
+texture = ExtResource("5_fh7rg")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="RerollsLabel" type="Label" parent="Sprite2D3"]
+unique_name_in_owner = true
+offset_right = 32.0
+offset_bottom = 34.0
+text = "10"
+label_settings = SubResource("LabelSettings_py4tk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GoButton" type="Button" parent="."]
+offset_left = 780.0
+offset_top = 319.0
+offset_right = 836.0
+offset_bottom = 366.0
+text = "GO"
+
+[node name="EnemyHeart" type="Sprite2D" parent="."]
+position = Vector2(609, 271)
+texture = ExtResource("8_py4tk")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="EnemyHeartLabel" type="Label" parent="EnemyHeart"]
+unique_name_in_owner = true
+offset_right = 32.0
+offset_bottom = 32.0
+text = "10"
+label_settings = SubResource("LabelSettings_agsc7")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerHeart" type="Sprite2D" parent="."]
+position = Vector2(306, 270)
+texture = ExtResource("8_py4tk")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="PlayerHeartLabel" type="Label" parent="PlayerHeart"]
+unique_name_in_owner = true
+offset_right = 32.0
+offset_bottom = 32.0
+text = "10"
+label_settings = SubResource("LabelSettings_oiw7q")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]

@@ -22,3 +22,13 @@ enum LOCATION_TYPES {
 	MUTATION,
 	SHOP,
 }
+
+enum ENEMY_ACTION {
+	PASS,
+	ATTACK,
+}
+
+enum ENEMY_ACTION_MODE {
+	LOOP,
+	RANDOM,
+}

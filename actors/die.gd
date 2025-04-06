@@ -18,6 +18,9 @@ extends Node3D
 func _ready() -> void:
 	_reconcile()
 
+func get_face_orientation(index: int) -> Basis:
+	return die_faces[index].basis
+
 func _reconcile():
 	if not is_inside_tree():
 		return
