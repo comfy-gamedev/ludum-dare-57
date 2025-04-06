@@ -6,91 +6,71 @@ extends Node2D
 #const H_SPACING := 50
 #const W_SPACING := 50
 
-
+const BATTLE = preload("res://scenes/battle/battle.tscn")
 var button_type := preload("res://scenes/navigation/location_node.tscn")
 @onready var container := $NodeContainer
-@onready var tilemap := $TileMapLayer
+@onready var tilemap: TileMapLayer = $ScrollContainer/PanelContainer/TileMapLayer4
+
+var current_node:= Vector2i(0, 0)
+
+var next_nodes: Array[Vector2i]
 
 func _ready() -> void:
-	get_next_nodes(Vector2i(4, 0))
-	
-	#var width
-	#var last_nodes := []
-	#var current_nodes := []
-	#
-	#for i in LAYERS:
-		#width = randi_range(3, MAX_WIDTH)
-		#for j in width:
-			#var loc_button := button_type.instantiate()
-			#loc_button.position = Vector2(480 - ((W_SPACING / 2) * (width - 1)) + (W_SPACING * (j - 1)), 50 + (H_SPACING * i))
-			#container.add_child(loc_button)
-			#current_nodes.append(loc_button)
-			#for k in last_nodes:
-				#k.next_nodes.append(loc_button)
-		#last_nodes = current_nodes
-	#
-	#for i in container.get_children():
-		#for j in i.next_nodes:
-			#var line = Line2D.new()
-			#line.add_point(i.position)
-			#line.add_point(j.position)
+	_enter_tree()
 
-func get_next_nodes(coord: Vector2i) -> Array[Vector2i]:
+func _enter_tree() -> void:
+	if !is_node_ready():
+		return
+	
+	if current_node == Vector2i(0, 0):
+		for i in 20:
+			if tilemap.get_cell_source_id(Vector2(i, 0)) > -1:
+				current_node = Vector2(i, 0)
+				break
+	
+	next_nodes = find_next_nodes(current_node)
+
+func find_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 	var current_pipe := coord + Vector2i(0, 1)
 	var nodes : Array[Vector2i] = []
 	var status = "left"
-	#move left
-	while status != "done":
-		match tilemap.get_cell_atlas_coords(current_pipe).x:
-			0:#straight down
-				nodes.append(current_pipe + Vector2i(0, 1))
-				status = "done"
-			1:
-				if status == "left":
-					current_pipe += Vector2i.LEFT
-				else:
-					current_pipe += Vector2i.RIGHT
-			2:#right angle
-				current_pipe += Vector2i.LEFT
-			3:
-				current_pipe += Vector2i.RIGHT
-			4, 5:
-				nodes.append(current_pipe + Vector2i(0, 1))
-				if status == "left":
-					status = "right"
-					current_pipe = coord + Vector2i(1, 1)
-				else:
-					status = "done"
-			6:#T junction up
-				if status == "left":
-					current_pipe += Vector2i.LEFT
-				else:
-					current_pipe += Vector2i.RIGHT
-			7:
-				nodes.append(current_pipe + Vector2i(0, 1))
-				if status == "left":
-					current_pipe += Vector2i.LEFT
-				else:
-					current_pipe += Vector2i.RIGHT
-			8, 9:
-				nodes.append(current_pipe + Vector2i(0, 1))
-				if status == "left":
-					status = "right"
-					current_pipe = coord + Vector2i(1, 1)
-				else:
-					status = "done"
-			10:#4 cross
-				nodes.append(current_pipe + Vector2i(0, 1))
-				if status == "left":
-					current_pipe += Vector2i.LEFT
-				else:
-					current_pipe += Vector2i.RIGHT
-		
+	var td: TileData = tilemap.get_cell_tile_data(current_pipe)
+	
+	# scan left
+	while td:
+		var pb = td.get_terrain_peering_bit(TileSet.CELL_NEIGHBOR_LEFT_SIDE)
+		if pb == -1:
+			break
+		current_pipe += Vector2i.LEFT
+		td = tilemap.get_cell_tile_data(current_pipe)
+	if not td:
+		push_error("No td found.")
+		return []
+	
+	# scan right
+	while td:
+		var down = td.get_terrain_peering_bit(TileSet.CELL_NEIGHBOR_BOTTOM_SIDE)
+		if down != -1:
+			nodes.append(current_pipe + Vector2i.DOWN)
+		var right = td.get_terrain_peering_bit(TileSet.CELL_NEIGHBOR_RIGHT_SIDE)
+		if right == -1:
+			break
+		current_pipe += Vector2i.RIGHT
+		td = tilemap.get_cell_tile_data(current_pipe)
+	
 	return nodes
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
-		if tilemap.get_cell_source_id(tile_coord) == 2:
-			#switch event scenes here
-			SceneGirl.change_scene("res://scenes/main_gameplay/main_gameplay.tscn")
+		if tile_coord in next_nodes:
+			current_node = tile_coord
+			next_nodes = find_next_nodes(current_node)
+			var dest = tilemap.get_cell_tile_data(current_node).get_custom_data("Destination")
+			print("Navigated to: ", current_node, " (", var_to_str(dest), ")")
+			print("Next nodes: ", next_nodes)
+			match dest:
+				&"battle_easy":
+					SceneGirl.push_scene(BATTLE, func (battle):
+						battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
+

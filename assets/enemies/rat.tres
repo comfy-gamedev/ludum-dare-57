@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://djxy8artfu7ok"]
+
+[ext_resource type="Script" uid="uid://dgw7ht8iwghst" path="res://resource_types/enemy.gd" id="1_fvwsx"]
+[ext_resource type="Script" uid="uid://dmv1gbqhp1qj0" path="res://resource_types/action_spec.gd" id="1_w0npa"]
+[ext_resource type="Texture2D" uid="uid://dcl1k77dypywc" path="res://assets/textures/rat.png" id="2_w0npa"]
+
+[sub_resource type="Resource" id="Resource_w0npa"]
+script = ExtResource("1_w0npa")
+action = 1
+action_param = 3
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[resource]
+script = ExtResource("1_fvwsx")
+max_hp = 5
+sprite = ExtResource("2_w0npa")
+actions = Array[ExtResource("1_w0npa")]([SubResource("Resource_w0npa")])
+action_mode = 0
+action_loop_point = 0
+metadata/_custom_type_script = "uid://dgw7ht8iwghst"

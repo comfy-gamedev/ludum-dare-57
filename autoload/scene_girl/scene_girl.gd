@@ -104,6 +104,32 @@ func change_scene(scene_file: String) -> void:
 	
 	get_tree().paused = true
 
+var scene_stack: Array[Node] = []
+
+func push_scene(scene: PackedScene, setup: Callable = Callable()) -> void:
+	if _pending_change_scene_file:
+		push_error("Cannot change scene while another is pending.")
+		return
+	
+	scene_stack.push_back(get_tree().current_scene)
+	get_tree().root.remove_child(get_tree().current_scene)
+	var new_node = scene.instantiate()
+	setup.call(new_node)
+	get_tree().root.add_child(new_node)
+	get_tree().current_scene = new_node
+
+func pop_scene() -> void:
+	if _pending_change_scene_file:
+		push_error("Cannot change scene while another is pending.")
+		return
+	
+	var old_node = scene_stack.pop_back()
+	get_tree().current_scene.queue_free()
+	get_tree().root.remove_child(get_tree().current_scene)
+	if old_node:
+		get_tree().root.add_child(old_node)
+		get_tree().current_scene = old_node
+
 func _on_out_animation_finished(anim_name: StringName) -> void:
 	assert(anim_name == &"out")
 	if anim_name != &"out":

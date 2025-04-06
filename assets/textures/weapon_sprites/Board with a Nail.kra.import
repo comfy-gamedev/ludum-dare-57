@@ -1,0 +1,19 @@
+[remap]
+
+importer="godot-krita-importer"
+type="PackedScene"
+uid="uid://r3yntl000jbk"
+path="res://.godot/imported/Board with a Nail.kra-04e48afca9c2d1ccff58090a4891998b.scn"
+
+[deps]
+
+source_file="res://assets/textures/weapon_sprites/Board with a Nail.kra"
+dest_files=["res://.godot/imported/Board with a Nail.kra-04e48afca9c2d1ccff58090a4891998b.scn"]
+
+[params]
+
+ignore_invisible_layers=false
+texture_filter=0
+crop_to_visible=true
+center_sprites=true
+import_as_files=false

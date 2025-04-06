@@ -12,17 +12,26 @@ extends Node
 signal changed(prop_name: StringName)
 
 ## Example variable.
-var player_health: int = 0:
+var player_stats: PlayerStats = null:
 	set(v):
-		if player_health == v: return
-		player_health = v
-		_notify_changed(&"player_health")
+		if player_stats == v: return
+		player_stats = v
+		_notify_changed(&"player_stats")
 
 
 ## Reset all variables to their default state.
 func reset():
 	for prop_name in _defaults:
 		set(prop_name, _defaults[prop_name])
+
+func _ready() -> void:
+	player_stats = PlayerStats.new()
+	player_stats.equipment = [
+		preload("res://assets/items/punch.tres"),
+		preload("res://assets/items/block.tres"),
+	]
+	player_stats.initial_mana = 3
+	player_stats.initial_rerolls = 1
 
 #region Plumbing
 var _defaults: Dictionary[StringName, Variant] = {}

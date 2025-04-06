@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://db46o3d7kmanp"]
+
+[ext_resource type="PackedScene" uid="uid://3fnebg8beehh" path="res://actors/die.tscn" id="1_4b6o3"]
+[ext_resource type="Script" uid="uid://cad7l7ly6csc2" path="res://actors/die_sprite.gd" id="1_caisl"]
+[ext_resource type="Material" uid="uid://cx4jrxuafivay" path="res://assets/materials/die_sprite_material.tres" id="1_y4weh"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_caisl"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_caisl"]
+size = Vector2(64, 64)
+
+[node name="DieSprite" type="Sprite2D"]
+material = ExtResource("1_y4weh")
+texture = SubResource("ViewportTexture_caisl")
+script = ExtResource("1_caisl")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+own_world_3d = true
+transparent_bg = true
+size = Vector2i(128, 128)
+
+[node name="Die" parent="SubViewport" instance=ExtResource("1_4b6o3")]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+projection = 1
+fov = 1.0
+size = 2.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+shape = SubResource("RectangleShape2D_caisl")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://frjf56k6vksb"]
+
+[ext_resource type="Texture2D" uid="uid://blq0jtp46le5a" path="res://assets/textures/pip_attack.png" id="1_35qr0"]
+[ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="2_qbo7k"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhkij"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = ExtResource("1_35qr0")
+texture_filter = 0
+
+[sub_resource type="QuadMesh" id="QuadMesh_2ktpj"]
+size = Vector2(0.5, 0.5)
+
+[node name="PipTemplate" type="MeshInstance3D"]
+material_override = SubResource("StandardMaterial3D_jhkij")
+mesh = SubResource("QuadMesh_2ktpj")
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.031, 0.01)
+visible = false
+pixel_size = 0.0313
+double_sided = false
+texture_filter = 2
+text = "10"
+font = ExtResource("2_qbo7k")
+font_size = 19
+outline_size = 0
