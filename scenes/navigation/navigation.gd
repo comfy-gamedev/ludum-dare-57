@@ -14,9 +14,12 @@ var button_type := preload("res://scenes/navigation/location_node.tscn")
 var current_node:= Vector2i(0, 0)
 
 func _ready() -> void:
-	pass
+	_enter_tree()
 
 func _enter_tree() -> void:
+	if !is_node_ready():
+		return
+	
 	if current_node == Vector2i(0, 0):
 		for i in 20:
 			if tilemap.get_cell_source_id(Vector2(i, 0)) > -1:
