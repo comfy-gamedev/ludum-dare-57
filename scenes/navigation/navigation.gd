@@ -71,7 +71,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			print("Next nodes: ", next_nodes)
 			match dest:
 				&"battle_easy":
-					var battle = BATTLE.instantiate()
-					battle.battle_state.enemy = load("res://assets/enemies/rat.tres")
-					add_child(battle)
+					SceneGirl.push_scene(BATTLE, func (battle):
+						battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
 

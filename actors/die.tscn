@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://pteh7k3pyx6q" path="res://actors/die_face.tscn" id="1_e2lmd"]
 [ext_resource type="Script" uid="uid://dy1dnvjdyedtc" path="res://actors/die.gd" id="1_jhkij"]
-[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://node_types/stuff_die/stuff_die_face.gd" id="2_4j10v"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://node_types/stuff_die/roll_effect.gd" id="3_jhjeu"]
-[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://node_types/stuff_die/stuff_die.gd" id="4_ijpyb"]
+[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="2_4j10v"]
+[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="3_jhjeu"]
+[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="4_ijpyb"]
 
 [sub_resource type="Resource" id="Resource_4fouw"]
 script = ExtResource("2_4j10v")

@@ -1,5 +1,7 @@
 extends Node2D
 const DIE_SPRITE = preload("res://actors/die_sprite.tscn")
+const BLOCK = preload("res://assets/items/block.tres")
+const PUNCH = preload("res://assets/items/punch.tres")
 
 @export var hand_width: float = 100.0
 @export var rolled_width: float = 100.0
@@ -167,6 +169,12 @@ func _on_go_button_pressed() -> void:
 					jump = log(randf()) / log(roll)
 	discard_all(battle_state.roll_results.map(func (x): return x.die))
 	discard_all(battle_state.hand)
+	if battle_state.enemy_hp <= 0:
+		SceneGirl.pop_scene()
+		return
+	if Globals.player_stats.health <= 0:
+		SceneGirl.pop_scene()
+		return
 	for i in 5:
 		if not draw_from_deck():
 			break

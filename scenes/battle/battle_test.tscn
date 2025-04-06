@@ -1,9 +1,9 @@
 [gd_scene load_steps=18 format=3 uid="uid://b0dxaakc5f5v5"]
 
 [ext_resource type="Script" uid="uid://551loo5ebbr4" path="res://scenes/battle/battle_test.gd" id="1_7y2bw"]
-[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://node_types/stuff_die/stuff_die.gd" id="2_1psvw"]
-[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://node_types/stuff_die/stuff_die_face.gd" id="3_i1e0v"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://node_types/stuff_die/roll_effect.gd" id="4_5ui55"]
+[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="2_1psvw"]
+[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="3_i1e0v"]
+[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="4_5ui55"]
 [ext_resource type="PackedScene" uid="uid://db46o3d7kmanp" path="res://actors/die_sprite.tscn" id="6_i1e0v"]
 [ext_resource type="Shader" uid="uid://cc7ef44h1xv2q" path="res://assets/materials/die_sprite_material.gdshader" id="7_5ui55"]
 
