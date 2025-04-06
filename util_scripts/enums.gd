@@ -13,14 +13,21 @@ enum PIP_TYPE {
 }
 
 enum LOCATION_TYPES {
-	ENEMY,
-	ELITE,
-	TREASURE,
-	EVENT,
-	EMPTY,
-	BOSS,
-	MUTATION,
-	SHOP,
+	ENEMY = 1,
+	ELITE = 2,
+	TREASURE = 0,
+	EVENT = 3,
+	EMPTY = 7,
+	BOSS = 6,
+	MUTATION = 4,
+	SHOP = 5,
+}
+
+enum LOCATION_STATE {
+	CROSSED = 0,
+	AVAILABLE = 1,
+	HIGHLIGHT = 2,
+	DISABLED = 3,
 }
 
 enum ENEMY_ACTION {
@@ -31,4 +38,23 @@ enum ENEMY_ACTION {
 enum ENEMY_ACTION_MODE {
 	LOOP,
 	RANDOM,
+}
+
+enum EFFECTS {
+	ADD_PIP,
+	REMOVE_PIP,
+	DOUBLE_FACE,
+	TAKE_DAMAGE, # ⌄ Only when cannot be done with pips
+	DEAL_DAMAGE,
+	HEAL,
+}
+
+enum TRIGGERS {
+	TAKE_DAMAGE,
+	DEAL_DAMAGE,
+	ROLL_SIDE,
+	ROLL_DIE,
+	ROLL_BLANK,
+	ROLL_UNDER,
+	ROLL_OVER
 }

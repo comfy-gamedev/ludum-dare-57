@@ -11,24 +11,30 @@ var button_type := preload("res://scenes/navigation/location_node.tscn")
 @onready var container := $NodeContainer
 @onready var tilemap: TileMapLayer = $ScrollContainer/PanelContainer/TileMapLayer4
 
-var current_node:= Vector2i(0, 0)
-
-var next_nodes: Array[Vector2i]
+var current_node := Vector2i(0, 0)
+var visited_nodes: Array[Vector2i]
 
 func _ready() -> void:
-	_enter_tree()
-
-func _enter_tree() -> void:
-	if !is_node_ready():
-		return
-	
 	if current_node == Vector2i(0, 0):
 		for i in 20:
-			if tilemap.get_cell_source_id(Vector2(i, 0)) > -1:
+			if tilemap.get_cell_atlas_coords(Vector2(i, 0)).x == Enums.LOCATION_TYPES.EMPTY:
 				current_node = Vector2(i, 0)
 				break
-	
-	next_nodes = find_next_nodes(current_node)
+	visited_nodes.append(current_node)
+	_reconcile()
+
+func _reconcile() -> void:
+	var next_nodes = find_next_nodes(current_node)
+	for c in tilemap.get_used_cells_by_id(1):
+		var t = tilemap.get_cell_atlas_coords(c)
+		if c == current_node:
+			tilemap.set_cell(c, 1, Vector2i(t.x, 1))
+		elif c in next_nodes:
+			tilemap.set_cell(c, 1, Vector2i(t.x, 2))
+		elif c in visited_nodes:
+			tilemap.set_cell(c, 1, Vector2i(t.x, 0))
+		else:
+			tilemap.set_cell(c, 1, Vector2i(t.x, 3))
 
 func find_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 	var current_pipe := coord + Vector2i(0, 1)
@@ -43,8 +49,8 @@ func find_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 			break
 		current_pipe += Vector2i.LEFT
 		td = tilemap.get_cell_tile_data(current_pipe)
+	
 	if not td:
-		push_error("No td found.")
 		return []
 	
 	# scan right
@@ -63,14 +69,21 @@ func find_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
-		if tile_coord in next_nodes:
-			current_node = tile_coord
-			next_nodes = find_next_nodes(current_node)
-			var dest = tilemap.get_cell_tile_data(current_node).get_custom_data("Destination")
-			print("Navigated to: ", current_node, " (", var_to_str(dest), ")")
-			print("Next nodes: ", next_nodes)
-			match dest:
-				&"battle_easy":
-					SceneGirl.push_scene(BATTLE, func (battle):
-						battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
-
+		if tilemap.get_cell_source_id(tile_coord) != 1:
+			return
+		var dest = tilemap.get_cell_atlas_coords(tile_coord)
+		match dest.y:
+			Enums.LOCATION_STATE.CROSSED,\
+			Enums.LOCATION_STATE.DISABLED:
+				pass
+			Enums.LOCATION_STATE.AVAILABLE,\
+			Enums.LOCATION_STATE.HIGHLIGHT:
+				tilemap.set_cell(current_node, 1, Vector2i(dest.x, 0))
+				current_node = tile_coord
+				visited_nodes.append(current_node)
+				_reconcile()
+				print("Navigated to: ", current_node, " (", var_to_str(dest), ")")
+				match dest.x:
+					Enums.LOCATION_TYPES.ENEMY:
+						SceneGirl.push_scene(BATTLE, func (battle):
+							battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))

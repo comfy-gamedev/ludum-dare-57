@@ -32,4 +32,3 @@ var equipment: Array[StuffDie]:
 		if equipment == v: return
 		equipment = v
 		changed.emit()
-
