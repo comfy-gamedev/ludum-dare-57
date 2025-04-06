@@ -73,4 +73,3 @@ func _unhandled_input(event: InputEvent) -> void:
 				&"battle_easy":
 					SceneGirl.push_scene(BATTLE, func (battle):
 						battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
-
