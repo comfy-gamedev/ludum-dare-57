@@ -51,6 +51,7 @@ layout_mode = 2
 focus_neighbor_right = NodePath("../ColorRect2")
 focus_neighbor_bottom = NodePath("../../../Button")
 focus_next = NodePath("../ColorRect2")
+focus_mode = 2
 color = Color(0.392157, 0.392157, 0.392157, 0.894118)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BoxContainer/HBoxContainer/ColorRect"]
@@ -100,7 +101,7 @@ size_flags_horizontal = 4
 
 [node name="Description" type="Label" parent="VBoxContainer/BoxContainer/HBoxContainer/ColorRect2/VBoxContainer"]
 layout_mode = 2
-text = "- Hits medium
+text = "- Hits fine
 - Toxic"
 
 [node name="ColorRect3" type="ColorRect" parent="VBoxContainer/BoxContainer/HBoxContainer"]
@@ -135,8 +136,25 @@ text = "- Hits softly
 [node name="Button" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+focus_neighbor_left = NodePath("../BoxContainer/HBoxContainer/ColorRect")
 focus_neighbor_top = NodePath("../BoxContainer/HBoxContainer/ColorRect2")
+focus_neighbor_right = NodePath("../BoxContainer/HBoxContainer/ColorRect3")
 focus_previous = NodePath("../BoxContainer/HBoxContainer/ColorRect2")
 text = "Skip"
 
+[connection signal="focus_entered" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect" to="." method="_on_color_rect_focus_entered"]
+[connection signal="focus_exited" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect" to="." method="_on_color_rect_focus_exited"]
 [connection signal="gui_input" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect" to="." method="_on_color_rect_gui_input"]
+[connection signal="mouse_entered" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect" to="." method="_on_color_rect_focus_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect" to="." method="_on_color_rect_focus_exited"]
+[connection signal="focus_entered" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect2" to="." method="_on_color_rect_2_focus_entered"]
+[connection signal="focus_exited" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect2" to="." method="_on_color_rect_2_focus_exited"]
+[connection signal="gui_input" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect2" to="." method="_on_color_rect_2_gui_input"]
+[connection signal="mouse_entered" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect2" to="." method="_on_color_rect_2_focus_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect2" to="." method="_on_color_rect_2_focus_exited"]
+[connection signal="focus_entered" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect3" to="." method="_on_color_rect_3_focus_entered"]
+[connection signal="focus_exited" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect3" to="." method="_on_color_rect_3_focus_exited"]
+[connection signal="gui_input" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect3" to="." method="_on_color_rect_3_gui_input"]
+[connection signal="mouse_entered" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect3" to="." method="_on_color_rect_3_focus_entered"]
+[connection signal="mouse_exited" from="VBoxContainer/BoxContainer/HBoxContainer/ColorRect3" to="." method="_on_color_rect_3_focus_exited"]
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
