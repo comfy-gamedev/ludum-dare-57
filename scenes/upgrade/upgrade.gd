@@ -1,6 +1,6 @@
 extends Node2D
 
-var location_type = Enums.LOCATION_TYPES.UPGRADE
+var location_type = Enums.LOCATION_TYPES.EMPTY
 var items = []
 
 @onready var card1 = $VBoxContainer/BoxContainer/HBoxContainer/ColorRect
@@ -11,7 +11,7 @@ var items = []
 func _ready() -> void:
 	$VBoxContainer/Button.grab_focus()
 	match location_type:
-		Enums.LOCATION_TYPES.UPGRADE:
+		Enums.LOCATION_TYPES.EMPTY:
 			pass
 		Enums.LOCATION_TYPES.TREASURE:
 			label.text = "Choose An Item!"

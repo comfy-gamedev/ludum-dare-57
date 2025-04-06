@@ -87,4 +87,3 @@ func _unhandled_input(event: InputEvent) -> void:
 					Enums.LOCATION_TYPES.ENEMY:
 						SceneGirl.push_scene(BATTLE, func (battle):
 							battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
-
