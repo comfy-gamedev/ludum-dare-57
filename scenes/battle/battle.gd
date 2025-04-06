@@ -134,6 +134,8 @@ func _adjust_sprite_positions() -> void:
 			.tween_property(rolled.get_child(i), "position", p, 0.2)
 
 func _on_go_button_pressed() -> void:
+	for i in Globals.PlayerStats.mutations:
+		i.triggered(Mutation.TRIGGERS.ROLL_DIE, battle_state)
 	for i in battle_state.roll_results.size():
 		var r = battle_state.roll_results[i]
 		var face = r.die.faces[r.face]

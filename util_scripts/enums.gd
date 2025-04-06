@@ -40,21 +40,11 @@ enum ENEMY_ACTION_MODE {
 	RANDOM,
 }
 
-enum EFFECTS {
-	ADD_PIP,
-	REMOVE_PIP,
-	DOUBLE_FACE,
-	TAKE_DAMAGE, # ⌄ Only when cannot be done with pips
-	DEAL_DAMAGE,
-	HEAL,
-}
-
-enum TRIGGERS {
-	TAKE_DAMAGE,
-	DEAL_DAMAGE,
-	ROLL_SIDE,
-	ROLL_DIE,
-	ROLL_BLANK,
-	ROLL_UNDER,
-	ROLL_OVER
-}
+#enum EFFECTS {
+	#ADD_PIP,
+	#REMOVE_PIP,
+	#DOUBLE_FACE,
+	#TAKE_DAMAGE, # ⌄ Only when cannot be done with pips
+	#DEAL_DAMAGE,
+	#HEAL,
+#}

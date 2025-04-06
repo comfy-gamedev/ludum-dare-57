@@ -32,3 +32,9 @@ var equipment: Array[StuffDie]:
 		if equipment == v: return
 		equipment = v
 		changed.emit()
+
+var mutations: Array[Mutation]:
+	set(v):
+		if mutations == v: return
+		mutations = v
+		changed.emit()
