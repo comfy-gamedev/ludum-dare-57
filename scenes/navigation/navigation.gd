@@ -12,7 +12,7 @@ var button_type := preload("res://scenes/navigation/location_node.tscn")
 @onready var tilemap := $TileMapLayer
 
 func _ready() -> void:
-	get_next_nodes(Vector2i(4, 0))
+	get_next_nodes(Vector2i(7, 0))
 	
 
 func get_next_nodes(coord: Vector2i) -> Array[Vector2i]:
