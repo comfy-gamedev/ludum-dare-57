@@ -3,6 +3,7 @@ extends RefCounted
 
 var deck: Array[StuffDie]
 var hand: Array[StuffDie]
+var discard: Array[StuffDie]
 
 var mana: int
 var rerolls: int

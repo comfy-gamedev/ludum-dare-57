@@ -13,10 +13,11 @@ texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 
 [node name="Battle" type="Node2D"]
-visible = false
 script = ExtResource("1_0yh6x")
+hand_width = 360.0
 
 [node name="Hand" type="Node2D" parent="."]
+position = Vector2(300, 500)
 
 [node name="Frame" type="Node2D" parent="."]
 

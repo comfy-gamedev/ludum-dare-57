@@ -12,11 +12,11 @@ extends Node
 signal changed(prop_name: StringName)
 
 ## Example variable.
-var player_health: int = 0:
+var player_stats: PlayerStats = null:
 	set(v):
-		if player_health == v: return
-		player_health = v
-		_notify_changed(&"player_health")
+		if player_stats == v: return
+		player_stats = v
+		_notify_changed(&"player_stats")
 
 
 ## Reset all variables to their default state.

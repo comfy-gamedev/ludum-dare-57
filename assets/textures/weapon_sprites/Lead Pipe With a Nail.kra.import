@@ -1,0 +1,19 @@
+[remap]
+
+importer="godot-krita-importer"
+type="PackedScene"
+uid="uid://bg2f2morp8ce1"
+path="res://.godot/imported/Lead Pipe With a Nail.kra-b6ce57b67e86d93cbbf100e2b7c6d408.scn"
+
+[deps]
+
+source_file="res://assets/textures/weapon_sprites/Lead Pipe With a Nail.kra"
+dest_files=["res://.godot/imported/Lead Pipe With a Nail.kra-b6ce57b67e86d93cbbf100e2b7c6d408.scn"]
+
+[params]
+
+ignore_invisible_layers=false
+texture_filter=0
+crop_to_visible=true
+center_sprites=true
+import_as_files=false
