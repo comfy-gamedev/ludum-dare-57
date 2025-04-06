@@ -1,0 +1,29 @@
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://efplr82wukuj"]
+
+[ext_resource type="Texture2D" uid="uid://du0thy4vkhvse" path="res://assets/textures/tiles/pipework.png" id="1_ixtdv"]
+[ext_resource type="Texture2D" uid="uid://xbxj41g51456" path="res://assets/textures/tiles/locationTemp.png" id="2_2kbuo"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2kbuo"]
+texture = ExtResource("1_ixtdv")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tv6qs"]
+texture = ExtResource("2_2kbuo")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[resource]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_2kbuo")
+sources/1 = SubResource("TileSetAtlasSource_tv6qs")
