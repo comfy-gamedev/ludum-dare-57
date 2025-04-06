@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="StuffDie" load_steps=4 format=3 uid="uid://d3rb4tkg8rqgj"]
+
+[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_oe0vn"]
+[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_xwu53"]
+[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_1myyl"]
+
+[resource]
+script = ExtResource("3_1myyl")
+name = ""
+faces = Array[ExtResource("1_oe0vn")]([])
+count = 0
+roll_effects = Array[ExtResource("2_xwu53")]([])
+metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

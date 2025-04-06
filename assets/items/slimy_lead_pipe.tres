@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="StuffDie" load_steps=8 format=3 uid="uid://5yr2jj6pua3u"]
+
+[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_t2gs2"]
+[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_c7u7s"]
+[ext_resource type="Texture2D" uid="uid://c5hlq3gnbudap" path="res://assets/textures/weapon_sprites/Slimy Lead Pipe.png" id="2_tqqv8"]
+[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_tqqv8"]
+
+[sub_resource type="Resource" id="Resource_hff4x"]
+script = ExtResource("1_t2gs2")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_alx84"]
+script = ExtResource("1_t2gs2")
+pips = Dictionary[int, int]({
+0: 2
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_n40ch"]
+script = ExtResource("1_t2gs2")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[resource]
+script = ExtResource("3_tqqv8")
+name = "Slimey Lead Pipe"
+item_image = ExtResource("2_tqqv8")
+faces = Array[ExtResource("1_t2gs2")]([null, SubResource("Resource_hff4x"), null, SubResource("Resource_alx84"), null, SubResource("Resource_n40ch")])
+count = 0
+roll_effects = Array[ExtResource("2_c7u7s")]([])
+metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
