@@ -22,6 +22,7 @@ func _ready() -> void:
 		option_button.set_item_metadata(option_button.item_count - 1, item_dir.path_join(f))
 
 
+
 func _on_option_button_item_selected(index: int) -> void:
 	if EditorInterface.get_edited_scene_root() == self:
 		return
@@ -43,3 +44,15 @@ func _on_count_spin_box_value_changed(value: float) -> void:
 		return
 	item.count = value
 	ResourceSaver.save(item)
+
+
+func _on_visibility_changed() -> void:
+	if EditorInterface.get_edited_scene_root() == self:
+		return
+	if visible and option_button:
+		option_button.clear()
+		for f in DirAccess.get_files_at(item_dir):
+			items.append(item_dir.path_join(f))
+			option_button.add_item(f)
+			option_button.set_item_metadata(option_button.item_count - 1, item_dir.path_join(f))
+
