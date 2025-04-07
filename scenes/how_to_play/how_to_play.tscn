@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://2s7ckdyp7cto"]
 
 [ext_resource type="Script" uid="uid://bqdatf30o7yrb" path="res://scenes/how_to_play/how_to_play.gd" id="1_ki7tk"]
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="2_qqbb8"]
+[ext_resource type="Texture2D" uid="uid://b61dxxjjth410" path="res://assets/textures/brownBrick.png" id="2_exv6s"]
 [ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_mnrnl"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_mwq5a"]
 
@@ -28,11 +28,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -21.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_qqbb8")
+texture = ExtResource("2_exv6s")
+stretch_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 material = ExtResource("3_mnrnl")
 layout_mode = 1
 anchors_preset = 15
@@ -62,6 +66,7 @@ metadata/_edit_group_ = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_fonts/normal_font = ExtResource("4_mwq5a")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
