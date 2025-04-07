@@ -180,7 +180,7 @@ func _on_option_1_pressed() -> void:
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.SHINY_OBJECT:
 			Globals.player_stats.add_equipment()
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "forward"
 		EVENTS.RAT_GIRL:
 			Globals.player_stats.add_equipment()
 			Globals.player_stats.health = Globals.player_stats.health / 2
@@ -194,13 +194,13 @@ func _on_option_1_pressed() -> void:
 			Globals.player_stats.add_mutation()
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.LADDER:
+			Globals.player_nav_event = "back"
 			Globals.player_stats.health = Globals.player_stats.health / 2
-			Globals.player_stats.equipment.pop_front()
 		EVENTS.SPINNING_BLADES:
+			Globals.player_nav_event = "back"
 			Globals.player_stats.health = Globals.player_stats.health / 2
-			Globals.player_stats.equipment.pop_front()
 		EVENTS.CLOGGED_PIPE:
-			Globals.player_stats.health = Globals.player_stats.max_health
+			Globals.player_nav_event = "back"
 			Globals.player_stats.equipment.pop_front()
 	
 	choice = 1
@@ -214,10 +214,10 @@ func _on_option_2_pressed() -> void:
 			Globals.player_stats.mutations.pop_front()
 		EVENTS.STRANGE_BREW:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "forward"
 		EVENTS.TUNNEL_REST:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "forward"
 		EVENTS.LOG_PEEK:
 			Globals.player_stats.add_equipment()
 			Globals.player_stats.mutations.pop_front()
@@ -226,16 +226,16 @@ func _on_option_2_pressed() -> void:
 			Globals.player_stats.mutations.pop_front()
 		EVENTS.RAT_GIRL:
 			Globals.player_stats.add_equipment()
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "forward"
 		EVENTS.WORMS:
 			Globals.player_stats.add_mutation()
 			Globals.player_stats.equipment.pop_front()
 		EVENTS.SLIME:
 			Globals.player_stats.add_mutation()
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "forward"
 		EVENTS.BIOHAZARD:
 			Globals.player_stats.add_mutation()
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "forward"
 		EVENTS.LADDER:
 			Globals.player_stats.health = Globals.player_stats.max_health
 			Globals.player_stats.equipment.pop_front()

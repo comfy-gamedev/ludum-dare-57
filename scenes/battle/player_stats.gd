@@ -41,12 +41,12 @@ var mutations: Array[Mutation]:
 
 func add_equipment(id: int = -1) -> void:
 	if id == -1:
-		id = randi_range(0, Globals.available_equipment.size())
+		id = randi_range(0, Globals.available_equipment.size() - 1)
 	equipment.append(Globals.available_equipment[id])
 
 func add_mutation(id: int = -1) -> void:
 	if id == -1:
-		id = randi_range(0, Mutation.KIND.size())
+		id = randi_range(0, Mutation.KIND.size() - 1)
 	var mut = Mutation.new()
 	mut.kind = id
 	mutations.append(mut)

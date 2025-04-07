@@ -24,6 +24,13 @@ func _ready() -> void:
 	visited_nodes.append(current_node)
 	_reconcile()
 
+func _enter_tree() -> void:
+	if Globals.player_nav_event == "forward":
+		forward_two()
+	elif Globals.player_nav_event == "back":
+		back_two()
+	Globals.player_nav_event = ""
+
 func _reconcile() -> void:
 	var next_nodes = find_next_nodes(current_node)
 	for c in tilemap.get_used_cells_by_id(1):
@@ -67,6 +74,27 @@ func find_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 	
 	return nodes
 
+func back_two() -> void:
+	if visited_nodes.size() > 1:
+		current_node = visited_nodes[-2]
+		visited_nodes.pop_back()
+		visited_nodes.pop_back()
+	else:
+		current_node = visited_nodes[-1]
+		visited_nodes.pop_back()
+	
+	_reconcile()
+
+func forward_two() -> void:
+	var nodes = find_next_nodes(current_node)
+	var nodes2 = find_next_nodes(nodes[0])
+	if(nodes2.size() > 0) && !tilemap.get_cell_atlas_coords(nodes[2]).y == Enums.LOCATION_TYPES.BOSS:
+		current_node = nodes2[0]
+	else:
+		current_node = nodes[0]
+	
+	_reconcile()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
@@ -77,7 +105,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			Enums.LOCATION_STATE.CROSSED,\
 			Enums.LOCATION_STATE.DISABLED:
 				pass
-			Enums.LOCATION_STATE.AVAILABLE,\
+			Enums.LOCATION_STATE.AVAILABLE:
+				pass
 			Enums.LOCATION_STATE.HIGHLIGHT:
 				tilemap.set_cell(current_node, 1, Vector2i(dest.x, 0))
 				current_node = tile_coord
