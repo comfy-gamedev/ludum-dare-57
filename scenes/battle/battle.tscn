@@ -1,7 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=24 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
+[ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_icoan"]
 [ext_resource type="Texture2D" uid="uid://cmoc6id0tsbqy" path="res://assets/textures/brick_bg.png" id="5_icoan"]
 [ext_resource type="Texture2D" uid="uid://diocku5scd3kr" path="res://assets/textures/phil.png" id="5_mxe8n"]
 [ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="6_pll4o"]
@@ -12,7 +13,6 @@
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="10_fisqk"]
 [ext_resource type="Texture2D" uid="uid://fcx1o2xpujbv" path="res://assets/speech.png" id="10_kd6yx"]
 [ext_resource type="Texture2D" uid="uid://x5q5x2hl2b6y" path="res://assets/textures/ui_handsize.png" id="10_n6gaa"]
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="10_t1kk3"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fisqk"]
 texture = ExtResource("2_agsc7")
@@ -36,16 +36,8 @@ axis_stretch_vertical = 1
 font = ExtResource("6_pll4o")
 font_size = 19
 font_color = Color(0.87451, 0.878431, 0.729412, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_py4tk"]
-font = ExtResource("6_pll4o")
-font_size = 19
-font_color = Color(0.87451, 0.878431, 0.729412, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_agsc7"]
-font = ExtResource("6_pll4o")
-font_size = 19
-font_color = Color(0.87451, 0.878431, 0.729412, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mxe8n"]
 
@@ -100,7 +92,7 @@ rolled_width = 200.0
 [node name="BG" type="TextureRect" parent="."]
 offset_right = 960.0
 offset_bottom = 585.0
-texture = ExtResource("10_t1kk3")
+texture = ExtResource("2_icoan")
 stretch_mode = 1
 
 [node name="Frame" type="Node2D" parent="."]
@@ -144,6 +136,7 @@ metadata/_edit_group_ = true
 
 [node name="PlayerHeartLabel" type="Label" parent="HBoxContainer/PlayerHeart"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 18.0
 offset_top = 3.0
 offset_right = 41.0
@@ -161,12 +154,13 @@ metadata/_edit_group_ = true
 
 [node name="RerollsLabel" type="Label" parent="HBoxContainer/RerollsIcon"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 18.0
 offset_top = 3.0
 offset_right = 41.0
 offset_bottom = 15.0
 text = "10"
-label_settings = SubResource("LabelSettings_py4tk")
+label_settings = SubResource("LabelSettings_oiw7q")
 horizontal_alignment = 2
 vertical_alignment = 2
 
@@ -177,12 +171,13 @@ metadata/_edit_group_ = true
 
 [node name="ManaLabel" type="Label" parent="HBoxContainer/ManaIcon"]
 unique_name_in_owner = true
+layout_mode = 0
 offset_left = 18.0
 offset_top = 3.0
 offset_right = 41.0
 offset_bottom = 15.0
 text = "10"
-label_settings = SubResource("LabelSettings_py4tk")
+label_settings = SubResource("LabelSettings_oiw7q")
 horizontal_alignment = 2
 vertical_alignment = 2
 
@@ -216,7 +211,7 @@ offset_top = 3.0
 offset_right = 41.0
 offset_bottom = 15.0
 text = "10"
-label_settings = SubResource("LabelSettings_agsc7")
+label_settings = SubResource("LabelSettings_oiw7q")
 horizontal_alignment = 2
 vertical_alignment = 2
 
