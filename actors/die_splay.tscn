@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://d38iol6hg3hi5"]
+
+[ext_resource type="Script" uid="uid://dy1dnvjdyedtc" path="res://actors/die.gd" id="1_xfo2b"]
+[ext_resource type="PackedScene" uid="uid://pteh7k3pyx6q" path="res://actors/die_face.tscn" id="2_4vkkq"]
+
+[node name="Die" type="Node3D"]
+script = ExtResource("1_xfo2b")
+
+[node name="DieFace0" parent="." instance=ExtResource("2_4vkkq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
+
+[node name="DieFace1" parent="." instance=ExtResource("2_4vkkq")]
+transform = Transform3D(1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, -0.5, 1, 0)
+
+[node name="DieFace2" parent="." instance=ExtResource("2_4vkkq")]
+transform = Transform3D(1, 0, 1.06581e-14, 0, 1, 0, -1.06581e-14, 0, 1, 0.5, 0, 0)
+
+[node name="DieFace3" parent="." instance=ExtResource("2_4vkkq")]
+transform = Transform3D(1, 0, -1.06581e-14, 0, 1, 0, 1.06581e-14, 0, 1, -1.5, 0, 0)
+
+[node name="DieFace4" parent="." instance=ExtResource("2_4vkkq")]
+transform = Transform3D(-1, 7.64274e-15, -8.74228e-08, 0, -1, -8.74228e-08, -8.74228e-08, -8.74228e-08, 1, 1.5, 0, 0)
+
+[node name="DieFace5" parent="." instance=ExtResource("2_4vkkq")]
+transform = Transform3D(-4.35451e-08, -1, 1.49012e-08, 1, -4.35451e-08, -3.8097e-09, 3.8097e-09, 1.49012e-08, 1, 0.5, -1, 0)

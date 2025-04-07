@@ -46,6 +46,18 @@ func _enter_tree() -> void:
 	if not is_node_ready():
 		return
 	match Globals.player_nav_event:
+		"battle_won":
+			var dest = tilemap.get_cell_atlas_coords(current_node)
+			match dest.x:
+				Enums.LOCATION_TYPES.ENEMY:
+					SceneGirl.push_scene.call_deferred(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+						s.reason = Enums.UPGRADE_REASON.ENEMY)
+				Enums.LOCATION_TYPES.ELITE:
+					SceneGirl.push_scene.call_deferred(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+						s.reason = Enums.UPGRADE_REASON.ELITE)
+				Enums.LOCATION_TYPES.BOSS:
+					SceneGirl.push_scene.call_deferred(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+						s.reason = Enums.UPGRADE_REASON.BOSS)
 		"battle_lost":
 			SceneGirl.change_scene.call_deferred("res://scenes/you_died_lol/u_died.tscn")
 		"forward":
@@ -164,3 +176,9 @@ func _unhandled_input(event: InputEvent) -> void:
 							battle.battle_state.enemy = load(bosses.pick_random()))
 					Enums.LOCATION_TYPES.EVENT:
 						SceneGirl.push_scene(EVENT, func(x):)
+					Enums.LOCATION_TYPES.TREASURE:
+						SceneGirl.push_scene(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+							s.reason = Enums.UPGRADE_REASON.TREASURE)
+					Enums.LOCATION_TYPES.MUTATION:
+						SceneGirl.push_scene(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+							s.reason = Enums.UPGRADE_REASON.MUTATION)
