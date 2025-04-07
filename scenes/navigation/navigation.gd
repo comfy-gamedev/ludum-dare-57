@@ -7,6 +7,7 @@ extends Node2D
 #const W_SPACING := 50
 
 const BATTLE = preload("res://scenes/battle/battle.tscn")
+const EVENT = preload("res://scenes/event/event.tscn")
 var button_type := preload("res://scenes/navigation/location_node.tscn")
 @onready var container := $NodeContainer
 @onready var tilemap: TileMapLayer = $ScrollContainer/PanelContainer/TileMapLayer4
@@ -87,3 +88,5 @@ func _unhandled_input(event: InputEvent) -> void:
 					Enums.LOCATION_TYPES.ENEMY:
 						SceneGirl.push_scene(BATTLE, func (battle):
 							battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
+					Enums.LOCATION_TYPES.EVENT:
+						SceneGirl.push_scene(EVENT, func(x):)

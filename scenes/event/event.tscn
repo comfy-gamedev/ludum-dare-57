@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0dw3vv15cfob"]
+[gd_scene load_steps=4 format=3 uid="uid://d0dw3vv15cfob"]
 
 [ext_resource type="Shader" uid="uid://dgydncsiucj6g" path="res://assets/materials/water_shader.gdshader" id="1_biivm"]
+[ext_resource type="Script" uid="uid://bwma5snvwiw70" path="res://scenes/event/event.gd" id="1_uuxf3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uuxf3"]
 shader = ExtResource("1_biivm")
@@ -16,6 +17,7 @@ shader_parameter/steps = 6
 shader_parameter/tint = Vector3(0.4, 1, 0.5)
 
 [node name="Event" type="Node2D"]
+script = ExtResource("1_uuxf3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_uuxf3")
@@ -28,13 +30,13 @@ offset_right = 960.0
 offset_bottom = 540.0
 theme_override_constants/separation = 20
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+[node name="EventBox" type="ColorRect" parent="VBoxContainer"]
 custom_minimum_size = Vector2(800, 300)
 layout_mode = 2
 size_flags_horizontal = 4
 color = Color(0.772247, 0.772247, 0.772247, 1)
 
-[node name="ColorRect" type="ColorRect" parent="VBoxContainer/ColorRect"]
+[node name="EventPic" type="ColorRect" parent="VBoxContainer/EventBox"]
 layout_mode = 0
 offset_left = 25.0
 offset_top = 25.0
@@ -42,7 +44,7 @@ offset_right = 275.0
 offset_bottom = 275.0
 color = Color(0, 0, 0, 1)
 
-[node name="Label" type="Label" parent="VBoxContainer/ColorRect"]
+[node name="EventText" type="Label" parent="VBoxContainer/EventBox"]
 custom_minimum_size = Vector2(450, 0)
 layout_mode = 0
 offset_left = 300.0
@@ -53,16 +55,21 @@ theme_override_font_sizes/font_size = 35
 text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
 autowrap_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Option1" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Better play it safe and jam the mechanism with your ___________. (lose 1 item)"
 autowrap_mode = 2
 
-[node name="Button2" type="Button" parent="VBoxContainer"]
+[node name="Option2" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Options 2"
+autowrap_mode = 2
 
-[node name="Button3" type="Button" parent="VBoxContainer"]
+[node name="Skip" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Skip"
+
+[connection signal="pressed" from="VBoxContainer/Option1" to="." method="_on_option_1_pressed"]
+[connection signal="pressed" from="VBoxContainer/Option2" to="." method="_on_option_2_pressed"]
+[connection signal="pressed" from="VBoxContainer/Skip" to="." method="_on_skip_pressed"]
