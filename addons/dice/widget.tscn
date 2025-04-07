@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl3mqnc3wdlnj"]
+
+[ext_resource type="Texture2D" uid="uid://crtqhcxnekkdl" path="res://assets/textures/pip_heal.png" id="1_7gaao"]
+[ext_resource type="Script" uid="uid://ix8tkdroafla" path="res://addons/dice/widget.gd" id="1_hiok5"]
+
+[node name="Widget" type="HBoxContainer"]
+script = ExtResource("1_hiok5")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_7gaao")
+stretch_mode = 5
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2

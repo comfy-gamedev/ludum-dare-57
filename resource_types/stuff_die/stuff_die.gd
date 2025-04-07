@@ -4,7 +4,7 @@ extends Resource
 @export var name: String
 @export var item_image: Texture2D
 @export var faces: Array[StuffDieFace]
-@export var count: int
+@export var count: int = 1
 @export var roll_effects: Array[RollEffect]
 
 func _init(

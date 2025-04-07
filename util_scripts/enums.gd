@@ -5,12 +5,21 @@ enum PIP_TYPE {
 	ATTACK,
 	REND,
 	POISON,
-	SLIME,
 	DEFEND,
 	ARMOR,
 	HEAL,
 	REROLL,
 	NULLIFY,
+	SLIME,
+}
+
+const PIP_TEXTURES = {
+	Enums.PIP_TYPE.ATTACK: preload("res://assets/textures/pip_attack.png"),
+	Enums.PIP_TYPE.DEFEND: preload("res://assets/textures/pip_shield.png"),
+	Enums.PIP_TYPE.REROLL: preload("res://assets/textures/pip_reroll.png"),
+	Enums.PIP_TYPE.SLIME: preload("res://assets/textures/pip_slime.png"),
+	Enums.PIP_TYPE.POISON: preload("res://assets/textures/pip_poison.png"),
+	Enums.PIP_TYPE.HEAL: preload("res://assets/textures/pip_heal.png"),
 }
 
 enum LOCATION_TYPES {

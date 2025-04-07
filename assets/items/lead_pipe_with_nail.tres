@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=9 format=3 uid="uid://cidepc38nmh53"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://cidepc38nmh53"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_7c45a"]
 [ext_resource type="Texture2D" uid="uid://c368ydsfnqrdm" path="res://assets/textures/weapon_sprites/Lead Pipe With a Nail.png" id="2_7c45a"]
@@ -29,6 +29,11 @@ pips = Dictionary[int, int]({
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
+[sub_resource type="Resource" id="Resource_7c45a"]
+script = ExtResource("1_7c45a")
+pips = Dictionary[int, int]({})
+autolocking = false
+
 [sub_resource type="Resource" id="Resource_85tpu"]
 script = ExtResource("1_7c45a")
 pips = Dictionary[int, int]({
@@ -37,11 +42,16 @@ pips = Dictionary[int, int]({
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
+[sub_resource type="Resource" id="Resource_f0b60"]
+script = ExtResource("1_7c45a")
+pips = Dictionary[int, int]({})
+autolocking = false
+
 [resource]
 script = ExtResource("4_1eck2")
 name = "Lead Pipe With Nail"
 item_image = ExtResource("2_7c45a")
-faces = Array[ExtResource("1_7c45a")]([SubResource("Resource_y2oxn"), SubResource("Resource_mjb26"), SubResource("Resource_m4j4n"), null, SubResource("Resource_85tpu"), null])
-count = 2
+faces = Array[ExtResource("1_7c45a")]([SubResource("Resource_y2oxn"), SubResource("Resource_mjb26"), SubResource("Resource_m4j4n"), SubResource("Resource_7c45a"), SubResource("Resource_85tpu"), SubResource("Resource_f0b60")])
+count = 1
 roll_effects = Array[ExtResource("3_f0b60")]([])
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
