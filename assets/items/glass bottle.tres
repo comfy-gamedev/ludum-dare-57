@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://b10xb1uiul71u"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://d3jvti6373pc4"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_tkr2b"]
 [ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_013d0"]
