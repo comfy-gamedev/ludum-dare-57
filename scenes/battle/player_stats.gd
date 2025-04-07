@@ -3,25 +3,25 @@ extends RefCounted
 
 signal changed()
 
-var max_health: int:
+var max_health: int = 10:
 	set(v):
 		if max_health == v: return
 		max_health = v
 		changed.emit()
 
-var health: int:
+var health: int = 10:
 	set(v):
 		if health == v: return
 		health = v
 		changed.emit()
 
-var initial_mana: int:
+var initial_mana: int = 3:
 	set(v):
 		if initial_mana == v: return
 		initial_mana = v
 		changed.emit()
 
-var initial_rerolls: int:
+var initial_rerolls: int = 1:
 	set(v):
 		if initial_rerolls == v: return
 		initial_rerolls = v

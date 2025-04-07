@@ -159,6 +159,7 @@ func _on_go_button_pressed() -> void:
 				for i in Globals.player_stats.mutations:
 					i.triggered(Mutation.TRIGGERS.TAKE_DAMAGE, battle_state)
 				Globals.player_stats.health -= dmg
+	battle_state.player_shield = 0
 	match battle_state.enemy.action_mode:
 		Enums.ENEMY_ACTION_MODE.LOOP:
 			battle_state.enemy_action_index += 1
