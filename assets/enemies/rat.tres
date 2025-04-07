@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Enemy" load_steps=5 format=3 uid="uid://djxy8artfu7ok"]
+[gd_resource type="Resource" script_class="Enemy" load_steps=9 format=3 uid="uid://djxy8artfu7ok"]
 
 [ext_resource type="Script" uid="uid://dgw7ht8iwghst" path="res://resource_types/enemy.gd" id="1_fvwsx"]
 [ext_resource type="Script" uid="uid://dmv1gbqhp1qj0" path="res://resource_types/action_spec.gd" id="1_w0npa"]
@@ -11,11 +11,39 @@ action_param = 3
 random_weight = 1.0
 metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
 
+[sub_resource type="Resource" id="Resource_w1und"]
+script = ExtResource("1_w0npa")
+action = 0
+action_param = 0
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_veh0j"]
+script = ExtResource("1_w0npa")
+action = 2
+action_param = 2
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_px6ef"]
+script = ExtResource("1_w0npa")
+action = 3
+action_param = 1
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_vn5ty"]
+script = ExtResource("1_w0npa")
+action = 4
+action_param = 1
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
 [resource]
 script = ExtResource("1_fvwsx")
 max_hp = 5
 sprite = ExtResource("3_w0npa")
-actions = Array[ExtResource("1_w0npa")]([SubResource("Resource_w0npa")])
-action_mode = 0
+actions = Array[ExtResource("1_w0npa")]([SubResource("Resource_w0npa"), SubResource("Resource_w1und"), SubResource("Resource_veh0j"), SubResource("Resource_px6ef"), SubResource("Resource_vn5ty")])
+action_mode = 1
 action_loop_point = 0
 metadata/_custom_type_script = "uid://dgw7ht8iwghst"

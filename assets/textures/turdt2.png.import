@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkrd5le3mc5w0"
-path="res://.godot/imported/Slyme2.png-34b88804b0619f6e6f7c513e721543e3.ctex"
+uid="uid://bpcfltqq0njo4"
+path="res://.godot/imported/turdt2.png-1275bdbae98031b14940c246839768fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/Slyme2.png"
-dest_files=["res://.godot/imported/Slyme2.png-34b88804b0619f6e6f7c513e721543e3.ctex"]
+source_file="res://assets/textures/turdt2.png"
+dest_files=["res://.godot/imported/turdt2.png-1275bdbae98031b14940c246839768fb.ctex"]
 
 [params]
 
