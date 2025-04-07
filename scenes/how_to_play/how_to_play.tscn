@@ -85,6 +85,8 @@ text = "Roll your dice to fight the enemies. Earn better dice by collecting item
 [img=42]res://assets/textures/tiles/new_atlas_texture.tres[/img]: A cache of loot for you to take
 
 [img=42]res://assets/textures/tiles/boss_atlas_texture.tres[/img]: An angry monster, your bones to break!
+
+Your Dice are her to help you! 
 "
 
 [node name="Button" type="Button" parent="."]
