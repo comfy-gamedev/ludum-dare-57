@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://vv8xcc8umdr"]
+
+[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="1_e576c"]
+[ext_resource type="Script" uid="uid://5j4xrkvyx77b" path="res://scenes/intro_panel/intro_panel.gd" id="1_mtplt"]
+[ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="2_7n4cr"]
+[ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_uiwe1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g61f5"]
+bg_color = Color(0.129155, 0.21273, 0.16645, 0.815686)
+
+[node name="intro_panel" type="Node2D"]
+script = ExtResource("1_mtplt")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_top = -21.0
+offset_right = 960.0
+offset_bottom = 564.0
+texture = ExtResource("1_e576c")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = ExtResource("2_7n4cr")
+offset_right = 960.0
+offset_bottom = 585.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+top_level = true
+offset_left = 91.0
+offset_top = 69.0
+offset_right = 878.0
+offset_bottom = 475.0
+theme_override_fonts/normal_font = ExtResource("4_uiwe1")
+theme_override_font_sizes/normal_font_size = 44
+bbcode_enabled = true
+text = "[wave]Where are you?...
+Deep in the bowels of the sewers
+Why are you here?...
+It's hard to remember now, it's been so long. A lifetime ago, before you mutated, you had a home once. And then they flushed you down the toilet! Now you must fight to survive..."
+
+[node name="Panel" type="Panel" parent="."]
+light_mask = 0
+offset_left = 91.0
+offset_top = 69.0
+offset_right = 878.0
+offset_bottom = 475.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g61f5")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 417.0
+offset_top = 475.0
+offset_right = 577.0
+offset_bottom = 522.0
+text = "Continue?"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

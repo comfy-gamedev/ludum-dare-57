@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://dqu5msocyusxq"]
+
+[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_2l8w6"]
+[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_kxt6j"]
+[ext_resource type="Texture2D" uid="uid://cprlcyx5m56rd" path="res://assets/textures/item_sprites/Arm Warmers.png" id="2_o5vsj"]
+[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_o5vsj"]
+
+[sub_resource type="Resource" id="Resource_7k8o4"]
+script = ExtResource("1_2l8w6")
+pips = Dictionary[int, int]({
+0: 2,
+2: 2,
+3: 2,
+5: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_43yr7"]
+script = ExtResource("1_2l8w6")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1,
+3: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_r1clb"]
+script = ExtResource("1_2l8w6")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1,
+3: 1,
+5: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_bgnms"]
+script = ExtResource("1_2l8w6")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1,
+3: 2
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_a8gv7"]
+script = ExtResource("1_2l8w6")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1,
+3: 2,
+5: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_40qfg"]
+script = ExtResource("1_2l8w6")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1,
+3: 2
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[resource]
+script = ExtResource("3_o5vsj")
+name = "Arm Warmers"
+item_image = ExtResource("2_o5vsj")
+faces = Array[ExtResource("1_2l8w6")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
+count = 4.0
+roll_effects = Array[ExtResource("2_kxt6j")]([])
+metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

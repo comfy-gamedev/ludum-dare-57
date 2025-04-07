@@ -3,7 +3,11 @@ extends Node3D
 var die: Object:
 	set(v):
 		if die == v: return
+		if die is BattleState.LayeredDie:
+			die.changed.disconnect(_reconcile)
 		die = v
+		if die is BattleState.LayeredDie:
+			die.changed.connect(_reconcile)
 		_reconcile()
 
 @onready var die_faces: Array[Node3D] = [

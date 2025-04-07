@@ -36,7 +36,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/cider_state/plugin.cfg", "res://addons/cider_wiki/plugin.cfg")
+enabled=PackedStringArray("res://addons/cider_state/plugin.cfg", "res://addons/cider_wiki/plugin.cfg", "res://addons/dice/plugin.cfg")
 
 [gui]
 

@@ -7,7 +7,7 @@
 [sub_resource type="Resource" id="Resource_7k8o4"]
 script = ExtResource("1_45f8m")
 pips = Dictionary[int, int]({
-3: 1
+3: 2
 })
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
@@ -23,7 +23,7 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 [sub_resource type="Resource" id="Resource_r1clb"]
 script = ExtResource("1_45f8m")
 pips = Dictionary[int, int]({
-3: 9
+3: 1
 })
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
@@ -50,6 +50,6 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 script = ExtResource("3_vspas")
 name = "Block"
 faces = Array[ExtResource("1_45f8m")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
-count = 4
+count = 4.0
 roll_effects = Array[ExtResource("2_818j3")]([])
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

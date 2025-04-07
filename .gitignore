@@ -8,3 +8,5 @@ build/
 # Inverse ignores
 !**/.gdignore
 
+# MacOS ignores
+.DS_Store

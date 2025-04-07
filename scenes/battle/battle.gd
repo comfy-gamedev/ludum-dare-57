@@ -2,19 +2,31 @@ extends Node2D
 const DIE_SPRITE = preload("res://actors/die_sprite.tscn")
 const BLOCK = preload("res://assets/items/block.tres")
 const PUNCH = preload("res://assets/items/punch.tres")
+const MUTATION_ICON = preload("res://actors/mutation_icon.tscn")
 
 @export var hand_width: float = 100.0
 @export var rolled_width: float = 100.0
 
 var battle_state: BattleState = BattleState.new()
 
-@onready var hand: Node2D = $Hand
-@onready var rolled: Node2D = $Rolled
+var _hand_tween: Tween
+
+@onready var hand: Node2D = %Hand
+@onready var rolled: Node2D = %Rolled
+@onready var enemy_intent: Node2D = %EnemyIntent
+
 @onready var rerolls_label: Label = %RerollsLabel
 @onready var enemy_sprite: Sprite2D = %EnemySprite
 @onready var player_sprite: Sprite2D = %PlayerSprite
 @onready var enemy_heart_label: Label = %EnemyHeartLabel
 @onready var player_heart_label: Label = %PlayerHeartLabel
+@onready var mutation_grid_container: GridContainer = %MutationGridContainer
+@onready var popup_panel: Panel = %PopupPanel
+@onready var popup_label: RichTextLabel = %PopupLabel
+@onready var ok_button: Button = %OKButton
+@onready var mana_label: Label = %ManaLabel
+
+@onready var hand_initial_position: Vector2 = hand.position
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +41,29 @@ func _ready() -> void:
 		battle_state.enemy = load("res://assets/enemies/rat.tres")
 	enemy_sprite.texture = battle_state.enemy.sprite
 	battle_state.enemy_hp = battle_state.enemy.max_hp
+	
+	for m in Globals.player_stats.mutations:
+		var tr = MUTATION_ICON.instantiate()
+		tr.texture = m.get_texture()
+		mutation_grid_container.add_child(tr)
+	
+	match battle_state.enemy.action_mode:
+		Enums.ENEMY_ACTION_MODE.LOOP:
+			pass
+		Enums.ENEMY_ACTION_MODE.RANDOM:
+			var result = 0
+			var roll = randf() ** (1.0 / battle_state.enemy.actions[0].random_weight)
+			var jump = log(randf()) / log(roll)
+			for i in range(1, battle_state.enemy.actions.size()):
+				jump -= battle_state.enemy.actions[i].random_weight
+				if jump <= 0.0:
+					var t = roll ** battle_state.enemy.actions[i].random_weight
+					roll = randf_range(t, 1.0) ** (1.0 / battle_state.enemy.actions[i].random_weight)
+					result = i
+					jump = log(randf()) / log(roll)
+			battle_state.enemy_action_index = result
+	
+	_on_battle_state_changed()
 	_trigger_event(Enums.TRIGGERS.COMBAT_START)
 	start_turn()
 
@@ -37,11 +72,62 @@ func _on_player_stats_changed() -> void:
 
 func _on_battle_state_changed() -> void:
 	enemy_heart_label.text = str(battle_state.enemy_hp)
+	rerolls_label.text = str(battle_state.rerolls)
+	mana_label.text = str(battle_state.mana)
+	
+	for c in enemy_intent.get_children():
+		c.queue_free()
+	match battle_state.enemy.actions[battle_state.enemy_action_index].action:
+		Enums.ENEMY_ACTION.PASS:
+			var s = preload("res://actors/intent_icon.tscn").instantiate()
+			s.texture = preload("res://assets/textures/zzz.png")
+			enemy_intent.add_child(s)
+		Enums.ENEMY_ACTION.ATTACK:
+			var s = preload("res://actors/intent_icon.tscn").instantiate()
+			s.texture = preload("res://assets/textures/pip_attack.png")
+			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
+			enemy_intent.add_child(s)
+		Enums.ENEMY_ACTION.DEFEND:
+			var s = preload("res://actors/intent_icon.tscn").instantiate()
+			s.texture = preload("res://assets/textures/pip_shield.png")
+			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
+			enemy_intent.add_child(s)
+		Enums.ENEMY_ACTION.HEAL:
+			var s = preload("res://actors/intent_icon.tscn").instantiate()
+			s.texture = preload("res://assets/textures/pip_heal.png")
+			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
+			enemy_intent.add_child(s)
+		Enums.ENEMY_ACTION.STRENGTH:
+			var s = preload("res://actors/intent_icon.tscn").instantiate()
+			s.texture = preload("res://assets/textures/intent_strength.png")
+			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
+			enemy_intent.add_child(s)
+	
+	if battle_state.mana == 0:
+		if hand.position == hand_initial_position:
+			_hand_tween = create_tween()
+			hand.position.y += 1.0
+			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y + 50.0, 0.2)
+	else:
+		if hand.position != hand_initial_position:
+			hand.position.y -= 1.0
+			_hand_tween = create_tween()
+			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y, 0.2)
 
 func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
 	print("_trigger_event(%s, %s)" % [Enums.TRIGGERS.find_key(type), data])
-	for x in Globals.player_stats.mutations:
-		x.triggered(type, data, battle_state)
+	for i in Globals.player_stats.mutations.size():
+		var m = Globals.player_stats.mutations[i]
+		if m.triggered(type, data, battle_state):
+			mutation_grid_container.get_child(i).pulse()
+	
+	match type:
+		Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
+			var pips = data.roll_result.die.get_total_pips(data.roll_result.face)
+			for pip in pips:
+				match pip:
+					Enums.PIP_TYPE.REROLL:
+						battle_state.rerolls += pips[pip]
 
 func shuffle_discard() -> void:
 	print("Shuffling discard back into deck.")
@@ -92,7 +178,8 @@ func discard_die(die: BattleState.LayeredDie) -> void:
 		print("Discarding die ", die, " NOT FOUND.")
 	battle_state.discard.append(die)
 	
-	die.clear_temporary_pips()
+	die.clear_turn_pips()
+	die.clear_roll_pips()
 	
 	var sprite: DieSprite = die.battle_sprite
 	if not is_instance_valid(sprite):
@@ -107,6 +194,20 @@ func discard_all(dice: Array) -> void:
 	for d in dice.duplicate():
 		print("Discard-all die ", d, "...")
 		discard_die(d)
+
+func win() -> void:
+	popup_panel.visible = true
+	popup_label.text = "You win!"
+	await ok_button.pressed
+	Globals.player_nav_event = "battle_won"
+	SceneGirl.pop_scene()
+
+func lose() -> void:
+	popup_panel.visible = true
+	popup_label.text = "You lose..."
+	await ok_button.pressed
+	Globals.player_nav_event = "battle_lost"
+	SceneGirl.pop_scene()
 
 func _on_die_clicked(sprite: DieSprite) -> void:
 	var die: BattleState.LayeredDie = sprite.die
@@ -123,7 +224,9 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 			sprite.die_rotation = orig.slerp(orientation, x)
 		, 0.0, 1.0, 0.2)
 		_adjust_sprite_positions()
-		_trigger_event(Enums.TRIGGERS.FIRST_ROLL)
+		roll.die.clear_roll_pips()
+		battle_state.mana -= 1
+		_trigger_event(Enums.TRIGGERS.FIRST_ROLL, { roll_result = roll })
 	elif battle_state.rerolls > 0:
 		var f = battle_state.roll_results.find_custom(func (x): return x.die == die)
 		if f != -1:
@@ -136,17 +239,20 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 				sprite.die_rotation = orig.slerp(orientation, x)
 			, 0.0, 1.0, 0.2)
 			battle_state.rerolls -= 1
-			_trigger_event(Enums.TRIGGERS.REROLL)
+			roll.die.clear_roll_pips()
+			_trigger_event(Enums.TRIGGERS.REROLL, { roll_result = roll })
 
 func _adjust_sprite_positions() -> void:
+	var hand_spacing = mini(96.0, hand_width / hand.get_child_count())
+	var hand_start = hand_width / 2.0 - (hand.get_child_count() - 1) / 2.0 * hand_spacing
 	for i in hand.get_child_count():
-		var p = Vector2(float(i) / float(hand.get_child_count() - 1) * hand_width, 0.0)
-		if is_nan(p.x): p.x = 0.0
+		var p = Vector2(hand_start + hand_spacing * i, 0.0)
 		create_tween().set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT) \
 			.tween_property(hand.get_child(i), "position", p, 0.2)
+	var rolled_spacing = mini(96.0, rolled_width / rolled.get_child_count())
+	var rolled_start = rolled_width / 2.0 - (rolled.get_child_count() - 1) / 2.0 * rolled_spacing
 	for i in rolled.get_child_count():
-		var p = Vector2(float(i) / float(rolled.get_child_count() - 1) * rolled_width, 0.0)
-		if is_nan(p.x): p.x = 0.0
+		var p = Vector2(rolled_start + rolled_spacing * i, 0.0)
 		create_tween().set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT) \
 			.tween_property(rolled.get_child(i), "position", p, 0.2)
 
@@ -164,25 +270,32 @@ func _on_go_button_pressed() -> void:
 					_trigger_event(Enums.TRIGGERS.POST_DEAL_DAMAGE, trigger)
 				Enums.PIP_TYPE.DEFEND:
 					battle_state.player_shield += pips[type]
+	
+	if battle_state.enemy_hp <= 0:
+		win()
+		return
+	
 	var enemy_action = battle_state.enemy.actions[battle_state.enemy_action_index]
 	match enemy_action.action:
 		Enums.ENEMY_ACTION.PASS:
 			pass
 		Enums.ENEMY_ACTION.ATTACK:
-			var dmg = enemy_action.action_param - battle_state.player_shield
-			if dmg > 0:
-				var trigger = { damage = dmg }
-				_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
-				Globals.player_stats.health -= trigger.damage
-				_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
+			var trigger = {
+				damage = maxi(0, enemy_action.action_param - battle_state.player_shield),
+				shielded = mini(enemy_action.action_param, battle_state.player_shield),
+			}
+			_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
+			Globals.player_stats.health -= trigger.damage
+			_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
 	battle_state.player_shield = 0
 	match battle_state.enemy.action_mode:
 		Enums.ENEMY_ACTION_MODE.LOOP:
-			battle_state.enemy_action_index += 1
-			if battle_state.enemy_action_index >= battle_state.enemy.actions.size():
-				battle_state.enemy_action_index = battle_state.enemy.action_loop_point
+			var i = battle_state.enemy_action_index + 1
+			if i >= battle_state.enemy.actions.size():
+				i = battle_state.enemy.action_loop_point
+			battle_state.enemy_action_index = clampi(i, 0, battle_state.enemy.actions.size())
 		Enums.ENEMY_ACTION_MODE.RANDOM:
-			battle_state.enemy_action_index = 0
+			var result = 0
 			var roll = randf() ** (1.0 / battle_state.enemy.actions[0].random_weight)
 			var jump = log(randf()) / log(roll)
 			for i in range(1, battle_state.enemy.actions.size()):
@@ -190,17 +303,19 @@ func _on_go_button_pressed() -> void:
 				if jump <= 0.0:
 					var t = roll ** battle_state.enemy.actions[i].random_weight
 					roll = randf_range(t, 1.0) ** (1.0 / battle_state.enemy.actions[i].random_weight)
-					battle_state.enemy_action_index = i
+					result = i
 					jump = log(randf()) / log(roll)
+			battle_state.enemy_action_index = result
+	
+	if Globals.player_stats.health <= 0:
+		lose()
+		return
+	
+	if battle_state.enemy_hp <= 0:
+		win()
+		return
 	
 	discard_all(battle_state.roll_results.map(func (x): return x.die))
 	discard_all(battle_state.hand)
-	
-	if battle_state.enemy_hp <= 0:
-		SceneGirl.pop_scene()
-		return
-	if Globals.player_stats.health <= 0:
-		SceneGirl.pop_scene()
-		return
 	
 	start_turn()

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=7 format=3 uid="uid://fhugguxfm2i8"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://fhugguxfm2i8"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_8v7ox"]
 [ext_resource type="Texture2D" uid="uid://dsws7manblom7" path="res://assets/textures/weapon_sprites/Board.png" id="2_a3vlj"]
@@ -22,11 +22,39 @@ pips = Dictionary[int, int]({
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
+[sub_resource type="Resource" id="Resource_eoqpo"]
+script = ExtResource("1_8v7ox")
+pips = Dictionary[int, int]({
+5: 2
+})
+autolocking = false
+
+[sub_resource type="Resource" id="Resource_a3vlj"]
+script = ExtResource("1_8v7ox")
+pips = Dictionary[int, int]({
+5: 2
+})
+autolocking = false
+
+[sub_resource type="Resource" id="Resource_sfk55"]
+script = ExtResource("1_8v7ox")
+pips = Dictionary[int, int]({
+5: 2
+})
+autolocking = false
+
+[sub_resource type="Resource" id="Resource_046m7"]
+script = ExtResource("1_8v7ox")
+pips = Dictionary[int, int]({
+5: 2
+})
+autolocking = false
+
 [resource]
 script = ExtResource("3_a3vlj")
 name = "Board"
 item_image = ExtResource("2_a3vlj")
-faces = Array[ExtResource("1_8v7ox")]([SubResource("Resource_hgcna"), SubResource("Resource_njxe5"), null, null, null, null])
-count = 0
+faces = Array[ExtResource("1_8v7ox")]([SubResource("Resource_hgcna"), SubResource("Resource_njxe5"), SubResource("Resource_eoqpo"), SubResource("Resource_a3vlj"), SubResource("Resource_sfk55"), SubResource("Resource_046m7")])
+count = 1
 roll_effects = Array[ExtResource("2_eoqpo")]([])
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

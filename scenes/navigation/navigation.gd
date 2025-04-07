@@ -24,16 +24,26 @@ func _ready() -> void:
 	visited_nodes.append(current_node)
 	_reconcile()
 
+func _enter_tree() -> void:
+	if not is_node_ready():
+		return
+	match Globals.player_nav_event:
+		"battle_lost":
+			SceneGirl.change_scene.call_deferred("res://scenes/you_died_lol/u_died.tscn")
+		"forward":
+			forward_two()
+		"back":
+			back_two()
+	Globals.player_nav_event = ""
+
 func _reconcile() -> void:
 	var next_nodes = find_next_nodes(current_node)
 	for c in tilemap.get_used_cells_by_id(1):
 		var t = tilemap.get_cell_atlas_coords(c)
-		if c == current_node:
-			tilemap.set_cell(c, 1, Vector2i(t.x, 1))
-		elif c in next_nodes:
-			tilemap.set_cell(c, 1, Vector2i(t.x, 2))
-		elif c in visited_nodes:
+		if c in visited_nodes:
 			tilemap.set_cell(c, 1, Vector2i(t.x, 0))
+		elif c in next_nodes:
+			tilemap.set_cell(c, 1, Vector2i(t.x, 1))
 		else:
 			tilemap.set_cell(c, 1, Vector2i(t.x, 3))
 
@@ -67,6 +77,33 @@ func find_next_nodes(coord: Vector2i) -> Array[Vector2i]:
 	
 	return nodes
 
+func back_two() -> void:
+	if visited_nodes.size() > 1:
+		current_node = visited_nodes[-2]
+		visited_nodes.pop_back()
+		visited_nodes.pop_back()
+	else:
+		current_node = visited_nodes[-1]
+		visited_nodes.pop_back()
+	
+	_reconcile()
+
+func forward_two() -> void:
+	var options = []
+	var good_options = []
+	for n in tilemap.get_used_cells_by_id(1):
+		if n.y == current_node.y + 2:
+			options.append(n)
+			if n not in visited_nodes:
+				good_options.append(n)
+	if not good_options.is_empty():
+		options = good_options
+	
+	current_node = options.pick_random() 
+	visited_nodes.append(current_node)
+	
+	_reconcile()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
@@ -77,8 +114,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Enums.LOCATION_STATE.CROSSED,\
 			Enums.LOCATION_STATE.DISABLED:
 				pass
-			Enums.LOCATION_STATE.AVAILABLE,\
-			Enums.LOCATION_STATE.HIGHLIGHT:
+			Enums.LOCATION_STATE.AVAILABLE, Enums.LOCATION_STATE.HIGHLIGHT:
 				tilemap.set_cell(current_node, 1, Vector2i(dest.x, 0))
 				current_node = tile_coord
 				visited_nodes.append(current_node)
