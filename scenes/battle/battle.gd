@@ -136,7 +136,7 @@ func _adjust_sprite_positions() -> void:
 			.tween_property(rolled.get_child(i), "position", p, 0.2)
 
 func _on_go_button_pressed() -> void:
-	for i in Globals.PlayerStats.mutations:
+	for i in Globals.player_stats.mutations:
 		i.triggered(Mutation.TRIGGERS.ROLL_DIE, battle_state)
 	for i in battle_state.roll_results.size():
 		var r = battle_state.roll_results[i]
@@ -144,7 +144,7 @@ func _on_go_button_pressed() -> void:
 		for type in face.pips:
 			match type:
 				Enums.PIP_TYPE.ATTACK:
-					for j in Globals.PlayerStats.mutations:
+					for j in Globals.player_stats.mutations:
 						j.triggered(Mutation.TRIGGERS.DEAL_DAMAGE, battle_state)
 					battle_state.enemy_hp -= face.pips[type]
 				Enums.PIP_TYPE.DEFEND:
@@ -156,7 +156,7 @@ func _on_go_button_pressed() -> void:
 		Enums.ENEMY_ACTION.ATTACK:
 			var dmg = enemy_action.action_param - battle_state.player_shield
 			if dmg > 0:
-				for i in Globals.PlayerStats.mutations:
+				for i in Globals.player_stats.mutations:
 					i.triggered(Mutation.TRIGGERS.TAKE_DAMAGE, battle_state)
 				Globals.player_stats.health -= dmg
 	match battle_state.enemy.action_mode:
