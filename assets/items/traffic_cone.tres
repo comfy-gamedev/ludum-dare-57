@@ -1,0 +1,69 @@
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://bqfsv7j0frmc6"]
+
+[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_bhys1"]
+[ext_resource type="Texture2D" uid="uid://dx8nyhe6mt73q" path="res://assets/textures/weapon_sprites/Broken Glass Bottle.png" id="2_8ftdg"]
+[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="3_73jt1"]
+[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="4_8nnnk"]
+
+[sub_resource type="Resource" id="Resource_7k8o4"]
+script = ExtResource("1_bhys1")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_43yr7"]
+script = ExtResource("1_bhys1")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_r1clb"]
+script = ExtResource("1_bhys1")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_bgnms"]
+script = ExtResource("1_bhys1")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_a8gv7"]
+script = ExtResource("1_bhys1")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[sub_resource type="Resource" id="Resource_40qfg"]
+script = ExtResource("1_bhys1")
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
+autolocking = false
+metadata/_custom_type_script = "uid://bpbftt3jpx20w"
+
+[resource]
+script = ExtResource("4_8nnnk")
+name = "Block"
+item_image = ExtResource("2_8ftdg")
+faces = Array[ExtResource("1_bhys1")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
+count = 4.0
+roll_effects = Array[ExtResource("3_73jt1")]([])
+metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

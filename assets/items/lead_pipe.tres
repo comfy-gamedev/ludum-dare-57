@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=10 format=3 uid="uid://d3rb4tkg8rqgj"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://d3rb4tkg8rqgj"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_oe0vn"]
+[ext_resource type="Texture2D" uid="uid://c0xatsmlwnmyd" path="res://assets/textures/weapon_sprites/Lead Pipe.png" id="2_1myyl"]
 [ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_xwu53"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_1myyl"]
 
@@ -14,7 +15,10 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [sub_resource type="Resource" id="Resource_xwu53"]
 script = ExtResource("1_oe0vn")
-pips = Dictionary[int, int]({})
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
 autolocking = false
 
 [sub_resource type="Resource" id="Resource_1myyl"]
@@ -26,7 +30,10 @@ autolocking = false
 
 [sub_resource type="Resource" id="Resource_awg8t"]
 script = ExtResource("1_oe0vn")
-pips = Dictionary[int, int]({})
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
 autolocking = false
 
 [sub_resource type="Resource" id="Resource_535ec"]
@@ -38,12 +45,16 @@ autolocking = false
 
 [sub_resource type="Resource" id="Resource_upgvf"]
 script = ExtResource("1_oe0vn")
-pips = Dictionary[int, int]({})
+pips = Dictionary[int, int]({
+0: 1,
+2: 1
+})
 autolocking = false
 
 [resource]
 script = ExtResource("3_1myyl")
 name = ""
+item_image = ExtResource("2_1myyl")
 faces = Array[ExtResource("1_oe0vn")]([SubResource("Resource_oe0vn"), SubResource("Resource_xwu53"), SubResource("Resource_1myyl"), SubResource("Resource_awg8t"), SubResource("Resource_535ec"), SubResource("Resource_upgvf")])
 count = 0.0
 roll_effects = Array[ExtResource("2_xwu53")]([])
