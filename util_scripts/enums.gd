@@ -5,6 +5,7 @@ enum PIP_TYPE {
 	ATTACK,
 	REND,
 	POISON,
+	SLIME,
 	DEFEND,
 	ARMOR,
 	HEAL,

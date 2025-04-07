@@ -2,6 +2,7 @@ extends Node2D
 const DIE_SPRITE = preload("res://actors/die_sprite.tscn")
 const BLOCK = preload("res://assets/items/block.tres")
 const PUNCH = preload("res://assets/items/punch.tres")
+const MUTATION_ICON = preload("res://actors/mutation_icon.tscn")
 
 @export var hand_width: float = 100.0
 @export var rolled_width: float = 100.0
@@ -15,6 +16,7 @@ var battle_state: BattleState = BattleState.new()
 @onready var player_sprite: Sprite2D = %PlayerSprite
 @onready var enemy_heart_label: Label = %EnemyHeartLabel
 @onready var player_heart_label: Label = %PlayerHeartLabel
+@onready var mutation_grid_container: GridContainer = %MutationGridContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +31,13 @@ func _ready() -> void:
 		battle_state.enemy = load("res://assets/enemies/rat.tres")
 	enemy_sprite.texture = battle_state.enemy.sprite
 	battle_state.enemy_hp = battle_state.enemy.max_hp
+	
+	for m in Globals.player_stats.mutations:
+		var tr = MUTATION_ICON.instantiate()
+		tr.texture = m.get_texture()
+		mutation_grid_container.add_child(tr)
+	
+	_on_battle_state_changed()
 	_trigger_event(Enums.TRIGGERS.COMBAT_START)
 	start_turn()
 
@@ -37,11 +46,22 @@ func _on_player_stats_changed() -> void:
 
 func _on_battle_state_changed() -> void:
 	enemy_heart_label.text = str(battle_state.enemy_hp)
+	rerolls_label.text = str(battle_state.rerolls)
 
 func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
 	print("_trigger_event(%s, %s)" % [Enums.TRIGGERS.find_key(type), data])
-	for x in Globals.player_stats.mutations:
-		x.triggered(type, data, battle_state)
+	for i in Globals.player_stats.mutations.size():
+		var m = Globals.player_stats.mutations[i]
+		if m.triggered(type, data, battle_state):
+			mutation_grid_container.get_child(i).pulse()
+	
+	match type:
+		Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
+			var pips = data.roll_result.die.get_total_pips(data.roll_result.face)
+			for pip in pips:
+				match pip:
+					Enums.PIP_TYPE.REROLL:
+						battle_state.rerolls += pips[pip]
 
 func shuffle_discard() -> void:
 	print("Shuffling discard back into deck.")
@@ -92,7 +112,8 @@ func discard_die(die: BattleState.LayeredDie) -> void:
 		print("Discarding die ", die, " NOT FOUND.")
 	battle_state.discard.append(die)
 	
-	die.clear_temporary_pips()
+	die.clear_turn_pips()
+	die.clear_roll_pips()
 	
 	var sprite: DieSprite = die.battle_sprite
 	if not is_instance_valid(sprite):
@@ -123,7 +144,8 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 			sprite.die_rotation = orig.slerp(orientation, x)
 		, 0.0, 1.0, 0.2)
 		_adjust_sprite_positions()
-		_trigger_event(Enums.TRIGGERS.FIRST_ROLL)
+		roll.die.clear_roll_pips()
+		_trigger_event(Enums.TRIGGERS.FIRST_ROLL, { roll_result = roll })
 	elif battle_state.rerolls > 0:
 		var f = battle_state.roll_results.find_custom(func (x): return x.die == die)
 		if f != -1:
@@ -136,7 +158,8 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 				sprite.die_rotation = orig.slerp(orientation, x)
 			, 0.0, 1.0, 0.2)
 			battle_state.rerolls -= 1
-			_trigger_event(Enums.TRIGGERS.REROLL)
+			roll.die.clear_roll_pips()
+			_trigger_event(Enums.TRIGGERS.REROLL, { roll_result = roll })
 
 func _adjust_sprite_positions() -> void:
 	for i in hand.get_child_count():
@@ -169,12 +192,13 @@ func _on_go_button_pressed() -> void:
 		Enums.ENEMY_ACTION.PASS:
 			pass
 		Enums.ENEMY_ACTION.ATTACK:
-			var dmg = enemy_action.action_param - battle_state.player_shield
-			if dmg > 0:
-				var trigger = { damage = dmg }
-				_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
-				Globals.player_stats.health -= trigger.damage
-				_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
+			var trigger = {
+				damage = maxi(0, enemy_action.action_param - battle_state.player_shield),
+				shielded = mini(enemy_action.action_param, battle_state.player_shield),
+			}
+			_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
+			Globals.player_stats.health -= trigger.damage
+			_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
 	battle_state.player_shield = 0
 	match battle_state.enemy.action_mode:
 		Enums.ENEMY_ACTION_MODE.LOOP:

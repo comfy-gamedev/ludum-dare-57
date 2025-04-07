@@ -129,4 +129,12 @@ label_settings = SubResource("LabelSettings_oiw7q")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MutationGridContainer" type="GridContainer" parent="."]
+unique_name_in_owner = true
+offset_left = 19.0
+offset_top = 242.0
+offset_right = 100.0
+offset_bottom = 522.0
+columns = 2
+
 [connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]

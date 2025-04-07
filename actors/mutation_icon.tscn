@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c68byjiwvau0j"]
+
+[ext_resource type="Texture2D" uid="uid://drooip4gf3ax7" path="res://assets/textures/dna.png" id="1_0lf80"]
+[ext_resource type="Script" uid="uid://b2uaex07q1ev4" path="res://actors/mutation_icon.gd" id="1_a5iqv"]
+
+[node name="MutationIcon" type="TextureRect"]
+offset_right = 120.0
+offset_bottom = 66.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_0lf80")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("1_a5iqv")

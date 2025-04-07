@@ -38,7 +38,7 @@ func _ready() -> void:
 	player_stats = PlayerStats.new()
 	player_stats.equipment = [
 		preload("res://assets/items/punch.tres"),
-		preload("res://assets/items/block.tres"),
+		preload("res://assets/items/punch.tres"),
 	]
 	player_stats.initial_mana = 3
 	player_stats.initial_rerolls = 1
