@@ -38,3 +38,6 @@ var mutations: Array[Mutation]:
 		if mutations == v: return
 		mutations = v
 		changed.emit()
+
+func add_equipment(id: int) -> void:
+	pass
