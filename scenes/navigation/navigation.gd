@@ -53,6 +53,9 @@ func _enter_tree() -> void:
 		"back":
 			back_two()
 	Globals.player_nav_event = ""
+	
+	if find_next_nodes(current_node).size() == 0:
+		new_act()
 
 func _reconcile() -> void:
 	var next_nodes = find_next_nodes(current_node)
@@ -121,6 +124,17 @@ func forward_two() -> void:
 	visited_nodes.append(current_node)
 	
 	_reconcile()
+
+func new_act() -> void:
+	Globals.act += 1
+	if Globals.act == 3:
+		SceneGirl.change_scene("res://scenes/you_win/u_win.tscn")
+	else:
+		for i in tilemap.get_used_cells_by_id(1):
+			if tilemap.get_cell_atlas_coords(i).x < 6:
+				tilemap.set_cell(i, 1, Vector2i(0, randi_range(0, 5)))
+		visited_nodes = []
+		_ready()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
