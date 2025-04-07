@@ -3,6 +3,7 @@ extends Control
 const EDITOR = preload("res://addons/dice/editor.tscn")
 @onready var option_button: OptionButton = %OptionButton
 @onready var h_box_container: HBoxContainer = %HBoxContainer
+@onready var count_spin_box: SpinBox = $VBoxContainer/HBoxContainer2/CountSpinBox
 
 var item_dir = "res://assets/items/"
 
@@ -27,7 +28,7 @@ func _on_option_button_item_selected(index: int) -> void:
 	item_path = option_button.get_item_metadata(index)
 	item = load(item_path)
 	EditorInterface.inspect_object(item)
-	
+	count_spin_box.value = item.count
 	for c in h_box_container.get_children():
 		c.queue_free()
 	for i in 6:

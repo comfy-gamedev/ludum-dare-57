@@ -55,6 +55,6 @@ script = ExtResource("3_pyf80")
 name = "Dagger"
 item_image = ExtResource("2_pyf80")
 faces = Array[ExtResource("1_vhj5b")]([SubResource("Resource_412wc"), SubResource("Resource_rthtr"), SubResource("Resource_jc7ym"), SubResource("Resource_ryvho"), SubResource("Resource_5a6d8"), SubResource("Resource_eg7jw")])
-count = 1.0
+count = 1
 roll_effects = Array[ExtResource("2_eg7jw")]([])
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

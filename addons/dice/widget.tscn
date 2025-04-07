@@ -13,3 +13,5 @@ stretch_mode = 5
 
 [node name="SpinBox" type="SpinBox" parent="."]
 layout_mode = 2
+
+[connection signal="value_changed" from="SpinBox" to="." method="_on_spin_box_value_changed"]

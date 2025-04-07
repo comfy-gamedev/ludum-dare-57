@@ -1,11 +1,11 @@
+@tool
 extends HBoxContainer
 
+@onready var texture_rect: TextureRect = $TextureRect
+@onready var spin_box: SpinBox = $SpinBox
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	texture_rect.modulate = Color(0.5, 0.5, 0.5, 1.0) if spin_box.value == 0.0 else Color.WHITE
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _on_spin_box_value_changed(value: float) -> void:
+	texture_rect.modulate = Color(0.5, 0.5, 0.5, 1.0) if value == 0.0 else Color.WHITE

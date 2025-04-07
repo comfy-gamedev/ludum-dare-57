@@ -20,6 +20,7 @@ func _ready() -> void:
 			continue
 		var w = WIDGET.instantiate()
 		w.get_node("TextureRect").texture = Enums.PIP_TEXTURES[i]
+		w.get_node("TextureRect").tooltip_text = Enums.PIP_TYPE.find_key(i)
 		w.get_node("SpinBox").value = die.faces[face].pips.get(i, 0)
 		w.get_node("SpinBox").value_changed.connect(
 			func (v):
