@@ -23,6 +23,7 @@ var choice := -1
 @onready var skip := $VBoxContainer/Skip
 @onready var event_text := $VBoxContainer/EventBox/EventText
 @onready var event_box := $VBoxContainer/EventBox
+@onready var event_pic := $VBoxContainer/EventBox/EventPic
 
 func _ready() -> void:
 	event = randi_range(0, 11)
@@ -35,50 +36,62 @@ func _ready() -> void:
 			event_text.text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
 			option1.text = "Take off your equipment before jumping in for a swim (lose 1 item/relic)"
 			option2.text = "Jump in fully clothed. Don't want to risk losing any of your precious stuff! (lose 1 mutation)"
+			event_pic.texture = preload("res://assets/textures/event_icons/clear_water_pool.png")
 		EVENTS.STRANGE_BREW:
 			event_text.text = "You see thermos sitting here. It seems to be filled with a thick, warm liquid. Could be delicious? (Small Heal)"
 			option1.text = "Take the thermos with you and drink as you keep walking (lose 1 item/relic)"
 			option2.text = "Stop and drink the whole thing right here. (travel forward)"
+			event_pic.texture = preload("res://assets/textures/event_icons/Thermos.png")
 		EVENTS.TUNNEL_REST:
 			event_text.text = "You see a side tunnel, and it feels strangely warm. This could be a good place to stop and rest."
 			option1.text = "Play it safe and stay awake while you rest (lose 1 mutation)"
 			option2.text = "Lay down and take a quick nap (Jump ahead)"
+			event_pic.texture = preload("res://assets/textures/event_icons/Pipe side tunnel.png")
 		EVENTS.LOG_PEEK:
 			event_text.text = "There's a big, slimy-looking log over here. It looks like there might be something under it."
 			option1.text = "Roll the log forward to see what's under it (Lose hp)"
 			option2.text = "Roll the log backward to see what's under it (Lose 1 mutation)"
+			event_pic.texture = preload("res://assets/textures/event_icons/Slimy Log.png")
 		EVENTS.SHINY_OBJECT:
 			event_text.text = "You see a dark tunnel leading off to the side. There seems to be something shiny lying in the water that direction. Could be a useful item."
 			option1.text = "Wade into the water and grab it. What's the worst that could happen?"
 			option2.text = "Play it safe and walk along the edge of the tunnel where it's dry."
+			event_pic.texture = preload("res://assets/textures/event_icons/item_in_side_tunnel.png")
 		EVENTS.RAT_GIRL:
 			event_text.text = "You are walking along, when all of a sudden a rat girl jumps out of the shadows at you."
 			option1.text = "Stand your ground. Why should you be scared of a skinny little Ratgirl? (lose health)"
 			option2.text = "Run away. There's no point fighting when you could easily outrun her."
+			event_pic.texture = preload("res://assets/textures/event_icons/rat_ambush.png")
 		EVENTS.WORMS:
 			event_text.text = "The water here is almost knee-deep, which is why you didn't notice a swarm of purplish worm creatures until just now, as they start biting you."
 			option1.text = "Back away and cut open the wound and try to remove the poison (lose HP)"
 			option2.text = "Fend off the creatures with your ___ (lose 1 item)"
+			event_pic.texture = preload("res://assets/textures/event_icons/worms.png")
 		EVENTS.SLIME:
 			event_text.text = "Ew, gross! a bunch of mysterious slime just fell on you."
 			option1.text = "Just leave it. Everything here is a little slimy anyway. You'll probably be fine. (lose 1 item)"
 			option2.text = "Jump in the water and try to clean the slime off. (move forward)"
+			event_pic.texture = preload("res://assets/textures/event_icons/slimed.png")
 		EVENTS.BIOHAZARD:
 			event_text.text = "There's a pipe in the wall here, with a grubby \"biohazard\" sign on the wall. The sewage coming from the pipe seems to have a greenish glow."
 			option1.text = "Inspect the glowing water more closely (lose hp)"
 			option2.text = "Continue down the tunnel, avoiding the glowing water (jump forward)"
+			event_pic.texture = preload("res://assets/textures/event_icons/biohazard.png")
 		EVENTS.LADDER:
 			event_text.text = "You see a ladder leading upward, and... Is that daylight? You've been down in these depths for so long, you can't be sure anymore."
 			option1.text = "Open the manhole and peek out, to make sure the coast is clear (lose hp)"
 			option2.text = "Open the manhole with your __, to avoid an ambush from watever might be up there (lose 1 item)"
+			event_pic.texture = preload("res://assets/textures/event_icons/Ladder.png")
 		EVENTS.SPINNING_BLADES:
 			event_text.text = "The entire sewer tunnel is blocked here by some large spinning blades. Perhaps a fan or turbine of some sort?"
 			option1.text = "The blades are spinning slow enough. You could try to jump through, if you time it just right. (lose hp)"
 			option2.text = "Better play it safe and jam the mechanism with your ___. You didn't need that thing anyway, right? (lose 1 item)"
+			event_pic.texture = preload("res://assets/textures/event_icons/spinning fan.png")
 		EVENTS.CLOGGED_PIPE:
 			event_text.text = "The water ahead keeps getting deeper and deeper, until it's no longer passable. The entire sewer pipe must be clogged in this direction."
 			option1.text = "Use your ___ to try to clear the blockage (lose 1 item)"
 			option2.text = "Dive in and try to find a way around (lose 1 mutation)"
+			event_pic.texture = preload("res://assets/textures/event_icons/clogged.png")
 			
 
 func _reveal_consequences() -> void:

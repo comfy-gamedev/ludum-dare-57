@@ -36,13 +36,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 color = Color(0.772247, 0.772247, 0.772247, 1)
 
-[node name="EventPic" type="ColorRect" parent="VBoxContainer/EventBox"]
+[node name="EventPic" type="TextureRect" parent="VBoxContainer/EventBox"]
 layout_mode = 0
-offset_left = 25.0
-offset_top = 25.0
-offset_right = 275.0
-offset_bottom = 275.0
-color = Color(0, 0, 0, 1)
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 278.0
+offset_bottom = 278.0
 
 [node name="EventText" type="Label" parent="VBoxContainer/EventBox"]
 custom_minimum_size = Vector2(450, 0)
