@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjv61y70pn6cg"]
+
+[ext_resource type="Script" uid="uid://dv6ipqsyxbpxr" path="res://addons/dice/editor.gd" id="1_n55d7"]
+
+[node name="Editor" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_n55d7")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Lock"
+
+[node name="LockCheckButton" type="CheckButton" parent="HBoxContainer"]
+layout_mode = 2
+
+[connection signal="toggled" from="HBoxContainer/LockCheckButton" to="." method="_on_lock_check_button_toggled"]

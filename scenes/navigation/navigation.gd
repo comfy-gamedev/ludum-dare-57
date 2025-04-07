@@ -35,12 +35,10 @@ func _reconcile() -> void:
 	var next_nodes = find_next_nodes(current_node)
 	for c in tilemap.get_used_cells_by_id(1):
 		var t = tilemap.get_cell_atlas_coords(c)
-		if c == current_node:
-			tilemap.set_cell(c, 1, Vector2i(t.x, 1))
-		elif c in next_nodes:
-			tilemap.set_cell(c, 1, Vector2i(t.x, 2))
-		elif c in visited_nodes:
+		if c in visited_nodes:
 			tilemap.set_cell(c, 1, Vector2i(t.x, 0))
+		elif c in next_nodes:
+			tilemap.set_cell(c, 1, Vector2i(t.x, 1))
 		else:
 			tilemap.set_cell(c, 1, Vector2i(t.x, 3))
 
@@ -86,12 +84,18 @@ func back_two() -> void:
 	_reconcile()
 
 func forward_two() -> void:
-	var nodes = find_next_nodes(current_node)
-	var nodes2 = find_next_nodes(nodes[0])
-	if(nodes2.size() > 0) && !tilemap.get_cell_atlas_coords(nodes[2]).y == Enums.LOCATION_TYPES.BOSS:
-		current_node = nodes2[0]
-	else:
-		current_node = nodes[0]
+	var options = []
+	var good_options = []
+	for n in tilemap.get_used_cells_by_id(1):
+		if n.y == current_node.y + 2:
+			options.append(n)
+			if n not in visited_nodes:
+				good_options.append(n)
+	if not good_options.is_empty():
+		options = good_options
+	
+	current_node = options.pick_random() 
+	visited_nodes.append(current_node)
 	
 	_reconcile()
 
