@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=9 format=3 uid="uid://dy1fvkw1oq8ct"]
+
+[ext_resource type="Script" uid="uid://dmv1gbqhp1qj0" path="res://resource_types/action_spec.gd" id="1_ge70f"]
+[ext_resource type="Script" uid="uid://dgw7ht8iwghst" path="res://resource_types/enemy.gd" id="2_6sltp"]
+[ext_resource type="Texture2D" uid="uid://bpcfltqq0njo4" path="res://assets/textures/turdt2.png" id="3_ge70f"]
+
+[sub_resource type="Resource" id="Resource_w0npa"]
+script = ExtResource("1_ge70f")
+action = 1
+action_param = 3
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_w1und"]
+script = ExtResource("1_ge70f")
+action = 0
+action_param = 0
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_veh0j"]
+script = ExtResource("1_ge70f")
+action = 2
+action_param = 2
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_px6ef"]
+script = ExtResource("1_ge70f")
+action = 3
+action_param = 1
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_vn5ty"]
+script = ExtResource("1_ge70f")
+action = 4
+action_param = 1
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[resource]
+script = ExtResource("2_6sltp")
+max_hp = 5
+sprite = ExtResource("3_ge70f")
+actions = Array[ExtResource("1_ge70f")]([SubResource("Resource_w0npa"), SubResource("Resource_w1und"), SubResource("Resource_veh0j"), SubResource("Resource_px6ef"), SubResource("Resource_vn5ty")])
+action_mode = 1
+action_loop_point = 0
+metadata/_custom_type_script = "uid://dgw7ht8iwghst"

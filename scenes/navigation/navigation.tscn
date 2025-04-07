@@ -51,6 +51,7 @@ offset_top = -21.0
 offset_right = 960.0
 offset_bottom = 564.0
 texture = ExtResource("2_7i5gp")
+stretch_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

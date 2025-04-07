@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="Enemy" load_steps=8 format=3 uid="uid://b8aia6ch21umb"]
+
+[ext_resource type="Script" uid="uid://dmv1gbqhp1qj0" path="res://resource_types/action_spec.gd" id="1_3nva0"]
+[ext_resource type="Script" uid="uid://dgw7ht8iwghst" path="res://resource_types/enemy.gd" id="2_e4nt1"]
+[ext_resource type="Texture2D" uid="uid://bob07h7fg06ci" path="res://assets/textures/Croc3.png" id="3_1bij7"]
+
+[sub_resource type="Resource" id="Resource_pjnjg"]
+script = ExtResource("1_3nva0")
+action = 4
+action_param = 3
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_px6ef"]
+script = ExtResource("1_3nva0")
+action = 1
+action_param = 5
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_3nva0"]
+script = ExtResource("1_3nva0")
+action = 2
+action_param = 10
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[sub_resource type="Resource" id="Resource_e4nt1"]
+script = ExtResource("1_3nva0")
+action = 4
+action_param = 5
+random_weight = 1.0
+metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
+
+[resource]
+script = ExtResource("2_e4nt1")
+max_hp = 45
+sprite = ExtResource("3_1bij7")
+actions = Array[ExtResource("1_3nva0")]([SubResource("Resource_pjnjg"), SubResource("Resource_px6ef"), SubResource("Resource_3nva0"), SubResource("Resource_e4nt1")])
+action_mode = 0
+action_loop_point = 1
+metadata/_custom_type_script = "uid://dgw7ht8iwghst"

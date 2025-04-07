@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=26 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
 [ext_resource type="Texture2D" uid="uid://emwmyn8543" path="res://assets/textures/reroll.png" id="5_fh7rg"]
-[ext_resource type="Texture2D" uid="uid://c4rokoyh1xji0" path="res://assets/textures/Slyme3.png" id="6_icoan"]
+[ext_resource type="Texture2D" uid="uid://cmoc6id0tsbqy" path="res://assets/textures/brick_bg.png" id="5_icoan"]
+[ext_resource type="Texture2D" uid="uid://diocku5scd3kr" path="res://assets/textures/phil.png" id="5_mxe8n"]
 [ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="6_pll4o"]
 [ext_resource type="Texture2D" uid="uid://xuty4hsyvoak" path="res://assets/textures/heart.png" id="8_py4tk"]
 [ext_resource type="Texture2D" uid="uid://bob07h7fg06ci" path="res://assets/textures/Croc3.png" id="9_icoan"]
@@ -116,10 +117,14 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
+[node name="TextureRect" type="TextureRect" parent="PlayerScreen"]
+layout_mode = 2
+texture = ExtResource("5_icoan")
+
 [node name="PlayerSprite" type="Sprite2D" parent="PlayerScreen"]
 unique_name_in_owner = true
 position = Vector2(144, 141)
-texture = ExtResource("6_icoan")
+texture = ExtResource("5_mxe8n")
 
 [node name="PlayerHeart" type="Sprite2D" parent="PlayerScreen"]
 position = Vector2(125, 265)
@@ -143,6 +148,10 @@ offset_bottom = 288.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="EnemyScreen"]
+layout_mode = 2
+texture = ExtResource("5_icoan")
 
 [node name="EnemySprite" type="Sprite2D" parent="EnemyScreen"]
 unique_name_in_owner = true
@@ -175,7 +184,7 @@ flip_h = true
 flip_v = true
 
 [node name="RerollsIcon" type="Sprite2D" parent="."]
-position = Vector2(593, 392)
+position = Vector2(399, 377)
 texture = ExtResource("5_fh7rg")
 centered = false
 metadata/_edit_group_ = true
@@ -190,7 +199,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ManaIcon" type="Sprite2D" parent="."]
-position = Vector2(125, 383)
+position = Vector2(227, 377)
 texture = ExtResource("11_fisqk")
 centered = false
 metadata/_edit_group_ = true
