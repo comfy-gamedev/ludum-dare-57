@@ -142,6 +142,8 @@ func _on_go_button_pressed() -> void:
 		for type in face.pips:
 			match type:
 				Enums.PIP_TYPE.ATTACK:
+					for j in Globals.PlayerStats.mutations:
+						j.triggered(Mutation.TRIGGERS.DEAL_DAMAGE, battle_state)
 					battle_state.enemy_hp -= face.pips[type]
 				Enums.PIP_TYPE.DEFEND:
 					battle_state.player_shield += face.pips[type]
@@ -152,6 +154,8 @@ func _on_go_button_pressed() -> void:
 		Enums.ENEMY_ACTION.ATTACK:
 			var dmg = enemy_action.action_param - battle_state.player_shield
 			if dmg > 0:
+				for i in Globals.PlayerStats.mutations:
+					i.triggered(Mutation.TRIGGERS.TAKE_DAMAGE, battle_state)
 				Globals.player_stats.health -= dmg
 	match battle_state.enemy.action_mode:
 		Enums.ENEMY_ACTION_MODE.LOOP:
