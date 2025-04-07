@@ -3,6 +3,8 @@ const DIE_SPRITE = preload("res://actors/die_sprite.tscn")
 const BLOCK = preload("res://assets/items/block.tres")
 const PUNCH = preload("res://assets/items/punch.tres")
 const MUTATION_ICON = preload("res://actors/mutation_icon.tscn")
+const BRICK = preload("res://assets/textures/brick.png")
+const BROWN_BRICKS = preload("res://assets/textures/brown_bricks.png")
 
 @export var hand_width: float = 100.0
 @export var rolled_width: float = 100.0
@@ -25,6 +27,7 @@ var _hand_tween: Tween
 @onready var popup_label: RichTextLabel = %PopupLabel
 @onready var ok_button: Button = %OKButton
 @onready var mana_label: Label = %ManaLabel
+@onready var bg: TextureRect = $BG
 
 @onready var hand_initial_position: Vector2 = hand.position
 
@@ -262,6 +265,10 @@ func _adjust_sprite_positions() -> void:
 
 func _on_go_button_pressed() -> void:
 	_trigger_event(Enums.TRIGGERS.GO)
+	
+	var player_damaged: bool = false
+	var enemy_damaged: bool = false
+	
 	for i in battle_state.roll_results.size():
 		var r: BattleState.RollResult = battle_state.roll_results[i]
 		var pips = r.die.get_total_pips(r.face)
@@ -271,9 +278,15 @@ func _on_go_button_pressed() -> void:
 					var trigger = { damage = pips[type] }
 					_trigger_event(Enums.TRIGGERS.PRE_DEAL_DAMAGE, trigger)
 					battle_state.enemy_hp -= trigger.damage
+					if trigger.damage > 0:
+						enemy_damaged = true
 					_trigger_event(Enums.TRIGGERS.POST_DEAL_DAMAGE, trigger)
 				Enums.PIP_TYPE.DEFEND:
 					battle_state.player_shield += pips[type]
+				Enums.PIP_TYPE.HEAL:
+					Globals.player_stats.health = mini(Globals.player_stats.health + pips[type], Globals.player_stats.max_health)
+				Enums.PIP_TYPE.POISON:
+					battle_state.enemy_poison += pips[type]
 	
 	if battle_state.enemy_hp <= 0:
 		win()
@@ -290,6 +303,8 @@ func _on_go_button_pressed() -> void:
 			}
 			_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
 			Globals.player_stats.health -= trigger.damage
+			if trigger.damage > 0:
+				player_damaged = true
 			_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
 	battle_state.player_shield = 0
 	match battle_state.enemy.action_mode:
@@ -318,6 +333,22 @@ func _on_go_button_pressed() -> void:
 	if battle_state.enemy_hp <= 0:
 		win()
 		return
+	
+	if not Settings.disable_flashing and player_damaged:
+		var t = create_tween()
+		t.tween_method(func (x):
+			bg.texture = BRICK if floori(x) % 2 == 0 else BROWN_BRICKS
+		, 0.0, 10.0, 0.5)
+		t.tween_callback(func (): bg.texture = BRICK)
+	
+	if enemy_damaged:
+		var o = enemy_sprite.position
+		var t = create_tween()
+		t.tween_method(func (x):
+			var i = floori(x) % 2
+			enemy_sprite.position.x = o.x + (-10 if i == 0 else 10)
+		, 0.0, 10.0, 0.5)
+		t.tween_callback(func (): enemy_sprite.position = o)
 	
 	discard_all(battle_state.roll_results.map(func (x): return x.die))
 	discard_all(battle_state.hand)

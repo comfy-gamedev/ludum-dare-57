@@ -59,6 +59,12 @@ var enemy_action_index: int:
 		enemy_action_index = v
 		changed.emit()
 
+var enemy_poison: int:
+	set(v):
+		if enemy_poison == v: return
+		enemy_poison = v
+		changed.emit()
+
 
 var player_shield: int:
 	set(v):
