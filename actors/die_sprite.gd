@@ -5,7 +5,7 @@ signal clicked()
 
 const MOUSE_SENSITIVITY = Vector2.ONE / 30.0
 const FLOAT_DAMPING = 0.95
-const SNAPPAGE = TAU / 12.0
+const SNAPPAGE = TAU / 24.0
 
 enum AnimMode {
 	NONE,
@@ -80,7 +80,7 @@ func get_combined_rotation() -> Quaternion:
 	match animation_mode:
 		AnimMode.FLOATING:
 			rot = Quaternion.from_euler(Vector3(0, 0, sin(_time) * TAU / 4.0)) * rot
-	rot = Quaternion.from_euler(rot.get_euler().snappedf(SNAPPAGE))
+	#rot = Quaternion.from_euler(rot.get_euler().snappedf(SNAPPAGE))
 	return rot
 
 func _reconcile() -> void:

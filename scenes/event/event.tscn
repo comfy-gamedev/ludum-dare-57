@@ -34,7 +34,7 @@ theme_override_constants/separation = 20
 custom_minimum_size = Vector2(800, 300)
 layout_mode = 2
 size_flags_horizontal = 4
-color = Color(0.772247, 0.772247, 0.772247, 1)
+color = Color(0.266667, 0.368627, 0.305882, 1)
 
 [node name="EventPic" type="TextureRect" parent="VBoxContainer/EventBox"]
 layout_mode = 0
@@ -50,17 +50,20 @@ offset_left = 300.0
 offset_top = 25.0
 offset_right = 340.0
 offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_font_sizes/font_size = 35
 text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
 autowrap_mode = 2
 
 [node name="Option1" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
 text = "Better play it safe and jam the mechanism with your ___________. (lose 1 item)"
 autowrap_mode = 2
 
 [node name="Option2" type="Button" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
 text = "Options 2"
 autowrap_mode = 2
 

@@ -15,6 +15,24 @@ var button_type := preload("res://scenes/navigation/location_node.tscn")
 var current_node := Vector2i(0, 0)
 var visited_nodes: Array[Vector2i]
 
+var enemies = [
+	"res://assets/enemies/fish.tres",
+	"res://assets/enemies/rat.tres",
+	"res://assets/enemies/slug.tres",
+	"res://assets/enemies/snake.tres",
+	"res://assets/enemies/turtle.tres",
+]
+
+var elites = [
+	"res://assets/enemies/slime.tres",
+	"res://assets/enemies/koba.tres",
+	"res://assets/enemies/croc.tres",
+]
+
+var bosses = [
+	"res://assets/enemies/croc_boss.tres",
+]
+
 func _ready() -> void:
 	if current_node == Vector2i(0, 0):
 		for i in 20:
@@ -123,6 +141,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				match dest.x:
 					Enums.LOCATION_TYPES.ENEMY:
 						SceneGirl.push_scene(BATTLE, func (battle):
-							battle.battle_state.enemy = load("res://assets/enemies/rat.tres"))
+							battle.battle_state.enemy = load(enemies.pick_random()))
+					Enums.LOCATION_TYPES.ELITE:
+						SceneGirl.push_scene(BATTLE, func (battle):
+							battle.battle_state.enemy = load(elites.pick_random()))
+					Enums.LOCATION_TYPES.BOSS:
+						SceneGirl.push_scene(BATTLE, func (battle):
+							battle.battle_state.enemy = load(bosses.pick_random()))
 					Enums.LOCATION_TYPES.EVENT:
 						SceneGirl.push_scene(EVENT, func(x):)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=4 uid="uid://b2ckgvti3clku"]
 
 [ext_resource type="Script" uid="uid://kjje3io65ax8" path="res://scenes/navigation/navigation.gd" id="1_dwrta"]
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="2_7i5gp"]
+[ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_7i5gp"]
 [ext_resource type="Material" uid="uid://gbdssa1v0xal" path="res://assets/materials/water_material.tres" id="2_ecp6a"]
 [ext_resource type="Texture2D" uid="uid://brvxefejygdxj" path="res://assets/textures/tiles/pipeSheet.png" id="2_quj05"]
 [ext_resource type="Texture2D" uid="uid://cckycdowaaffi" path="res://assets/textures/tiles/locationSheet.png" id="3_rj0gg"]
@@ -51,6 +51,7 @@ offset_top = -21.0
 offset_right = 960.0
 offset_bottom = 564.0
 texture = ExtResource("2_7i5gp")
+stretch_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
