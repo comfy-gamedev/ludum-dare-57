@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ei3q5pwpagia"]
+
+[ext_resource type="Script" uid="uid://80ec7uhw8yey" path="res://autoload/global_buttons.gd" id="1_4jr4l"]
+[ext_resource type="Texture2D" uid="uid://boigxtvt6bv8m" path="res://assets/textures/music_on.png" id="2_kapbb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4jr4l"]
+
+[node name="GlobalButtons" type="CanvasLayer"]
+layer = 50
+script = ExtResource("1_4jr4l")
+
+[node name="MusicButton" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+focus_mode = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4jr4l")
+icon = ExtResource("2_kapbb")
+
+[connection signal="pressed" from="MusicButton" to="." method="_on_music_button_pressed"]

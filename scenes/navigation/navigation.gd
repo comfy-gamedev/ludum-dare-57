@@ -182,3 +182,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					Enums.LOCATION_TYPES.MUTATION:
 						SceneGirl.push_scene(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
 							s.reason = Enums.UPGRADE_REASON.MUTATION)
+					Enums.LOCATION_TYPES.SHOP:
+						SceneGirl.push_scene(preload("res://scenes/shop/shop.tscn"), func (s):
+							pass)
