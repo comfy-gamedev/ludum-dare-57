@@ -9,6 +9,8 @@ const MUTATION_ICON = preload("res://actors/mutation_icon.tscn")
 
 var battle_state: BattleState = BattleState.new()
 
+var _hand_tween: Tween
+
 @onready var hand: Node2D = $Hand
 @onready var rolled: Node2D = $Rolled
 @onready var rerolls_label: Label = %RerollsLabel
@@ -17,6 +19,12 @@ var battle_state: BattleState = BattleState.new()
 @onready var enemy_heart_label: Label = %EnemyHeartLabel
 @onready var player_heart_label: Label = %PlayerHeartLabel
 @onready var mutation_grid_container: GridContainer = %MutationGridContainer
+@onready var popup_panel: Panel = %PopupPanel
+@onready var popup_label: RichTextLabel = %PopupLabel
+@onready var ok_button: Button = %OKButton
+@onready var mana_label: Label = %ManaLabel
+
+@onready var hand_initial_position: Vector2 = hand.position
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -47,6 +55,18 @@ func _on_player_stats_changed() -> void:
 func _on_battle_state_changed() -> void:
 	enemy_heart_label.text = str(battle_state.enemy_hp)
 	rerolls_label.text = str(battle_state.rerolls)
+	mana_label.text = str(battle_state.mana)
+	
+	if battle_state.mana == 0:
+		if hand.position == hand_initial_position:
+			_hand_tween = create_tween()
+			hand.position.y += 1.0
+			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y + 50.0, 0.2)
+	else:
+		if hand.position != hand_initial_position:
+			hand.position.y -= 1.0
+			_hand_tween = create_tween()
+			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y, 0.2)
 
 func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
 	print("_trigger_event(%s, %s)" % [Enums.TRIGGERS.find_key(type), data])
@@ -129,6 +149,20 @@ func discard_all(dice: Array) -> void:
 		print("Discard-all die ", d, "...")
 		discard_die(d)
 
+func win() -> void:
+	popup_panel.visible = true
+	popup_label.text = "You win!"
+	await ok_button.pressed
+	Globals.player_nav_event = "battle_won"
+	SceneGirl.pop_scene()
+
+func lose() -> void:
+	popup_panel.visible = true
+	popup_label.text = "You lose..."
+	await ok_button.pressed
+	Globals.player_nav_event = "battle_lost"
+	SceneGirl.pop_scene()
+
 func _on_die_clicked(sprite: DieSprite) -> void:
 	var die: BattleState.LayeredDie = sprite.die
 	if battle_state.mana > 0 and die in battle_state.hand:
@@ -145,6 +179,7 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 		, 0.0, 1.0, 0.2)
 		_adjust_sprite_positions()
 		roll.die.clear_roll_pips()
+		battle_state.mana -= 1
 		_trigger_event(Enums.TRIGGERS.FIRST_ROLL, { roll_result = roll })
 	elif battle_state.rerolls > 0:
 		var f = battle_state.roll_results.find_custom(func (x): return x.die == die)
@@ -187,6 +222,11 @@ func _on_go_button_pressed() -> void:
 					_trigger_event(Enums.TRIGGERS.POST_DEAL_DAMAGE, trigger)
 				Enums.PIP_TYPE.DEFEND:
 					battle_state.player_shield += pips[type]
+	
+	if battle_state.enemy_hp <= 0:
+		win()
+		return
+	
 	var enemy_action = battle_state.enemy.actions[battle_state.enemy_action_index]
 	match enemy_action.action:
 		Enums.ENEMY_ACTION.PASS:
@@ -217,14 +257,15 @@ func _on_go_button_pressed() -> void:
 					battle_state.enemy_action_index = i
 					jump = log(randf()) / log(roll)
 	
-	discard_all(battle_state.roll_results.map(func (x): return x.die))
-	discard_all(battle_state.hand)
+	if Globals.player_stats.health <= 0:
+		lose()
+		return
 	
 	if battle_state.enemy_hp <= 0:
-		SceneGirl.pop_scene()
+		win()
 		return
-	if Globals.player_stats.health <= 0:
-		SceneGirl.pop_scene()
-		return
+	
+	discard_all(battle_state.roll_results.map(func (x): return x.die))
+	discard_all(battle_state.hand)
 	
 	start_turn()

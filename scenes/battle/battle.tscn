@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=25 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
@@ -8,10 +8,13 @@
 [ext_resource type="Texture2D" uid="uid://bkrd5le3mc5w0" path="res://assets/textures/Slyme2.png" id="5_pll4o"]
 [ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="6_pll4o"]
 [ext_resource type="Texture2D" uid="uid://xuty4hsyvoak" path="res://assets/textures/heart.png" id="8_py4tk"]
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="9_oiw7q"]
+[ext_resource type="Texture2D" uid="uid://dwhph2yux82ox" path="res://assets/textures/ui_border_filled.png" id="9_oiw7q"]
+[ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="10_fisqk"]
+[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="10_t1kk3"]
+[ext_resource type="Texture2D" uid="uid://davgnswsexn4h" path="res://assets/textures/cube.png" id="11_fisqk"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_py4tk"]
-texture = ExtResource("2_agsc7")
+texture = ExtResource("9_oiw7q")
 texture_margin_left = 16.0
 texture_margin_top = 16.0
 texture_margin_right = 16.0
@@ -22,6 +25,39 @@ axis_stretch_vertical = 1
 [sub_resource type="LabelSettings" id="LabelSettings_py4tk"]
 font = ExtResource("6_pll4o")
 font_size = 19
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mxe8n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icoan"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kd6yx"]
+texture = ExtResource("9_oiw7q")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t1kk3"]
+texture = ExtResource("9_oiw7q")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.43, 0.43, 0.43, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n6gaa"]
+texture = ExtResource("9_oiw7q")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.89, 0.89, 0.89, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_agsc7"]
 font = ExtResource("6_pll4o")
@@ -40,10 +76,28 @@ texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxe8n"]
+bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_icoan"]
+texture = ExtResource("9_oiw7q")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_0yh6x")
 hand_width = 360.0
 rolled_width = 360.0
+
+[node name="BG" type="TextureRect" parent="."]
+offset_right = 960.0
+offset_bottom = 585.0
+texture = ExtResource("10_t1kk3")
+stretch_mode = 1
 
 [node name="Hand" type="Node2D" parent="."]
 position = Vector2(300, 500)
@@ -53,20 +107,7 @@ position = Vector2(300, 373.98)
 
 [node name="Frame" type="Node2D" parent="."]
 
-[node name="PanelContainer2" type="PanelContainer" parent="."]
-offset_left = 471.0
-offset_top = 6.0
-offset_right = 759.0
-offset_bottom = 294.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
-metadata/_edit_group_ = true
-metadata/_edit_use_anchors_ = true
-
-[node name="TextureRect" type="TextureRect" parent="PanelContainer2"]
-layout_mode = 2
-texture = ExtResource("3_agsc7")
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PlayerScreen" type="PanelContainer" parent="."]
 offset_left = 183.0
 offset_top = 6.0
 offset_right = 471.0
@@ -75,30 +116,58 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
 metadata/_edit_group_ = true
 metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect" type="TextureRect" parent="PanelContainer"]
+[node name="TextureRect" type="TextureRect" parent="PlayerScreen"]
 layout_mode = 2
 texture = ExtResource("3_agsc7")
 
-[node name="EnemySprite" type="Sprite2D" parent="."]
+[node name="PlayerSprite" type="Sprite2D" parent="PlayerScreen"]
 unique_name_in_owner = true
-position = Vector2(615, 149)
-texture = ExtResource("4_pll4o")
-
-[node name="PlayerSprite" type="Sprite2D" parent="."]
-unique_name_in_owner = true
-position = Vector2(327, 147)
+position = Vector2(144, 141)
 texture = ExtResource("5_pll4o")
 
-[node name="Sprite2D3" type="Sprite2D" parent="."]
+[node name="EnemyScreen" type="PanelContainer" parent="."]
+offset_left = 471.0
+offset_top = 6.0
+offset_right = 759.0
+offset_bottom = 294.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
+metadata/_edit_group_ = true
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="EnemyScreen"]
+layout_mode = 2
+texture = ExtResource("3_agsc7")
+
+[node name="EnemySprite" type="Sprite2D" parent="EnemyScreen"]
+unique_name_in_owner = true
+position = Vector2(144, 143)
+texture = ExtResource("4_pll4o")
+
+[node name="RerollsIcon" type="Sprite2D" parent="."]
 position = Vector2(123, 331)
 texture = ExtResource("5_fh7rg")
 centered = false
 metadata/_edit_group_ = true
 
-[node name="RerollsLabel" type="Label" parent="Sprite2D3"]
+[node name="RerollsLabel" type="Label" parent="RerollsIcon"]
 unique_name_in_owner = true
 offset_right = 32.0
 offset_bottom = 34.0
+text = "10"
+label_settings = SubResource("LabelSettings_py4tk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ManaIcon" type="Sprite2D" parent="."]
+position = Vector2(125, 383)
+texture = ExtResource("11_fisqk")
+centered = false
+metadata/_edit_group_ = true
+
+[node name="ManaLabel" type="Label" parent="ManaIcon"]
+unique_name_in_owner = true
+offset_right = 32.0
+offset_bottom = 32.0
 text = "10"
 label_settings = SubResource("LabelSettings_py4tk")
 horizontal_alignment = 1
@@ -109,6 +178,11 @@ offset_left = 780.0
 offset_top = 319.0
 offset_right = 836.0
 offset_bottom = 366.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mxe8n")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_icoan")
+theme_override_styles/hover = SubResource("StyleBoxTexture_kd6yx")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_t1kk3")
+theme_override_styles/normal = SubResource("StyleBoxTexture_n6gaa")
 text = "GO"
 
 [node name="EnemyHeart" type="Sprite2D" parent="."]
@@ -155,16 +229,53 @@ offset_top = 27.0
 offset_right = 100.0
 offset_bottom = 242.0
 
-[node name="TextureRect" type="TextureRect" parent="."]
-z_index = -4
-offset_right = 959.0
-offset_bottom = 540.0
-texture = ExtResource("9_oiw7q")
-
 [node name="Panel" type="Panel" parent="."]
 offset_right = 960.0
-offset_bottom = 585.0
+offset_bottom = 540.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_fisqk")
+
+[node name="PopupPanel" type="Panel" parent="."]
+unique_name_in_owner = true
+visible = false
+offset_left = -12.0
+offset_top = -11.0
+offset_right = 984.0
+offset_bottom = 560.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_mxe8n")
+
+[node name="PopupPanel" type="PanelContainer" parent="PopupPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -179.5
+offset_right = 230.0
+offset_bottom = 140.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_icoan")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/PopupPanel"]
+layout_mode = 2
+
+[node name="PopupLabel" type="RichTextLabel" parent="PopupPanel/PopupPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_fonts/normal_font = ExtResource("10_fisqk")
+theme_override_font_sizes/normal_font_size = 48
+text = "YOU LOSE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OKButton" type="Button" parent="PopupPanel/PopupPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Yes"
 
 [connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]

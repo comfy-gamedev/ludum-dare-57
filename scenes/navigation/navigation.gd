@@ -25,10 +25,15 @@ func _ready() -> void:
 	_reconcile()
 
 func _enter_tree() -> void:
-	if Globals.player_nav_event == "forward":
-		forward_two()
-	elif Globals.player_nav_event == "back":
-		back_two()
+	if not is_node_ready():
+		return
+	match Globals.player_nav_event:
+		"battle_lost":
+			SceneGirl.change_scene.call_deferred("res://scenes/you_died_lol/u_died.tscn")
+		"forward":
+			forward_two()
+		"back":
+			back_two()
 	Globals.player_nav_event = ""
 
 func _reconcile() -> void:
@@ -109,9 +114,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Enums.LOCATION_STATE.CROSSED,\
 			Enums.LOCATION_STATE.DISABLED:
 				pass
-			Enums.LOCATION_STATE.AVAILABLE:
-				pass
-			Enums.LOCATION_STATE.HIGHLIGHT:
+			Enums.LOCATION_STATE.AVAILABLE, Enums.LOCATION_STATE.HIGHLIGHT:
 				tilemap.set_cell(current_node, 1, Vector2i(dest.x, 0))
 				current_node = tile_coord
 				visited_nodes.append(current_node)

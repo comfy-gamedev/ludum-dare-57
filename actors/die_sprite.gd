@@ -61,13 +61,14 @@ func _ready() -> void:
 	_reconcile()
 
 func _process(delta: float) -> void:
-	_time += delta
 	match animation_mode:
 		AnimMode.NONE:
 			_added_rotation = Quaternion.IDENTITY
 			set_process(false)
 			return
 		AnimMode.FLOATING:
+			if _float_velocity.length() > 1.0:
+				_time += delta
 			var vel = _float_velocity.rotated(sin(_time) * TAU / 4.0)
 			_added_rotation = Quaternion.from_euler(Vector3(vel.y, vel.x, 0.0)) * _added_rotation
 			_float_velocity *= FLOAT_DAMPING
