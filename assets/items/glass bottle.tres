@@ -58,7 +58,7 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [resource]
 script = ExtResource("3_51h3x")
-name = "Block"
+name = "GLass Bottle"
 item_image = ExtResource("2_51h3x")
 faces = Array[ExtResource("1_tkr2b")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
 count = 4.0

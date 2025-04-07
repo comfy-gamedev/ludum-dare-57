@@ -14,7 +14,8 @@ autolocking = false
 script = ExtResource("1_t2gs2")
 pips = Dictionary[int, int]({
 0: 2,
-2: 1
+2: 1,
+8: 1
 })
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
@@ -28,7 +29,8 @@ autolocking = false
 script = ExtResource("1_t2gs2")
 pips = Dictionary[int, int]({
 0: 2,
-2: 1
+2: 1,
+8: 1
 })
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
@@ -42,7 +44,8 @@ autolocking = false
 script = ExtResource("1_t2gs2")
 pips = Dictionary[int, int]({
 0: 2,
-2: 1
+2: 1,
+8: 1
 })
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
