@@ -1,65 +1,97 @@
 extends Node2D
 
-var location_type = Enums.LOCATION_TYPES.EMPTY
-var items = []
+const UPGRADE_CHOICE = preload("res://actors/upgrade_choice.tscn")
 
-@onready var card1 = $VBoxContainer/BoxContainer/HBoxContainer/ColorRect
-@onready var card2 = $VBoxContainer/BoxContainer/HBoxContainer/ColorRect2
-@onready var card3 = $VBoxContainer/BoxContainer/HBoxContainer/ColorRect3
-@onready var label = $VBoxContainer/Label
+const ITEMS = [
+	"res://assets/items/arm_warmers.tres",
+	"res://assets/items/board.tres",
+	"res://assets/items/clean_sock.tres",
+	"res://assets/items/dagger.tres",
+	"res://assets/items/dirty_sock.tres",
+	"res://assets/items/diving_helmet.tres",
+	"res://assets/items/empty_bottle_of_poison.tres",
+	"res://assets/items/glass bottle.tres",
+	"res://assets/items/hammer.tres",
+	"res://assets/items/hardhat.tres",
+	"res://assets/items/hi_vis_vest.tres",
+	"res://assets/items/lead_pipe.tres",
+	"res://assets/items/lead_pipe_with_nail.tres",
+	"res://assets/items/manhole_cover.tres",
+	"res://assets/items/overalls.tres",
+	"res://assets/items/paddle.tres",
+	"res://assets/items/pipe_wrench.tres",
+	"res://assets/items/poison_dagger.tres",
+	"res://assets/items/shiv.tres",
+	"res://assets/items/sledgehammer.tres",
+	"res://assets/items/slimy_lead_pipe.tres",
+	"res://assets/items/traffic_cone.tres",
+	"res://assets/items/trash_can_lid.tres",
+	"res://assets/items/vitamins.tres",
+	"res://assets/items/wet_gloves.tres",
+]
+
+var reason: Enums.UPGRADE_REASON
+
+@onready var options: HBoxContainer = %Options
+@onready var label: Label = %Label
 
 func _ready() -> void:
-	$VBoxContainer/Button.grab_focus()
-	match location_type:
-		Enums.LOCATION_TYPES.EMPTY:
-			pass
-		Enums.LOCATION_TYPES.TREASURE:
+	$VBoxContainer/SkipButton.grab_focus()
+	match reason:
+		Enums.UPGRADE_REASON.TREASURE:
 			label.text = "Choose An Item!"
-			card3.visible = false
-		Enums.LOCATION_TYPES.MUTATION:
+			for i in 2:
+				var item: StuffDie = load(ITEMS.pick_random())
+				var c = UPGRADE_CHOICE.instantiate()
+				options.add_child(c)
+				c.name_label.text = item.name
+				c.texture_rect.texture = item.item_image
+				c.description.hide()
+				c.die.die = item
+				c.clicked.connect(_pick_item.bind(item))
+		Enums.UPGRADE_REASON.MUTATION:
 			label.text = "Choose A Mutation!"
-			card3.visible = false
-		Enums.LOCATION_TYPES.SHOP:
-			label.text = "Pick one to trade away"
+			for i in 2:
+				var mut = Mutation.KIND.values().pick_random()
+				var c = UPGRADE_CHOICE.instantiate()
+				options.add_child(c)
+				c.name_label.text = Mutation.names[mut]
+				c.texture_rect.texture = Mutation.textures[mut]
+				c.splay_texture_rect.hide()
+				c.description.text = Mutation.descriptions[mut]
+				c.clicked.connect(_pick_mutation.bind(mut))
+		Enums.UPGRADE_REASON.ENEMY:
+			label.text = "Choose An Item!"
+			for i in 2:
+				var item: StuffDie = load(ITEMS.pick_random())
+				var c = UPGRADE_CHOICE.instantiate()
+				options.add_child(c)
+				c.name_label.text = item.name
+				c.texture_rect.texture = item.item_image
+				c.description.hide()
+				c.die.die = item
+				c.clicked.connect(_pick_item.bind(item))
+		Enums.UPGRADE_REASON.ELITE:
+			label.text = "Choose An Item!"
+			for i in 3:
+				var item: StuffDie = load(ITEMS.pick_random())
+				var c = UPGRADE_CHOICE.instantiate()
+				options.add_child(c)
+				c.name_label.text = item.name
+				c.texture_rect.texture = item.item_image
+				c.description.hide()
+				c.die.die = item
+				c.clicked.connect(_pick_item.bind(item))
 
-func _on_color_rect_gui_input(event: InputEvent) -> void:
-	if event.is_action("ui_accept"):
-		SceneGirl.change_scene("res://scenes/navigation/navigation.tscn")
+func _pick_item(item: StuffDie) -> void:
+	Globals.player_stats.equipment.append(item)
+	SceneGirl.pop_scene()
 
+func _pick_mutation(mut: Mutation.KIND) -> void:
+	var m = Mutation.new()
+	m.kind = mut
+	Globals.player_stats.mutations.append(m)
+	SceneGirl.pop_scene()
 
-func _on_color_rect_2_gui_input(event: InputEvent) -> void:
-	if event.is_action("ui_accept"):
-		SceneGirl.change_scene("res://scenes/navigation/navigation.tscn")
-
-
-func _on_color_rect_3_gui_input(event: InputEvent) -> void:
-	if event.is_action("ui_accept"):
-		SceneGirl.change_scene("res://scenes/navigation/navigation.tscn")
-
-
-func _on_button_pressed() -> void:
-	SceneGirl.change_scene("res://scenes/navigation/navigation.tscn")
-
-
-func _on_color_rect_focus_entered() -> void:
-	card1.color = Color("646464")
-
-
-func _on_color_rect_focus_exited() -> void:
-	card1.color = Color("646464e4")
-
-
-func _on_color_rect_2_focus_entered() -> void:
-	card2.color = Color("646464")
-
-
-func _on_color_rect_2_focus_exited() -> void:
-	card2.color = Color("646464e4")
-
-
-func _on_color_rect_3_focus_entered() -> void:
-	card3.color = Color("646464")
-
-
-func _on_color_rect_3_focus_exited() -> void:
-	card3.color = Color("646464e4")
+func _on_skip_button_pressed() -> void:
+	SceneGirl.pop_scene()

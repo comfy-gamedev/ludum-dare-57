@@ -46,6 +46,18 @@ func _enter_tree() -> void:
 	if not is_node_ready():
 		return
 	match Globals.player_nav_event:
+		"battle_won":
+			var dest = tilemap.get_cell_atlas_coords(current_node)
+			match dest.x:
+				Enums.LOCATION_TYPES.ENEMY:
+					SceneGirl.push_scene.call_deferred(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+						s.reason = Enums.UPGRADE_REASON.ENEMY)
+				Enums.LOCATION_TYPES.ELITE:
+					SceneGirl.push_scene.call_deferred(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+						s.reason = Enums.UPGRADE_REASON.ELITE)
+				Enums.LOCATION_TYPES.BOSS:
+					SceneGirl.push_scene.call_deferred(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+						s.reason = Enums.UPGRADE_REASON.BOSS)
 		"battle_lost":
 			SceneGirl.change_scene.call_deferred("res://scenes/you_died_lol/u_died.tscn")
 		"forward":
@@ -53,6 +65,9 @@ func _enter_tree() -> void:
 		"back":
 			back_two()
 	Globals.player_nav_event = ""
+	
+	if find_next_nodes(current_node).size() == 0:
+		new_act()
 
 func _reconcile() -> void:
 	var next_nodes = find_next_nodes(current_node)
@@ -122,6 +137,17 @@ func forward_two() -> void:
 	
 	_reconcile()
 
+func new_act() -> void:
+	Globals.act += 1
+	if Globals.act == 3:
+		SceneGirl.change_scene("res://scenes/you_win/u_win.tscn")
+	else:
+		for i in tilemap.get_used_cells_by_id(1):
+			if tilemap.get_cell_atlas_coords(i).x < 6:
+				tilemap.set_cell(i, 1, Vector2i(0, randi_range(0, 5)))
+		visited_nodes = []
+		_ready()
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton && event.is_pressed():
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
@@ -150,3 +176,9 @@ func _unhandled_input(event: InputEvent) -> void:
 							battle.battle_state.enemy = load(bosses.pick_random()))
 					Enums.LOCATION_TYPES.EVENT:
 						SceneGirl.push_scene(EVENT, func(x):)
+					Enums.LOCATION_TYPES.TREASURE:
+						SceneGirl.push_scene(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+							s.reason = Enums.UPGRADE_REASON.TREASURE)
+					Enums.LOCATION_TYPES.MUTATION:
+						SceneGirl.push_scene(preload("res://scenes/upgrade/upgrade.tscn"), func (s):
+							s.reason = Enums.UPGRADE_REASON.MUTATION)

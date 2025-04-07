@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://yoqhaep0l47m"]
 
 [ext_resource type="Script" uid="uid://eorxiw6duf7f" path="res://scenes/you_died_lol/u_died.gd" id="1_jxanu"]
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="2_4x1xr"]
+[ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_jxanu"]
 [ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_8682d"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_vhsfv"]
 
@@ -28,9 +28,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -21.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_4x1xr")
+texture = ExtResource("2_jxanu")
+stretch_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = ExtResource("3_8682d")
@@ -138,10 +141,10 @@ Hahahahahahahahaha!
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 394.0
-offset_top = 470.0
-offset_right = 604.0
-offset_bottom = 525.0
+offset_left = 397.0
+offset_top = 478.0
+offset_right = 607.0
+offset_bottom = 533.0
 text = "Play Again?"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
@@ -156,5 +159,6 @@ theme_override_font_sizes/bold_italics_font_size = 1
 theme_override_font_sizes/normal_font_size = 58
 bbcode_enabled = true
 text = "[wave]YOU... ARE... DEAD!?"
+scroll_active = false
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

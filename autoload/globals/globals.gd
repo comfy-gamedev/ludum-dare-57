@@ -20,6 +20,8 @@ var player_stats: PlayerStats = null:
 
 var player_nav_event:String = ""
 
+var act = 0
+
 ## Reset all variables to their default state.
 func reset():
 	for prop_name in _defaults:
