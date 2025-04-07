@@ -33,9 +33,7 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [sub_resource type="Resource" id="Resource_a8gv7"]
 script = ExtResource("1_4l657")
-pips = Dictionary[int, int]({
-3: 1
-})
+pips = Dictionary[int, int]({})
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
@@ -49,7 +47,7 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [resource]
 script = ExtResource("3_tevnd")
-name = "Block"
+name = "Sledgehammer"
 item_image = ExtResource("2_tevnd")
 faces = Array[ExtResource("1_4l657")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
 count = 4.0
