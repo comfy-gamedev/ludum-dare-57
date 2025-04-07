@@ -1,0 +1,68 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0dw3vv15cfob"]
+
+[ext_resource type="Shader" uid="uid://dgydncsiucj6g" path="res://assets/materials/water_shader.gdshader" id="1_biivm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uuxf3"]
+shader = ExtResource("1_biivm")
+shader_parameter/R = Vector2(0.8, 0.6)
+shader_parameter/scale = 0.5
+shader_parameter/speed = 0.5
+shader_parameter/moveSpeed = 0.1
+shader_parameter/direction = Vector3(0.5, 1, 0)
+shader_parameter/distortion = 0.5
+shader_parameter/layers = 2.0
+shader_parameter/shades = 3.0
+shader_parameter/steps = 6
+shader_parameter/tint = Vector3(0.4, 1, 0.5)
+
+[node name="Event" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_uuxf3")
+offset_right = 960.0
+offset_bottom = 540.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_top = 20.0
+offset_right = 960.0
+offset_bottom = 540.0
+theme_override_constants/separation = 20
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(800, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.772247, 0.772247, 0.772247, 1)
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/ColorRect"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 275.0
+offset_bottom = 275.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="VBoxContainer/ColorRect"]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 0
+offset_left = 300.0
+offset_top = 25.0
+offset_right = 340.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 35
+text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Better play it safe and jam the mechanism with your ___________. (lose 1 item)"
+autowrap_mode = 2
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Options 2"
+
+[node name="Button3" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Skip"
