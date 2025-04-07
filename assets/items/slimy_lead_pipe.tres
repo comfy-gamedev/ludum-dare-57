@@ -36,6 +36,6 @@ script = ExtResource("3_tqqv8")
 name = "Slimey Lead Pipe"
 item_image = ExtResource("2_tqqv8")
 faces = Array[ExtResource("1_t2gs2")]([null, SubResource("Resource_hff4x"), null, SubResource("Resource_alx84"), null, SubResource("Resource_n40ch")])
-count = 0
+count = 0.0
 roll_effects = Array[ExtResource("2_c7u7s")]([])
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

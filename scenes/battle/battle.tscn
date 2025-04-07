@@ -1,20 +1,23 @@
-[gd_scene load_steps=13 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=15 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
-[ext_resource type="Texture2D" uid="uid://efbeduxef51k" path="res://assets/textures/frame1.png" id="2_h0kxc"]
+[ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
 [ext_resource type="Texture2D" uid="uid://34eii73tw5th" path="res://assets/textures/bg1.png" id="3_fh7rg"]
 [ext_resource type="Texture2D" uid="uid://dcl1k77dypywc" path="res://assets/textures/rat.png" id="4_pll4o"]
 [ext_resource type="Texture2D" uid="uid://emwmyn8543" path="res://assets/textures/reroll.png" id="5_fh7rg"]
 [ext_resource type="Texture2D" uid="uid://bkrd5le3mc5w0" path="res://assets/textures/Slyme2.png" id="5_pll4o"]
 [ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="6_pll4o"]
 [ext_resource type="Texture2D" uid="uid://xuty4hsyvoak" path="res://assets/textures/heart.png" id="8_py4tk"]
+[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="9_oiw7q"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_py4tk"]
-texture = ExtResource("2_h0kxc")
+texture = ExtResource("2_agsc7")
 texture_margin_left = 16.0
 texture_margin_top = 16.0
 texture_margin_right = 16.0
 texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_py4tk"]
 font = ExtResource("6_pll4o")
@@ -27,6 +30,15 @@ font_size = 19
 [sub_resource type="LabelSettings" id="LabelSettings_oiw7q"]
 font = ExtResource("6_pll4o")
 font_size = 19
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fisqk"]
+texture = ExtResource("2_agsc7")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_0yh6x")
@@ -136,5 +148,23 @@ offset_top = 242.0
 offset_right = 100.0
 offset_bottom = 522.0
 columns = 2
+
+[node name="ItemsGridContainer" type="GridContainer" parent="."]
+offset_left = 18.0
+offset_top = 27.0
+offset_right = 100.0
+offset_bottom = 242.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -4
+offset_right = 959.0
+offset_bottom = 540.0
+texture = ExtResource("9_oiw7q")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 960.0
+offset_bottom = 585.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fisqk")
 
 [connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]
