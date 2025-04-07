@@ -1,13 +1,13 @@
 class_name Mutation
-#extends Resource
-@export var id  : MUTATIONS
-@export var name : String:
-	get:
-		return names[id]
-@export var mutation_image: Texture2D
-#@export var trigger : TRIGGERS
+extends RefCounted
 
-enum MUTATIONS {
+@export var kind: KIND
+@export var name: String:
+	get:
+		return names[kind]
+@export var mutation_image: Texture2D
+
+enum KIND {
 	ENLARGED_EYES,
 	SPIKY,
 	LEATHERY_SKIN,
@@ -21,55 +21,46 @@ enum MUTATIONS {
 	HOLLOW_TEETH
 }
 
-enum TRIGGERS {
-	TAKE_DAMAGE,
-	DEAL_DAMAGE,
-	ROLL_ATTACK,
-	ROLL_BLOCK,
-	ROLL_DIE,
-	ROLL_BLANK,
-	ROLL_UNDER,
-	ROLL_OVER
-}
-
 const names = {
-	MUTATIONS.ENLARGED_EYES: "Enlarged Eyes",
-	MUTATIONS.SPIKY: "Spikey",
-	MUTATIONS.LEATHERY_SKIN: "Leathery Skin",
-	MUTATIONS.HARDENED_SCALES: "Hardened Scales",
-	MUTATIONS.HEIGHTENED_INSTINCTS: "Hightened Instincts",
-	MUTATIONS.BUSTY: "Busty",
-	MUTATIONS.SLIMEY: "Slimey",
-	MUTATIONS.SHELLIFIED: "Shellified",
-	MUTATIONS.FUZZY: "Fuzzy",
-	MUTATIONS.EXTRA_TOES: "Extra Toes",
-	MUTATIONS.HOLLOW_TEETH: "Hollow Teeth",
+	KIND.ENLARGED_EYES: "Enlarged Eyes",
+	KIND.SPIKY: "Spikey",
+	KIND.LEATHERY_SKIN: "Leathery Skin",
+	KIND.HARDENED_SCALES: "Hardened Scales",
+	KIND.HEIGHTENED_INSTINCTS: "Hightened Instincts",
+	KIND.BUSTY: "Busty",
+	KIND.SLIMEY: "Slimey",
+	KIND.SHELLIFIED: "Shellified",
+	KIND.FUZZY: "Fuzzy",
+	KIND.EXTRA_TOES: "Extra Toes",
+	KIND.HOLLOW_TEETH: "Hollow Teeth",
 }
 
-func triggered(trigger_event: TRIGGERS, battle_state: BattleState):
-	#if trigger_event != trigger:
-		#return
-	
-	match id:
-		MUTATIONS.ENLARGED_EYES:
+func triggered(trigger_event: Enums.TRIGGERS, data: Dictionary, battle_state: BattleState):
+	print("triggered ", self)
+	match kind:
+		KIND.ENLARGED_EYES:
+			match trigger_event:
+				Enums.TRIGGERS.COMBAT_START:
+					print("Applying mutation ENLARGED_EYES")
+					for d in battle_state.deck:
+						d.add_persistent_buff(Enums.PIP_TYPE.DEFEND, 1)
+		KIND.SPIKY:
 			pass
-		MUTATIONS.SPIKY:
+		KIND.LEATHERY_SKIN:
 			pass
-		MUTATIONS.LEATHERY_SKIN:
+		KIND.HARDENED_SCALES:
 			pass
-		MUTATIONS.HARDENED_SCALES:
+		KIND.HEIGHTENED_INSTINCTS:
 			pass
-		MUTATIONS.HEIGHTENED_INSTINCTS:
+		KIND.BUSTY:
 			pass
-		MUTATIONS.BUSTY:
+		KIND.SLIMEY:
 			pass
-		MUTATIONS.SLIMEY:
+		KIND.SHELLIFIED:
 			pass
-		MUTATIONS.SHELLIFIED:
+		KIND.FUZZY:
 			pass
-		MUTATIONS.FUZZY:
+		KIND.EXTRA_TOES:
 			pass
-		MUTATIONS.EXTRA_TOES:
-			pass
-		MUTATIONS.HOLLOW_TEETH:
+		KIND.HOLLOW_TEETH:
 			pass

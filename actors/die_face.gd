@@ -12,10 +12,16 @@ const POSITIONS = [
 	Vector3(-0.25, -0.25, 0.0),
 ]
 
-@export var face: StuffDieFace:
+var face: StuffDieFace:
 	set(v):
 		if face == v: return
 		face = v
+		_refresh()
+
+var pips: Dictionary[Enums.PIP_TYPE, int]:
+	set(v):
+		if pips == v: return
+		pips = v
 		_refresh()
 
 var pip_meshes: Array[Node3D]
@@ -34,9 +40,9 @@ func _refresh():
 	if face == null:
 		return
 	var pip_list = []
-	for p in face.pips:
-		if face.pips[p] > 0:
-			pip_list.push_back({ type = p, count = face.pips[p] })
+	for p in pips:
+		if pips[p] > 0:
+			pip_list.push_back({ type = p, count = pips[p] })
 	pip_list.sort_custom(func (a, b): return a.count > b.count)
 	for i in pip_list.size():
 		var p = pip_list[i]

@@ -24,12 +24,13 @@ func _ready() -> void:
 	Globals.player_stats.changed.connect(_on_player_stats_changed)
 	for eq in Globals.player_stats.equipment:
 		for i in eq.count:
-			battle_state.deck.append(eq.duplicate())
+			battle_state.deck.append(BattleState.LayeredDie.new(eq))
 	if not battle_state.enemy:
 		battle_state.enemy = load("res://assets/enemies/rat.tres")
 	enemy_sprite.texture = battle_state.enemy.sprite
 	battle_state.enemy_hp = battle_state.enemy.max_hp
-	_turn_start()
+	_trigger_event(Enums.TRIGGERS.COMBAT_START)
+	start_turn()
 
 func _on_player_stats_changed() -> void:
 	player_heart_label.text = str(Globals.player_stats.health)
@@ -37,25 +38,34 @@ func _on_player_stats_changed() -> void:
 func _on_battle_state_changed() -> void:
 	enemy_heart_label.text = str(battle_state.enemy_hp)
 
-func _turn_start() -> void:
-	battle_state.mana = Globals.player_stats.initial_mana
-	battle_state.rerolls = Globals.player_stats.initial_rerolls
-	
-	for i in 5:
-		if not draw_from_deck():
-			break
+func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
+	print("_trigger_event(%s, %s)" % [Enums.TRIGGERS.find_key(type), data])
+	for x in Globals.player_stats.mutations:
+		x.triggered(type, data, battle_state)
 
 func shuffle_discard() -> void:
 	print("Shuffling discard back into deck.")
 	battle_state.deck = battle_state.discard
 	battle_state.discard = []
 
+func start_turn() -> void:
+	print("Starting turn.")
+	
+	battle_state.mana = Globals.player_stats.initial_mana
+	battle_state.rerolls = Globals.player_stats.initial_rerolls
+	
+	for i in 5:
+		if not draw_from_deck():
+			break
+	
+	_trigger_event(Enums.TRIGGERS.TURN_START)
+
 func draw_from_deck() -> bool:
 	if battle_state.deck.is_empty():
 		shuffle_discard()
 	if battle_state.deck.is_empty():
 		return false
-	var die: StuffDie = battle_state.deck.pop_back()
+	var die: BattleState.LayeredDie = battle_state.deck.pop_back()
 	print("Drawing die ", die, " from deck.")
 	battle_state.hand.append(die)
 	var sprite = DIE_SPRITE.instantiate()
@@ -67,7 +77,7 @@ func draw_from_deck() -> bool:
 	_adjust_sprite_positions()
 	return true
 
-func discard_die(die: StuffDie) -> void:
+func discard_die(die: BattleState.LayeredDie) -> void:
 	var i = battle_state.roll_results.find_custom(func (x): return x.die == die)
 	if i != -1:
 		print("Discarding die ", die, " from roll_results.")
@@ -82,7 +92,9 @@ func discard_die(die: StuffDie) -> void:
 		print("Discarding die ", die, " NOT FOUND.")
 	battle_state.discard.append(die)
 	
-	var sprite: DieSprite = die._battle_sprite
+	die.clear_temporary_pips()
+	
+	var sprite: DieSprite = die.battle_sprite
 	if not is_instance_valid(sprite):
 		return
 	sprite.reparent(self)
@@ -97,7 +109,7 @@ func discard_all(dice: Array) -> void:
 		discard_die(d)
 
 func _on_die_clicked(sprite: DieSprite) -> void:
-	var die: StuffDie = sprite.die
+	var die: BattleState.LayeredDie = sprite.die
 	if battle_state.mana > 0 and die in battle_state.hand:
 		var roll = BattleState.RollResult.new(die, randi_range(0, 5))
 		battle_state.roll_results.append(roll)
@@ -111,6 +123,7 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 			sprite.die_rotation = orig.slerp(orientation, x)
 		, 0.0, 1.0, 0.2)
 		_adjust_sprite_positions()
+		_trigger_event(Enums.TRIGGERS.FIRST_ROLL)
 	elif battle_state.rerolls > 0:
 		var f = battle_state.roll_results.find_custom(func (x): return x.die == die)
 		if f != -1:
@@ -122,6 +135,8 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 			create_tween().tween_method(func (x):
 				sprite.die_rotation = orig.slerp(orientation, x)
 			, 0.0, 1.0, 0.2)
+			battle_state.rerolls -= 1
+			_trigger_event(Enums.TRIGGERS.REROLL)
 
 func _adjust_sprite_positions() -> void:
 	for i in hand.get_child_count():
@@ -136,19 +151,19 @@ func _adjust_sprite_positions() -> void:
 			.tween_property(rolled.get_child(i), "position", p, 0.2)
 
 func _on_go_button_pressed() -> void:
-	for i in Globals.player_stats.mutations:
-		i.triggered(Mutation.TRIGGERS.ROLL_DIE, battle_state)
+	_trigger_event(Enums.TRIGGERS.GO)
 	for i in battle_state.roll_results.size():
-		var r = battle_state.roll_results[i]
-		var face = r.die.faces[r.face]
-		for type in face.pips:
+		var r: BattleState.RollResult = battle_state.roll_results[i]
+		var pips = r.die.get_total_pips(r.face)
+		for type in pips:
 			match type:
 				Enums.PIP_TYPE.ATTACK:
-					for j in Globals.player_stats.mutations:
-						j.triggered(Mutation.TRIGGERS.DEAL_DAMAGE, battle_state)
-					battle_state.enemy_hp -= face.pips[type]
+					var trigger = { damage = pips[type] }
+					_trigger_event(Enums.TRIGGERS.PRE_DEAL_DAMAGE, trigger)
+					battle_state.enemy_hp -= trigger.damage
+					_trigger_event(Enums.TRIGGERS.POST_DEAL_DAMAGE, trigger)
 				Enums.PIP_TYPE.DEFEND:
-					battle_state.player_shield += face.pips[type]
+					battle_state.player_shield += pips[type]
 	var enemy_action = battle_state.enemy.actions[battle_state.enemy_action_index]
 	match enemy_action.action:
 		Enums.ENEMY_ACTION.PASS:
@@ -156,9 +171,11 @@ func _on_go_button_pressed() -> void:
 		Enums.ENEMY_ACTION.ATTACK:
 			var dmg = enemy_action.action_param - battle_state.player_shield
 			if dmg > 0:
-				for i in Globals.player_stats.mutations:
-					i.triggered(Mutation.TRIGGERS.TAKE_DAMAGE, battle_state)
-				Globals.player_stats.health -= dmg
+				var trigger = { damage = dmg }
+				_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
+				Globals.player_stats.health -= trigger.damage
+				_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
+	battle_state.player_shield = 0
 	match battle_state.enemy.action_mode:
 		Enums.ENEMY_ACTION_MODE.LOOP:
 			battle_state.enemy_action_index += 1
@@ -175,14 +192,15 @@ func _on_go_button_pressed() -> void:
 					roll = randf_range(t, 1.0) ** (1.0 / battle_state.enemy.actions[i].random_weight)
 					battle_state.enemy_action_index = i
 					jump = log(randf()) / log(roll)
+	
 	discard_all(battle_state.roll_results.map(func (x): return x.die))
 	discard_all(battle_state.hand)
+	
 	if battle_state.enemy_hp <= 0:
 		SceneGirl.pop_scene()
 		return
 	if Globals.player_stats.health <= 0:
 		SceneGirl.pop_scene()
 		return
-	for i in 5:
-		if not draw_from_deck():
-			break
+	
+	start_turn()

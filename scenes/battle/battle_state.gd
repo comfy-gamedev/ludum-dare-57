@@ -3,19 +3,19 @@ extends RefCounted
 
 signal changed()
 
-var deck: Array[StuffDie]:
+var deck: Array[LayeredDie]:
 	set(v):
 		if deck == v: return
 		deck = v
 		changed.emit()
 
-var hand: Array[StuffDie]:
+var hand: Array[LayeredDie]:
 	set(v):
 		if hand == v: return
 		hand = v
 		changed.emit()
 
-var discard: Array[StuffDie]:
+var discard: Array[LayeredDie]:
 	set(v):
 		if discard == v: return
 		discard = v
@@ -68,9 +68,58 @@ var player_shield: int:
 
 
 class RollResult:
-	var die: StuffDie
+	var die: LayeredDie
 	var face: int
 	
-	func _init(p_die: StuffDie, p_face: int) -> void:
+	func _init(p_die: LayeredDie, p_face: int) -> void:
 		die = p_die
 		face = p_face
+
+
+class LayeredDie:
+	var source_die: StuffDie
+	var faces: Array[LayeredDieFace]
+	
+	var persistent_buff_pips: Dictionary[Enums.PIP_TYPE, int]
+	var temporary_buff_pips: Dictionary[Enums.PIP_TYPE, int]
+	
+	var battle_sprite: DieSprite
+	
+	func _init(p_die: StuffDie) -> void:
+		source_die = p_die
+		for i in 6:
+			faces.append(LayeredDieFace.new())
+	
+	func get_total_pips(face: int) -> Dictionary[Enums.PIP_TYPE, int]:
+		var result: Dictionary[Enums.PIP_TYPE, int] = {}
+		for type in source_die.faces[face].pips:
+			result[type] = result.get(type, 0) + source_die.faces[face].pips[type]
+		for type in faces[face].persistent_pips:
+			result[type] = result.get(type, 0) + faces[face].persistent_pips
+		for type in faces[face].temporary_pips:
+			result[type] = result.get(type, 0) + faces[face].temporary_pips
+		for type in result:
+			result[type] += persistent_buff_pips.get(type, 0)
+			result[type] += temporary_buff_pips.get(type, 0)
+		return result
+	
+	func add_persistent_pip(face: int, type: Enums.PIP_TYPE, count: int) -> void:
+		faces[face].persistent_pips[type] = faces[face].persistent_pips.get(type, 0) + count
+	
+	func add_persistent_buff(type: Enums.PIP_TYPE, count: int) -> void:
+		persistent_buff_pips[type] = persistent_buff_pips.get(type, 0) + count
+	
+	func add_temporary_pip(face: int, type: Enums.PIP_TYPE, count: int) -> void:
+		faces[face].temporary_pips[type] = faces[face].temporary_pips.get(type, 0) + count
+	
+	func add_temporary_buff(type: Enums.PIP_TYPE, count: int) -> void:
+		temporary_buff_pips[type] = temporary_buff_pips.get(type, 0) + count
+	
+	func clear_temporary_pips() -> void:
+		temporary_buff_pips.clear()
+		for f in faces:
+			f.temporary_pips.clear()
+
+class LayeredDieFace:
+	var persistent_pips: Dictionary[Enums.PIP_TYPE, int]
+	var temporary_pips: Dictionary[Enums.PIP_TYPE, int]

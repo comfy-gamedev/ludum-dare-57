@@ -7,8 +7,6 @@ extends Resource
 @export var count: int
 @export var roll_effects: Array[RollEffect]
 
-var _battle_sprite: DieSprite
-
 func _init(
 	p_name: String = "",
 	p_item_image: Texture2D = null,
@@ -19,6 +17,9 @@ func _init(
 	item_image = p_item_image
 	faces = p_faces
 	roll_effects = p_roll_effects
+
+func get_total_pips(face: int) -> Dictionary[Enums.PIP_TYPE, int]:
+	return faces[face].pips
 
 func apply_roll_effects(battle_state):
 	for effect in roll_effects:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b0dxaakc5f5v5"]
+[gd_scene load_steps=16 format=3 uid="uid://b0dxaakc5f5v5"]
 
 [ext_resource type="Script" uid="uid://551loo5ebbr4" path="res://scenes/battle/battle_test.gd" id="1_7y2bw"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="2_1psvw"]
@@ -62,22 +62,6 @@ shader_parameter/inverse_scale = 0.938
 [sub_resource type="ViewportTexture" id="ViewportTexture_5ui55"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="Resource" id="Resource_a5o2n"]
-script = ExtResource("3_i1e0v")
-pips = Dictionary[int, int]({
-0: 12
-})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_wc0ik"]
-script = ExtResource("2_1psvw")
-name = ""
-faces = Array[ExtResource("3_i1e0v")]([SubResource("Resource_a5o2n")])
-count = 0
-roll_effects = Array[ExtResource("4_5ui55")]([])
-metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
-
 [node name="BattleTest" type="Node2D"]
 script = ExtResource("1_7y2bw")
 test_equipment = Array[ExtResource("2_1psvw")]([SubResource("Resource_1ditj")])
@@ -86,4 +70,3 @@ test_equipment = Array[ExtResource("2_1psvw")]([SubResource("Resource_1ditj")])
 material = SubResource("ShaderMaterial_sbmo0")
 position = Vector2(125, 133)
 texture = SubResource("ViewportTexture_5ui55")
-die = SubResource("Resource_wc0ik")
