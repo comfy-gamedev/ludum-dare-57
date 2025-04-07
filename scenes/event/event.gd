@@ -43,6 +43,7 @@ func _ready() -> void:
 		EVENTS.CLEAR_WATER:
 			event_text.text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 			option1.text = "Take off your equipment before jumping in for a swim (lose 1 item)"
 			option2.text = "Jump in fully clothed. Don't want to risk losing any of your precious stuff! (lose 1 mutation)"
 			event_pic.texture = preload("res://assets/textures/event_icons/clear_water_pool.png")
@@ -54,6 +55,12 @@ func _ready() -> void:
 			option2.text = "Just jump in. Don't want to lose your precious stuff! (lose 1 mutation)"
 			event_pic.texture = preload("res://assets/textures/event_icons/clear_water_pool.png")
 		EVENTS.STRANGE_BREW:
+=======
+			option1.text = "Take off your equipment before jumping in. (lose 1 item/relic)"
+			option2.text = "Just jump in. Don't want to lose your precious stuff! (lose 1 mutation)"
+			event_pic.texture = preload("res://assets/textures/event_icons/clear_water_pool.png")
+		EVENTS.STRANGE_BREW:
+>>>>>>> Stashed changes
 			event_text.text = "You see a thermos sitting here. It seems to be filled with a thick, warm liquid. Could be delicious? (Small Heal)"
 			option1.text = "Take the thermos with you and drink as you keep walking (lose 1 item/relic)"
 >>>>>>> Stashed changes
@@ -81,10 +88,13 @@ func _ready() -> void:
 			event_pic.texture = preload("res://assets/textures/event_icons/rat_ambush.png")
 		EVENTS.WORMS:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 			event_text.text = "The water here is almost knee-deep, which is why you didn't notice a swarm of purplish worm creatures until just now, as they start biting you."
 			option1.text = "Back away and cut open the wound and try to remove the poison (lose HP)"
 			option2.text = "Fend off the creatures with your {} (lose 1 item)".format([selected_item.name if selected_item != null else "nothing"], "{}")
 =======
+=======
+>>>>>>> Stashed changes
 			event_text.text = "The water here is almost knee-deep, which is why you didn't notice that swarm of purplish worm creatures until just now, as they start biting you."
 			option1.text = "Back away and cut open the wound to try to remove the poison (lose HP)"
 			option2.text = "Fend off the creatures with your {ItemName} (lose 1 item)"
@@ -109,7 +119,11 @@ func _ready() -> void:
 			event_text.text = "The entire sewer tunnel is blocked here by some large spinning blades. Perhaps a fan or turbine of some sort?"
 			option1.text = "The blades are spinning slow enough. You could try to jump through, if you time it just right. (lose hp)"
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 			option2.text = "Better play it safe and jam the mechanism with your {}. You didn't need that thing anyway, right? (lose 1 item)".format([selected_item.name if selected_item != null else "nothing"], "{}")
+=======
+			option2.text = "Jam the mechanism with your {ItemName}. You didn't need that thing anyway, right? (lose 1 item)"
+>>>>>>> Stashed changes
 =======
 			option2.text = "Jam the mechanism with your {ItemName}. You didn't need that thing anyway, right? (lose 1 item)"
 >>>>>>> Stashed changes
@@ -147,7 +161,11 @@ func _reveal_consequences() -> void:
 		EVENTS.LOG_PEEK:
 			if choice == 1:
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 				event_text.text = "Oops! there was a cetipede uder there. It doesn't seem happy to have a visitor and gives you a painful bite. At least you found a {} ".format([gained_item], "{}")
+=======
+				event_text.text = "Oops! there was a centipede under there. It doesn't seem happy to have a visitor and gives you a painful bite. At least you found a {ItemName} "
+>>>>>>> Stashed changes
 =======
 				event_text.text = "Oops! there was a centipede under there. It doesn't seem happy to have a visitor and gives you a painful bite. At least you found a {ItemName} "
 >>>>>>> Stashed changes
