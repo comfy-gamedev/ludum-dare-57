@@ -58,6 +58,19 @@ const textures = {
 	KIND.HOLLOW_TEETH: null,
 }
 
+const descriptions = {
+	KIND.ENLARGED_EYES: "Enhances shield faces.",
+	KIND.SPIKY: "Weakens attacks, but shields reflect damage.",
+	KIND.HARDENED_SCALES: "Replaces blank faces with a shield.",
+	KIND.HEIGHTENED_INSTINCTS: "Doubles the damage of the highest attack face.",
+	KIND.BUSTY: "Adds slime to blank faces.",
+	KIND.SLIMEY: "Adds slime to all attacks.",
+	KIND.SHELLIFIED: "Doubles the shields of the highest shield face.",
+	KIND.FUZZY: "Adds poison to all shield faces.",
+	KIND.EXTRA_TOES: "Adds a reroll to empty faces.",
+	KIND.HOLLOW_TEETH: "Adds heal to all attacks.",
+}
+
 func get_texture() -> Texture2D:
 	var t = textures[kind]
 	if not t:
