@@ -37,6 +37,7 @@ func _ready() -> void:
 	for eq in Globals.player_stats.equipment:
 		for i in eq.count:
 			battle_state.deck.append(BattleState.LayeredDie.new(eq))
+	battle_state.deck.shuffle()
 	if not battle_state.enemy:
 		battle_state.enemy = load("res://assets/enemies/rat.tres")
 	enemy_sprite.texture = battle_state.enemy.sprite
