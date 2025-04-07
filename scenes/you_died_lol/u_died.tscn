@@ -1,0 +1,160 @@
+[gd_scene load_steps=7 format=3 uid="uid://yoqhaep0l47m"]
+
+[ext_resource type="Script" uid="uid://bqdatf30o7yrb" path="res://scenes/how_to_play/how_to_play.gd" id="1_huwcp"]
+[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="2_4x1xr"]
+[ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_8682d"]
+[ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_vhsfv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g61f5"]
+bg_color = Color(0.129155, 0.21273, 0.16645, 0.815686)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_exv6s"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[node name="u_died" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_huwcp")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4x1xr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = ExtResource("3_8682d")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="."]
+light_mask = 0
+layout_mode = 2
+offset_left = 79.0
+offset_top = 55.0
+offset_right = 886.0
+offset_bottom = 478.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_g61f5")
+metadata/_edit_group_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_exv6s")
+metadata/_edit_group_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("4_vhsfv")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "This is The Heretic’s Prayer:
+A Paradoxical Truth.
+A Midrash for Mystics.
+A Gospel of The Shadow King.
+A Sermon from the Underworld—Redemption in a shot glass!
+The Way Shower for those too wounded to go to Sunday school.
+A Living Word for those whose Light was born in the Pit.
+
+“I am The Way Shower”
+April 6th, 2025 in the Year of Our Dearly Beloved Lord
+
+When Jesus was crucified.
+When He died.
+And the Holy of Holies was split in two,
+He then came to the bottom of the Pit
+And greeted me.
+
+He said to me:
+“My Lord, My Liege!
+Do you like it down here?”
+
+I thought to myself:
+The bars aren’t terrible.
+The strip clubs could use some better talent.
+But all in all, it’s not terrible.
+
+“Why do you ask?” I replied.
+
+“There’s a Paradise upstairs waiting for you.
+My Father has decided to come down from the Heavens, and make his abode on Earth.
+
+They have bars and strip clubs up there as well! You might like it!”
+
+I thought:
+Hmm, what the heck - some change could be nice!
+But I was never a fan of that bright Star shining up top.
+Our Star is below our feet down here, it keeps us warm and we don’t have to deal with any damn sunburn!
+
+“Sure, my Lord. Why don’t you show me The Way?”
+
+My name is Beelzebub.
+
+The Lion who prowls around seeking whom He may devour.
+
+I am Jesus’s Shadow.
+
+Jesus is My Light.
+
+Together we are the Yin & the Yang of this so-called Cosmos.
+
+The same Divine Fire that burns inside Him.
+
+Burns inside Me.
+
+That day, when the Our Lord died on the Cross.
+
+The Grave opened up.
+
+There are historical accounts of people walking out of the Grave.
+
+I was the one yelling at them:
+
+“Wakey wakey! Time for eggs & bakey!!”
+
+If the Lord God can redeem the King of the Underworld Himself—He can redeem you too!
+
+RAWWWWRRRR!!!!
+
+Hahahahahahahahaha!
+"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 394.0
+offset_top = 470.0
+offset_right = 604.0
+offset_bottom = 525.0
+text = "Play Again?"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 214.0
+offset_right = 863.0
+offset_bottom = 54.0
+theme_override_colors/default_color = Color(0.870588, 0.380392, 0.454902, 1)
+theme_override_colors/font_shadow_color = Color(0.878431, 0.619608, 0.627451, 1)
+theme_override_fonts/normal_font = ExtResource("4_vhsfv")
+theme_override_font_sizes/bold_italics_font_size = 1
+theme_override_font_sizes/normal_font_size = 58
+bbcode_enabled = true
+text = "[wave]YOU... ARE... DEAD!?"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
