@@ -1,61 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://3fnebg8beehh"]
+[gd_scene load_steps=3 format=3 uid="uid://3fnebg8beehh"]
 
 [ext_resource type="PackedScene" uid="uid://pteh7k3pyx6q" path="res://actors/die_face.tscn" id="1_e2lmd"]
 [ext_resource type="Script" uid="uid://dy1dnvjdyedtc" path="res://actors/die.gd" id="1_jhkij"]
-[ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="2_4j10v"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="3_jhjeu"]
-[ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="4_ijpyb"]
-
-[sub_resource type="Resource" id="Resource_4fouw"]
-script = ExtResource("2_4j10v")
-pips = Dictionary[int, int]({
-0: 12,
-3: 3
-})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_eny01"]
-script = ExtResource("2_4j10v")
-pips = Dictionary[int, int]({})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_a7q7n"]
-script = ExtResource("2_4j10v")
-pips = Dictionary[int, int]({})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_wh2lq"]
-script = ExtResource("2_4j10v")
-pips = Dictionary[int, int]({})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_a6ead"]
-script = ExtResource("2_4j10v")
-pips = Dictionary[int, int]({})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_2mdbk"]
-script = ExtResource("2_4j10v")
-pips = Dictionary[int, int]({})
-autolocking = false
-metadata/_custom_type_script = "uid://bpbftt3jpx20w"
-
-[sub_resource type="Resource" id="Resource_m8sjw"]
-script = ExtResource("4_ijpyb")
-name = ""
-faces = Array[ExtResource("2_4j10v")]([SubResource("Resource_4fouw"), SubResource("Resource_eny01"), SubResource("Resource_a7q7n"), SubResource("Resource_wh2lq"), SubResource("Resource_a6ead"), SubResource("Resource_2mdbk")])
-count = 0
-roll_effects = Array[ExtResource("3_jhjeu")]([])
-metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
 
 [node name="Die" type="Node3D"]
 script = ExtResource("1_jhkij")
-die = SubResource("Resource_m8sjw")
 
 [node name="DieFace0" parent="." instance=ExtResource("1_e2lmd")]
 

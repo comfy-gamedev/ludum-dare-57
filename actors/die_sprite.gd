@@ -10,16 +10,6 @@ enum AnimMode {
 	FLOATING,
 }
 
-@export var die: StuffDie:
-	set(v):
-		if die == v: return
-		if die:
-			die._battle_sprite = null
-		die = v
-		if die:
-			die._battle_sprite = self
-		_reconcile()
-
 @export var die_rotation: Quaternion = Quaternion.IDENTITY:
 	set(v):
 		if die_rotation == v: return
@@ -42,6 +32,16 @@ enum AnimMode {
 	set(v):
 		if outline_color == v: return
 		outline_color = v
+		_reconcile()
+
+var die: BattleState.LayeredDie:
+	set(v):
+		if die == v: return
+		if die:
+			die.battle_sprite = null
+		die = v
+		if die:
+			die.battle_sprite = self
 		_reconcile()
 
 var _time: float = 0.0

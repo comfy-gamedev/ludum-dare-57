@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var die: StuffDie:
+var die: Object:
 	set(v):
 		if die == v: return
 		die = v
@@ -25,9 +25,14 @@ func _reconcile():
 	if not is_inside_tree():
 		return
 	for i in 6:
-		if die == null or i >= die.faces.size():
+		if die == null:
+			die_faces[i].visible = false
+			continue
+		var underlying = die.source_die if die is BattleState.LayeredDie else die
+		if i >= underlying.faces.size():
 			die_faces[i].visible = false
 		else:
-			die_faces[i].face = die.faces[i]
+			die_faces[i].face = underlying.faces[i]
+			die_faces[i].pips = die.get_total_pips(i)
 			die_faces[i].visible = true
 	

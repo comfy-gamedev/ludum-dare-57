@@ -11,3 +11,6 @@ func _ready() -> void:
 	battle.battle_state.enemy = load("res://assets/enemies/rat.tres")
 	add_child(battle)
 	
+	var mut = Mutation.new()
+	mut.kind = Mutation.KIND.ENLARGED_EYES
+	Globals.player_stats.mutations.append(mut)
