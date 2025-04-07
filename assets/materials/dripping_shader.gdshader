@@ -24,10 +24,10 @@ void fragment()
     st.y *= -res.y/res.x;
     st *= 21.3;
 
-	float steps = step(0.0005, noise(st + TIME) * fract(st.y - 0.45));
-	float steps2 = step(0.001, noise(st + TIME) * fract(st.y - 0.45));
-	float steps3 = step(0.003, noise(st + TIME) * fract(st.y - 0.45));
-    float steps4 = step(0.01, noise(st + TIME) * fract(st.y - 0.45));
+	float steps = step(0.0005, noise(st + vec2(0, TIME)) * fract(st.y - 0.45));
+	float steps2 = step(0.001, noise(st + vec2(0, TIME)) * fract(st.y - 0.45));
+	float steps3 = step(0.003, noise(st + vec2(0, TIME)) * fract(st.y - 0.45));
+    float steps4 = step(0.01, noise(st + vec2(0, TIME)) * fract(st.y - 0.45));
 
     vec3 color;
     //if (steps == 0.0) {
