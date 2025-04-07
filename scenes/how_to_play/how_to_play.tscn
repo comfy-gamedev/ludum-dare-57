@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3 uid="uid://2s7ckdyp7cto"]
+
+[ext_resource type="Script" uid="uid://bqdatf30o7yrb" path="res://scenes/how_to_play/how_to_play.gd" id="1_ki7tk"]
+[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="2_qqbb8"]
+[ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_mnrnl"]
+[ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_mwq5a"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g61f5"]
+bg_color = Color(0.129155, 0.21273, 0.16645, 0.815686)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_exv6s"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+
+[node name="how_to_play" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ki7tk")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qqbb8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = ExtResource("3_mnrnl")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="."]
+light_mask = 0
+layout_mode = 2
+offset_left = 79.0
+offset_top = 40.0
+offset_right = 886.0
+offset_bottom = 496.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_g61f5")
+metadata/_edit_group_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_exv6s")
+metadata/_edit_group_ = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_fonts/normal_font = ExtResource("4_mwq5a")
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "Roll your dice to fight the enemies. Earn better dice by collecting items. Gain abilities by collecting mutations. As you delve ever deeper into the sewers, you will encounter many things:
+
+[img=42]res://assets/textures/tiles/enemy_atlas_texture.tres[/img]: Rooms with enemies, and some items to loot
+
+[img=42]res://assets/textures/tiles/elite_atlas_texture.tres[/img]: Harder enemies with treasure to boot
+
+[img=42]res://assets/textures/tiles/event_atlas_texture.tres[/img]: Something will happen, what could it be? Some good, some bad. It's a mystery!
+
+[img=42]res://assets/textures/tiles/barter_atlas_texture.tres[/img]: Friendly creatures with items to trade
+
+[img=42]res://assets/textures/tiles/mutation_atlas_texture.tres[/img]: Mutations are how sewer creatures are made
+
+[img=42]res://assets/textures/tiles/new_atlas_texture.tres[/img]: A cache of loot for you to take
+
+[img=42]res://assets/textures/tiles/boss_atlas_texture.tres[/img]: An angry monster, your bones to break!
+"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -16.0
+offset_right = 185.0
+offset_bottom = 39.0
+text = "Back to Menu"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

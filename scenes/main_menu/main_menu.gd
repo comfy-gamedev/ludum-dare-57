@@ -10,11 +10,11 @@ func _ready() -> void:
 
 
 func _on_start_game_button_pressed() -> void:
-	SceneGirl.change_scene("res://scenes/navigation/navigation.tscn")
+	SceneGirl.change_scene("res://scenes/intro_panel/intro_panel.tscn")
 
 
 func _on_how_to_play_button_pressed() -> void:
-	pass # Replace with function body.
+	SceneGirl.change_scene("res://scenes/how_to_play/how_to_play.tscn")
 
 func _on_options_button_pressed() -> void:
 	SceneGirl.change_scene("res://scenes/options/options.tscn")
