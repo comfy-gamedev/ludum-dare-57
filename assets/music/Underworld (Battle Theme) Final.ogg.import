@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bfporflmkdkje"
+path="res://.godot/imported/Underworld (Battle Theme) Final.ogg-c16b40d31eef2407e3d397c473ca7b62.oggvorbisstr"
+
+[deps]
+
+source_file="res://assets/music/Underworld (Battle Theme) Final.ogg"
+dest_files=["res://.godot/imported/Underworld (Battle Theme) Final.ogg-c16b40d31eef2407e3d397c473ca7b62.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -25,21 +25,29 @@ var choice := -1
 @onready var event_box := $VBoxContainer/EventBox
 @onready var event_pic := $VBoxContainer/EventBox/EventPic
 
+var selected_item : StuffDie
+var gained_item := "nothing"
+var selected_mutation : Mutation
+var gained_mutation := "nothing"
+
 func _ready() -> void:
 	event = randi_range(0, 11)
 	
 	if event in [EVENTS.RAT_GIRL, EVENTS.WORMS, EVENTS.SLIME, EVENTS.SPINNING_BLADES ]:
 		skip.visible = false
 	
+	selected_item = Globals.player_stats.equipment.pick_random() if Globals.player_stats.equipment.size() > 0 else null
+	selected_mutation = Globals.player_stats.mutations.pick_random() if Globals.player_stats.mutations.size() > 0 else null
+	
 	match event:
 		EVENTS.CLEAR_WATER:
 			event_text.text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
-			option1.text = "Take off your equipment before jumping in for a swim (lose 1 item/relic)"
+			option1.text = "Take off your equipment before jumping in for a swim (lose 1 item)"
 			option2.text = "Jump in fully clothed. Don't want to risk losing any of your precious stuff! (lose 1 mutation)"
 			event_pic.texture = preload("res://assets/textures/event_icons/clear_water_pool.png")
 		EVENTS.STRANGE_BREW:
 			event_text.text = "You see thermos sitting here. It seems to be filled with a thick, warm liquid. Could be delicious? (Small Heal)"
-			option1.text = "Take the thermos with you and drink as you keep walking (lose 1 item/relic)"
+			option1.text = "Take the thermos with you and drink as you keep walking (lose 1 item)"
 			option2.text = "Stop and drink the whole thing right here. (travel forward)"
 			event_pic.texture = preload("res://assets/textures/event_icons/Thermos.png")
 		EVENTS.TUNNEL_REST:
@@ -65,7 +73,7 @@ func _ready() -> void:
 		EVENTS.WORMS:
 			event_text.text = "The water here is almost knee-deep, which is why you didn't notice a swarm of purplish worm creatures until just now, as they start biting you."
 			option1.text = "Back away and cut open the wound and try to remove the poison (lose HP)"
-			option2.text = "Fend off the creatures with your {ItemName} (lose 1 item)"
+			option2.text = "Fend off the creatures with your {} (lose 1 item)".format([selected_item.name if selected_item != null else "nothing"])
 			event_pic.texture = preload("res://assets/textures/event_icons/worms.png")
 		EVENTS.SLIME:
 			event_text.text = "Ew, gross! a bunch of mysterious slime just fell on you."
@@ -80,16 +88,16 @@ func _ready() -> void:
 		EVENTS.LADDER:
 			event_text.text = "You see a ladder leading upward, and... Is that daylight? You've been down in these depths for so long, you can't be sure anymore."
 			option1.text = "Open the manhole and peek out, to make sure the coast is clear (lose hp)"
-			option2.text = "Open the manhole with your {ItemName}, to avoid an ambush from watever might be up there (lose 1 item)"
+			option2.text = "Open the manhole with your {}, to avoid an ambush from watever might be up there (lose 1 item)".format([selected_item.name if selected_item != null else "nothing"])
 			event_pic.texture = preload("res://assets/textures/event_icons/Ladder.png")
 		EVENTS.SPINNING_BLADES:
 			event_text.text = "The entire sewer tunnel is blocked here by some large spinning blades. Perhaps a fan or turbine of some sort?"
 			option1.text = "The blades are spinning slow enough. You could try to jump through, if you time it just right. (lose hp)"
-			option2.text = "Better play it safe and jam the mechanism with your {ItemName}. You didn't need that thing anyway, right? (lose 1 item)"
+			option2.text = "Better play it safe and jam the mechanism with your {}. You didn't need that thing anyway, right? (lose 1 item)".format([selected_item.name if selected_item != null else "nothing"])
 			event_pic.texture = preload("res://assets/textures/event_icons/spinning fan.png")
 		EVENTS.CLOGGED_PIPE:
 			event_text.text = "The water ahead keeps getting deeper and deeper, until it's no longer passable. The entire sewer pipe must be clogged in this direction."
-			option1.text = "Use your {ItemName} to try to clear the blockage (lose 1 item)"
+			option1.text = "Use your {} to try to clear the blockage (lose 1 item)".format([selected_item.name if selected_item != null else "nothing"])
 			option2.text = "Dive in and try to find a way around (lose 1 mutation)"
 			event_pic.texture = preload("res://assets/textures/event_icons/clogged.png")
 			
@@ -104,44 +112,44 @@ func _reveal_consequences() -> void:
 	match event:
 		EVENTS.CLEAR_WATER:
 			if choice == 1:
-				event_text.text = "The cool water refreshes you, but when you leave the pool, you find your {ItemName} is missing."
+				event_text.text = "The cool water refreshes you, but when you leave the pool, you find your {} is missing.".format([selected_item.name if selected_item != null else "nothing"])
 			else:
-				event_text.text = "You feel cleaner and more refreshed after a dip in the pool. Unfortunately, your {MutationName} mutation seems to have also washed away"
+				event_text.text = "You feel cleaner and more refreshed after a dip in the pool. Unfortunately, your {} mutation seems to have also washed away".format([selected_mutation.name if selected_item != null else "nothing"])
 		EVENTS.STRANGE_BREW:
 			if choice == 1:
-				event_text.text = "As you're walking, a sewer worker catches you stealing their thermos. They demand your {ItemName} from you in exchange."
+				event_text.text = "As you're walking, a sewer worker catches you stealing their thermos. They demand your {} from you in exchange.".format([selected_item.name if selected_item != null else "nothing"])
 			else:
 				event_text.text = "You stop to enjoy the meal, and are caught off guard as a wave crashes through the sewer. You are washed 2 spaces downstream."
 		EVENTS.TUNNEL_REST:
 			if choice == 1:
-				event_text.text = "As you rest, you start to see strange visions... too late you realize the fumes from this tunnel are making you hallucinate. By the time you get up, you notice that your {MutationName} mutation is gone!"
+				event_text.text = "As you rest, you start to see strange visions... too late you realize the fumes from this tunnel are making you hallucinate. By the time you get up, you notice that your {} mutation is gone!".format([selected_item.name if selected_item != null else "nothing"])
 			else:
 				event_text.text = "You fall asleep easily, having wild and vivid dreams. When you wake, you realize you have moved deeper into the sewer somehow"
 		EVENTS.LOG_PEEK:
 			if choice == 1:
-				event_text.text = "Oops! there was a cetipede uder there. It doesn't seem happy to have a visitor and gives you a painful bite. At least you found a {ItemName} "
+				event_text.text = "Oops! there was a cetipede uder there. It doesn't seem happy to have a visitor and gives you a painful bite. At least you found a {} ".format([gained_item])
 			else:
-				event_text.text = "You wisely roll the log backward. An angry centipede jumps out from under the log, away from you. You've discovered an {ItemName}! The slime seems to have reacted with your skin however, neutralizing your {MutationName} mutation"
+				event_text.text = "You wisely roll the log backward. An angry centipede jumps out from under the log, away from you. You've discovered an {}! The slime seems to have reacted with your skin however, neutralizing your {} mutation".format([gained_item, selected_mutation.name if selected_mutation != null else "nothing", ])
 		EVENTS.SHINY_OBJECT:
 			if choice == 1:
-				event_text.text = "You've found a {ItemName} here in the water! Uh-oh, this water is deeper and faster than you thought. Your foot slips and you get carried deeper into the sewer."
+				event_text.text = "You've found a {} here in the water! Uh-oh, this water is deeper and faster than you thought. Your foot slips and you get carried deeper into the sewer.".format([gained_item])
 			else:
-				event_text.text = "Oops, you step on a syringe that's lying on the ground. You easily fish the {ItemName} out of the water, but whatever was in that syringe neutralized your {MutationName} mutation"
+				event_text.text = "Oops, you step on a syringe that's lying on the ground. You easily fish the {} out of the water, but whatever was in that syringe neutralized your {} mutation".format([gained_item, selected_mutation.name if selected_mutation != null else "nothing"])
 		EVENTS.RAT_GIRL:
 			if choice == 1:
-				event_text.text = "You fend her off easily, but she does manage to bite you in the scuffle. Looks like she was carrying a {ItemName}. It's yours now."
+				event_text.text = "You fend her off easily, but she does manage to bite you in the scuffle. Looks like she was carrying a {}. It's yours now.".format([gained_item])
 			else:
-				event_text.text = "You start jogging down the sewer when you realize she's faster than she looked. By the time you've lost her, you don't recognize where you are anymore. But you did stumble across a {ItemName} just laying on the ground."
+				event_text.text = "You start jogging down the sewer when you realize she's faster than she looked. By the time you've lost her, you don't recognize where you are anymore. But you did stumble across a {} just laying on the ground.".format([gained_item])
 		EVENTS.WORMS:
 			if choice == 1:
 				event_text.text = "Fortunately, the \"poison\" seems to have only given you a new mutation. Unfortunately, you were a little overzealous in trying to remove the poison. that cut looks like it might be infected..."
 			else:
-				event_text.text = "You try to fend off the worms with your {ItemName}, but they manage to wrench it out of your grip. After that, they quickly lose interest in you. Unfortunately, in this murky water, you're never getting that {ItemName} back."
+				event_text.text = "You try to fend off the worms with your {}, but they manage to wrench it out of your grip. After that, they quickly lose interest in you. Unfortunately, in this murky water, you're never getting that {} back.".format([selected_item.name if selected_item != null else "nothing"])
 		EVENTS.SLIME:
 			if choice == 1:
-				event_text.text = "The slime seems fine. in fact, you gradually realize that it has given you a {MutationName} mutation. It did ruin your {ItemName} however."
+				event_text.text = "The slime seems fine. in fact, you gradually realize that it has given you a {} mutation. It did ruin your {} however.".format([gained_mutation, selected_item.name if selected_item != null else "nothing"])
 			else:
-				event_text.text = "The slime washes off easily, but it has already reacted with your skin, causing a {MutationName} mutation. When you get out of the water, you realize the current has carried you deeper into the sewer."
+				event_text.text = "The slime washes off easily, but it has already reacted with your skin, causing a {} mutation. When you get out of the water, you realize the current has carried you deeper into the sewer.".format([gained_mutation])
 		EVENTS.BIOHAZARD:
 			if choice == 1:
 				event_text.text = "You lean down to get a closer look at the glowing sewage. At this distance though, the smell hits you right in the face. As you recoil, you slip and bump your head, falling into the water. It burns, but you can feel yourself starting to mutate."
@@ -151,15 +159,15 @@ func _reveal_consequences() -> void:
 			if choice == 1:
 				event_text.text = "The way seems clear, and you climb up into... another sewer. It seems you've been down here too long after all. That definitely wasn't daylight. As your mind wanders, the manhole cover falls on your foot. Ow!"
 			else:
-				event_text.text = "You carefully lift the manhole cover with your {ItemName}, only to find that the way is clear. There was never any danger. The cover slips though, crushing your {ItemName}. At least you've discovered a new path... Wait! This area feels eerily familiar."
+				event_text.text = "You carefully lift the manhole cover with your {}, only to find that the way is clear. There was never any danger. The cover slips though, crushing your {}. At least you've discovered a new path... Wait! This area feels eerily familiar.".format([selected_item.name if selected_item != null else "nothing"])
 		EVENTS.SPINNING_BLADES:
 			if choice == 1:
 				event_text.text = "OOps! You did not time it just right. Well that hurt... At least the tunnel on the other side seems to lead somewhere useful."
 			else:
-				event_text.text = "You jam your {ItemName} into the spinning motor and it grinds to a halt. It also grinds up your {ItemName} until it's unrecognizeable. The tunnel on the other side seems to lead somewhere familiar. Have you been here before?"
+				event_text.text = "You jam your {} into the spinning motor and it grinds to a halt. It also grinds up your {} until it's unrecognizeable. The tunnel on the other side seems to lead somewhere familiar. Have you been here before?".format([selected_item.name if selected_item != null else "nothing"])
 		EVENTS.CLOGGED_PIPE:
 			if choice == 1:
-				event_text.text = "You stick your {ItemName} in there and wiggle it around trying to break loose the blockage, but it's no use. Eventually your {ItemName} gets stuck and you give up, doubling back to try to find another way around."
+				event_text.text = "You stick your {} in there and wiggle it around trying to break loose the blockage, but it's no use. Eventually your {} gets stuck and you give up, doubling back to try to find another way around.".format([selected_item.name if selected_item != null else "nothing"])
 			else:
 				event_text.text = "You dive in and eventually find a branch of the sewer that leads back up and off in another direction. The stagnant water sems to have reacted with your {MutationName} mutation, causing it to reverse."
 
@@ -168,30 +176,30 @@ func _on_option_1_pressed() -> void:
 	match event:
 		EVENTS.CLEAR_WATER:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.STRANGE_BREW:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.TUNNEL_REST:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.mutations.pop_front()
+			Globals.player_stats.mutations.erase(selected_mutation)
 		EVENTS.LOG_PEEK:
-			Globals.player_stats.add_equipment()
+			gained_item = Globals.player_stats.add_equipment()
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.SHINY_OBJECT:
-			Globals.player_stats.add_equipment()
+			gained_item = Globals.player_stats.add_equipment()
 			Globals.player_nav_event = "forward"
 		EVENTS.RAT_GIRL:
-			Globals.player_stats.add_equipment()
+			gained_item = Globals.player_stats.add_equipment()
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.WORMS:
-			Globals.player_stats.add_mutation()
+			gained_mutation = Globals.player_stats.add_mutation()
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.SLIME:
-			Globals.player_stats.add_mutation()
-			Globals.player_stats.equipment.pop_front()
+			gained_mutation = Globals.player_stats.add_mutation()
+			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.BIOHAZARD:
-			Globals.player_stats.add_mutation()
+			gained_mutation = Globals.player_stats.add_mutation()
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.LADDER:
 			Globals.player_nav_event = "back"
@@ -201,7 +209,7 @@ func _on_option_1_pressed() -> void:
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.CLOGGED_PIPE:
 			Globals.player_nav_event = "back"
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_stats.equipment.erase(selected_item)
 	
 	choice = 1
 	_reveal_consequences()
@@ -211,7 +219,7 @@ func _on_option_2_pressed() -> void:
 	match event:
 		EVENTS.CLEAR_WATER:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.mutations.pop_front()
+			Globals.player_stats.mutations.erase(selected_mutation)
 		EVENTS.STRANGE_BREW:
 			Globals.player_stats.health = Globals.player_stats.max_health
 			Globals.player_nav_event = "forward"
@@ -219,32 +227,32 @@ func _on_option_2_pressed() -> void:
 			Globals.player_stats.health = Globals.player_stats.max_health
 			Globals.player_nav_event = "forward"
 		EVENTS.LOG_PEEK:
-			Globals.player_stats.add_equipment()
-			Globals.player_stats.mutations.pop_front()
+			gained_item = Globals.player_stats.add_equipment()
+			Globals.player_stats.mutations.erase(selected_mutation)
 		EVENTS.SHINY_OBJECT:
-			Globals.player_stats.add_equipment()
-			Globals.player_stats.mutations.pop_front()
+			gained_item = Globals.player_stats.add_equipment()
+			Globals.player_stats.mutations.erase(selected_mutation)
 		EVENTS.RAT_GIRL:
-			Globals.player_stats.add_equipment()
+			gained_item = Globals.player_stats.add_equipment()
 			Globals.player_nav_event = "forward"
 		EVENTS.WORMS:
-			Globals.player_stats.add_mutation()
-			Globals.player_stats.equipment.pop_front()
+			gained_mutation = Globals.player_stats.add_mutation()
+			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.SLIME:
-			Globals.player_stats.add_mutation()
+			gained_mutation = Globals.player_stats.add_mutation()
 			Globals.player_nav_event = "forward"
 		EVENTS.BIOHAZARD:
-			Globals.player_stats.add_mutation()
+			gained_mutation = Globals.player_stats.add_mutation()
 			Globals.player_nav_event = "forward"
 		EVENTS.LADDER:
-			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "back"
+			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.SPINNING_BLADES:
-			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.equipment.pop_front()
+			Globals.player_nav_event = "back"
+			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.CLOGGED_PIPE:
-			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_stats.mutations.pop_front()
+			Globals.player_nav_event = "back"
+			Globals.player_stats.mutations.erase(selected_mutation)
 	
 	choice = 2
 	_reveal_consequences()
