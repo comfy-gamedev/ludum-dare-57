@@ -24,20 +24,28 @@ void fragment()
     st.y *= -res.y/res.x;
     st *= 21.3;
 
-	float steps = step(0.001, noise(st + TIME) * fract(st.y - 0.45));
-	float steps2 = step(0.003, noise(st + TIME) * fract(st.y - 0.45));
-    float steps3 = step(0.01, noise(st + TIME) * fract(st.y - 0.45));
+	float steps = step(0.0005, noise(st + TIME) * fract(st.y - 0.45));
+	float steps2 = step(0.001, noise(st + TIME) * fract(st.y - 0.45));
+	float steps3 = step(0.003, noise(st + TIME) * fract(st.y - 0.45));
+    float steps4 = step(0.01, noise(st + TIME) * fract(st.y - 0.45));
 
     vec3 color;
-    if (steps == 0.0) {
-        COLOR = vec4(0.266,0.367,0.305, 1.0);
-
-    } else if (steps2 == 0.0){
-        COLOR = vec4(0.121,0.168,0.141, 0.9);
-
+    //if (steps == 0.0) {
+        ////COLOR = vec4(0.266,0.367,0.305, 1.0);
+		//COLOR = vec4(0.508,0.418,0.141, 1.0);//light brown
+    //} else 
+	if (steps2 == 0.0){
+        //COLOR = vec4(0.121,0.168,0.141, 0.9);
+        //COLOR = vec4(0.391,0.305,0.109, 0.9);//brown
+		COLOR = vec4(0.266,0.367,0.305, 1.0);//sage
     } else if (steps3 == 0.0){
-        COLOR = vec4(0.043,0.078,0.070, 0.8);
-
+        //COLOR = vec4(0.043,0.078,0.070, 0.8);
+        //COLOR = vec4(0.270,0.188,0.074, 0.8);//dark brown
+		COLOR = vec4(0.660, 0.668, 0.227, 0.9);//mustard
+	} else if (steps4 == 0.0){
+        //COLOR = vec4(0.043,0.078,0.070, 0.8);
+        //COLOR = vec4(0.168,0.066,0.027, 0.7);//rich earth
+		COLOR = vec4(0.520, 0.699, 0.586, 0.8);//light sage
     } else {
         COLOR = vec4(0.0,0.0,0.0, 0.0);
     }
