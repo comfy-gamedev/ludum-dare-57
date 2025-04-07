@@ -18,11 +18,19 @@ var player_stats: PlayerStats = null:
 		player_stats = v
 		_notify_changed(&"player_stats")
 
-
 ## Reset all variables to their default state.
 func reset():
 	for prop_name in _defaults:
 		set(prop_name, _defaults[prop_name])
+
+var available_equipment = {
+	Enums.ITEMS.LEAD_PIPE : preload("res://assets/items/lead_pipe.tres"),
+	Enums.ITEMS.SLIMY_LEAD_PIPE : preload("res://assets/items/slimy_lead_pipe.tres"),
+	Enums.ITEMS.PIPE_WITH_NAIL : preload("res://assets/items/lead_pipe_with_nail.tres"),
+	Enums.ITEMS.BOARD : preload("res://assets/items/board.tres"),
+	Enums.ITEMS.DAGGER : preload("res://assets/items/dagger.tres"),
+	
+}
 
 func _ready() -> void:
 	player_stats = PlayerStats.new()
