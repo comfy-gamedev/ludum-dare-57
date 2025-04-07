@@ -22,7 +22,7 @@ void fragment()
 	vec2 res = (1.0/SCREEN_PIXEL_SIZE);
     vec2 st = FRAGCOORD.xy/res.xy;
     st.y *= -res.y/res.x;
-    st *= 20.0;
+    st *= 21.3;
 
 	float steps = step(0.001, noise(st + TIME) * fract(st.y - 0.45));
 	float steps2 = step(0.003, noise(st + TIME) * fract(st.y - 0.45));
@@ -33,10 +33,10 @@ void fragment()
         COLOR = vec4(0.266,0.367,0.305, 1.0);
 
     } else if (steps2 == 0.0){
-        COLOR = vec4(0.121,0.168,0.141, 1.0);
+        COLOR = vec4(0.121,0.168,0.141, 0.9);
 
     } else if (steps3 == 0.0){
-        COLOR = vec4(0.043,0.078,0.070, 1.0);
+        COLOR = vec4(0.043,0.078,0.070, 0.8);
 
     } else {
         COLOR = vec4(0.0,0.0,0.0, 0.0);
