@@ -16,7 +16,8 @@ enum KIND {
 	SHELLIFIED,
 	FUZZY,
 	EXTRA_TOES,
-	HOLLOW_TEETH
+	HOLLOW_TEETH,
+	LIGHT_SPEED,
 }
 
 const names = {
@@ -30,6 +31,7 @@ const names = {
 	KIND.FUZZY: "Fuzzy",
 	KIND.EXTRA_TOES: "Extra Toes",
 	KIND.HOLLOW_TEETH: "Hollow Teeth",
+	KIND.LIGHT_SPEED: "Light Speed",
 }
 
 const rarity = {
@@ -43,6 +45,7 @@ const rarity = {
 	KIND.FUZZY: 1,
 	KIND.EXTRA_TOES: 1,
 	KIND.HOLLOW_TEETH: 1,
+	KIND.LIGHT_SPEED: 1,
 }
 
 const textures = {
@@ -56,6 +59,7 @@ const textures = {
 	KIND.FUZZY: null,
 	KIND.EXTRA_TOES: null,
 	KIND.HOLLOW_TEETH: null,
+	KIND.LIGHT_SPEED: null,
 }
 
 const descriptions = {
@@ -69,6 +73,7 @@ const descriptions = {
 	KIND.FUZZY: "Adds poison to all shield faces.",
 	KIND.EXTRA_TOES: "Adds a reroll to empty faces.",
 	KIND.HOLLOW_TEETH: "Adds heal to all attacks.",
+	KIND.LIGHT_SPEED: "All attacks become instant.",
 }
 
 func get_texture() -> Texture2D:
@@ -158,5 +163,13 @@ func triggered(trigger_event: Enums.TRIGGERS, data: Dictionary, battle_state: Ba
 							if d.get_total_pips(i).get(Enums.PIP_TYPE.ATTACK, 0) > 0:
 								d.add_persistent_pip(i, Enums.PIP_TYPE.HEAL, 1)
 					return true
+		KIND.LIGHT_SPEED:
+			match trigger_event:
+				Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
+					var attacks = data.roll_result.die.get_total_pips(data.roll_result.face).get(Enums.PIP_TYPE.ATTACK, 0)
+					if attacks > 0:
+						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.ATTACK, -attacks)
+						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.INSTANT_ATTACK, attacks)
+						return true
 	
 	return false
