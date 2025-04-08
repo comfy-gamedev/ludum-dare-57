@@ -14,7 +14,7 @@ shader_parameter/distortion = 0.5
 shader_parameter/layers = 2.0
 shader_parameter/shades = 3.0
 shader_parameter/steps = 6
-shader_parameter/tint = Vector3(0.4, 1, 0.5)
+shader_parameter/tint = Vector3(0.38, 0.44, 0.44)
 
 [node name="Event" type="Node2D"]
 script = ExtResource("1_uuxf3")

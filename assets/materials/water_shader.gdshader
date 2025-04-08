@@ -14,7 +14,7 @@ uniform float layers = 2.;
 uniform float shades = 3.;
 uniform int steps = 6;
 
-uniform vec3 tint = vec3(.4,1.0,.50);
+uniform vec3 tint = vec3(.4,0.0,.50);
 
 float gyroid (vec3 seed) { return dot(sin(seed),cos(seed.yzx)); }
 
@@ -36,6 +36,6 @@ void fragment()
     float shape = fbm(vec3(p*scale, 0.));
     float gradient = fract(shape*layers);
     float shade = round(pow(gradient, 4.)*shades)/shades;
-    vec3 color = mix(tint * mix(.6,.7,gradient), vec3(.7), shade);//.6, .8, .8
+    vec3 color = mix(tint * mix(.6,.7,gradient), vec3(.4), shade);//.6, .8, .8
     COLOR = vec4(color,1.0);
 }
