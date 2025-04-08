@@ -59,6 +59,8 @@ func _ready() -> void:
 				c.texture_rect.texture = Mutation.textures[mut]
 				c.splay_texture_rect.hide()
 				c.description.text = Mutation.descriptions[mut]
+				c.description.autowrap_mode = TextServer.AUTOWRAP_WORD
+				c.description.custom_minimum_size = Vector2(400, 0)
 				c.clicked.connect(_pick_mutation.bind(mut))
 		Enums.UPGRADE_REASON.ENEMY:
 			label.text = "Choose An Item!"
