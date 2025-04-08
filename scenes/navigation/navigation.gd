@@ -151,6 +151,7 @@ func new_act() -> void:
 		visited_nodes = []
 		
 		current_node = Vector2i(0, 0)
+		$ScrollContainer.scroll_vertical = 0
 		_ready()
 
 func _unhandled_input(event: InputEvent) -> void:
