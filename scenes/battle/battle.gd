@@ -42,7 +42,7 @@ func _ready() -> void:
 		battle_state.enemy = load("res://assets/enemies/rat.tres")
 	enemy_sprite.texture = battle_state.enemy.sprite
 	
-	battle_state.enemy.max_hp *= Globals.act + 1
+	battle_state.enemy.max_hp *= 1 + (Globals.act * 0.2)
 	
 	battle_state.enemy_hp = battle_state.enemy.max_hp
 	
