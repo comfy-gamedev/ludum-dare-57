@@ -167,7 +167,11 @@ func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
 					Enums.PIP_TYPE.DRAW:
 						draw_from_deck()
 					Enums.PIP_TYPE.MANA:
-						battle_state.mana += 1
+						battle_state.mana += pips[pip]
+					Enums.PIP_TYPE.INSTANT_ATTACK:
+						battle_state.enemy_hp -= pips[pip]
+					Enums.PIP_TYPE.INSTANT_PAIN:
+						Globals.player_stats.health -= pips[pip]
 
 func shuffle_discard() -> void:
 	print("Shuffling discard back into deck.")

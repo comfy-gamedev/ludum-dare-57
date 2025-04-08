@@ -62,7 +62,9 @@ var available_equipment = {
 	Enums.ITEMS.HARD_HAT : preload("res://assets/items/hardhat.tres"),
 	Enums.ITEMS.HI_VIS_VEST : preload("res://assets/items/hi_vis_vest.tres"),
 	Enums.ITEMS.OVERALLS : preload("res://assets/items/overalls.tres"),
-	Enums.ITEMS.WET_GLOVES : preload("res://assets/items/wet_gloves.tres")
+	Enums.ITEMS.WET_GLOVES : preload("res://assets/items/wet_gloves.tres"),
+	Enums.ITEMS.BLANK_DIE : preload("res://assets/items/blank.tres"),
+	Enums.ITEMS.MANA_BALL : preload("res://assets/items/mana_ball.tres"),
 }
 
 func _ready() -> void:
