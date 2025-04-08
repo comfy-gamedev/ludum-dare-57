@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://ctob8mt2snsxi"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://f2jqyrrfealf"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_6bq5d"]
 [ext_resource type="Texture2D" uid="uid://bjqvnes8hg6d1" path="res://assets/textures/item_sprites/Pristine Sock with No Holes.png" id="2_l0eov"]
