@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=32 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
@@ -13,6 +13,14 @@
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="10_fisqk"]
 [ext_resource type="Texture2D" uid="uid://fcx1o2xpujbv" path="res://assets/speech.png" id="10_kd6yx"]
 [ext_resource type="Texture2D" uid="uid://x5q5x2hl2b6y" path="res://assets/textures/ui_handsize.png" id="10_n6gaa"]
+[ext_resource type="AudioStream" uid="uid://cjh5bpcjhm2a8" path="res://assets/sfx/foley_assets/clicky_sound.wav" id="14_tnndc"]
+[ext_resource type="AudioStream" uid="uid://bqcsbtvmkeu00" path="res://assets/sfx/foley_assets/creepy_crunchy.wav" id="15_k6ux7"]
+[ext_resource type="AudioStream" uid="uid://d1le3gn8t06n0" path="res://assets/sfx/foley_assets/dice_roll.wav" id="16_1oulw"]
+[ext_resource type="AudioStream" uid="uid://3nvojx2o57ar" path="res://assets/sfx/foley_assets/hit_impact_crunch.wav" id="17_kavl5"]
+[ext_resource type="AudioStream" uid="uid://00vcfg5k14na" path="res://assets/sfx/foley_assets/hit_impact_crunch_oof.wav" id="19_m24mv"]
+[ext_resource type="AudioStream" uid="uid://wpja4x4y6txo" path="res://assets/sfx/foley_assets/longer_die_roll2.wav" id="27_m7fqn"]
+[ext_resource type="AudioStream" uid="uid://c8x5rbj4wqmdo" path="res://assets/sfx/foley_assets/longer_die_roll.wav" id="28_j021e"]
+[ext_resource type="AudioStream" uid="uid://cfgoxe2xf3alm" path="res://assets/sfx/foley_assets/Ughhit.wav" id="29_eu6pb"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fisqk"]
 texture = ExtResource("2_agsc7")
@@ -317,5 +325,29 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Yes"
+
+[node name="ClickySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_tnndc")
+
+[node name="CreepyCrunchy" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_k6ux7")
+
+[node name="DiceRoll" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_1oulw")
+
+[node name="HitImpactCrunch" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_kavl5")
+
+[node name="HitImpactCrunchOof" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("19_m24mv")
+
+[node name="LongerDieRoll2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("27_m7fqn")
+
+[node name="LongerDieRoll" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("28_j021e")
+
+[node name="Ughhit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("29_eu6pb")
 
 [connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]

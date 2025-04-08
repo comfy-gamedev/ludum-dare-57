@@ -39,13 +39,17 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [sub_resource type="Resource" id="Resource_a8gv7"]
 script = ExtResource("1_ck66q")
-pips = Dictionary[int, int]({})
+pips = Dictionary[int, int]({
+10: 2
+})
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [sub_resource type="Resource" id="Resource_40qfg"]
 script = ExtResource("1_ck66q")
-pips = Dictionary[int, int]({})
+pips = Dictionary[int, int]({
+10: 2
+})
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 

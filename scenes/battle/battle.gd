@@ -33,6 +33,21 @@ var _hand_tween: Tween
 
 @onready var hand_initial_position: Vector2 = hand.position
 
+@onready var clicky_sound: AudioStreamPlayer = $ClickySound
+@onready var creepy_crunchy: AudioStreamPlayer = $CreepyCrunchy
+@onready var dice_roll: AudioStreamPlayer = $DiceRoll
+@onready var hit_impact_crunch: AudioStreamPlayer = $HitImpactCrunch
+@onready var hit_impact_crunch_aah_2: AudioStreamPlayer = $HitImpactCrunchAah2
+@onready var hit_impact_crunch_oof: AudioStreamPlayer = $HitImpactCrunchOof
+@onready var impacts = [
+	$HitImpactCrunch,
+	$HitImpactCrunchOof,
+	$Ughhit,
+]
+@onready var longer_die_roll_2: AudioStreamPlayer = $LongerDieRoll2
+@onready var longer_die_roll: AudioStreamPlayer = $LongerDieRoll
+@onready var ughhit: AudioStreamPlayer = $Ughhit
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	MusicMan.music(preload("res://assets/music/Underworld (Battle Theme) Final.ogg"))
@@ -272,6 +287,7 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 		roll.die.clear_roll_pips()
 		battle_state.mana -= 1
 		_trigger_event(Enums.TRIGGERS.FIRST_ROLL, { roll_result = roll })
+		dice_roll.play()
 	elif battle_state.rerolls > 0:
 		var f = battle_state.roll_results.find_custom(func (x): return x.die == die)
 		if f != -1:
@@ -286,6 +302,7 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 			battle_state.rerolls -= 1
 			roll.die.clear_roll_pips()
 			_trigger_event(Enums.TRIGGERS.REROLL, { roll_result = roll })
+			dice_roll.play()
 
 func _adjust_sprite_positions() -> void:
 	var hand_spacing = mini(96.0, hand_width / hand.get_child_count())
@@ -415,6 +432,12 @@ func _on_go_button_pressed() -> void:
 			enemy_sprite.position.x = o.x + (-10 if i == 0 else 10)
 		, 0.0, 10.0, 0.5)
 		t.tween_callback(func (): enemy_sprite.position = o)
+	
+	if enemy_damaged:
+		impacts.pick_random().play()
+	
+	if player_damaged:
+		impacts.pick_random().play()
 	
 	discard_all(battle_state.roll_results.map(func (x): return x.die))
 	discard_all(battle_state.hand)
