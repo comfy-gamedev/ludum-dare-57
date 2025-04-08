@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://cex7vhhg5gu66"]
+[gd_scene load_steps=2 format=3 uid="uid://cex7vhhg5gu66"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3y1je"]
+bg_color = Color(0.129412, 0.211765, 0.164706, 0.815686)
 
 [node name="OptionsTab" type="ScrollContainer"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_3y1je")
 metadata/_tab_index = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

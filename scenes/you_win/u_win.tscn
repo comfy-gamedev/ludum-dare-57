@@ -1,8 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://c3q6cblu7g6ap"]
+[gd_scene load_steps=7 format=3 uid="uid://c3q6cblu7g6ap"]
 
 [ext_resource type="Script" uid="uid://cp2dttwivdnxo" path="res://scenes/you_win/u_win.gd" id="1_683wk"]
 [ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="1_c85r2"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="3_s4l58"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s4l58"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55mma"]
+bg_color = Color(0.121569, 0.168627, 0.141176, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uihbe"]
 
 [node name="UWin" type="Node2D"]
 script = ExtResource("1_683wk")
@@ -19,6 +26,14 @@ offset_left = 388.0
 offset_top = 468.0
 offset_right = 569.0
 offset_bottom = 515.0
+theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_focus_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_s4l58")
+theme_override_styles/hover = SubResource("StyleBoxFlat_55mma")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uihbe")
 text = "Once More!"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
