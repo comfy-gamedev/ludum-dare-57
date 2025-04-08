@@ -318,6 +318,14 @@ func _adjust_sprite_positions() -> void:
 		create_tween().set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT) \
 			.tween_property(rolled.get_child(i), "position", p, 0.2)
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not OS.has_feature("debug"):
+		set_process_unhandled_key_input(false)
+		return
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_KP_9:
+			win()
+
 func _on_go_button_pressed() -> void:
 	_trigger_event(Enums.TRIGGERS.GO)
 	
