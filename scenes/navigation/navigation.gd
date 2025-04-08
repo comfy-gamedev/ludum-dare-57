@@ -155,7 +155,15 @@ func new_act() -> void:
 		_ready()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton && event.is_pressed():
+	if event is InputEventMouseButton:
+		if not event.pressed:
+			return
+		if OS.has_feature("debug") and event.button_index == MOUSE_BUTTON_RIGHT:
+			var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
+			current_node = tile_coord
+			visited_nodes.append(current_node)
+			_reconcile()
+			return
 		var tile_coord = tilemap.local_to_map(tilemap.get_local_mouse_position())
 		if tilemap.get_cell_source_id(tile_coord) != 1:
 			return
