@@ -77,6 +77,7 @@ func _ready() -> void:
 	_on_battle_state_changed()
 	_trigger_event(Enums.TRIGGERS.COMBAT_START)
 	start_turn()
+	player_heart_label.text = str(Globals.player_stats.health)
 
 func _on_player_stats_changed() -> void:
 	player_heart_label.text = str(Globals.player_stats.health)
