@@ -86,7 +86,19 @@ text = "Roll your dice to fight the enemies. Earn better dice by collecting item
 
 [img=42]res://assets/textures/tiles/boss_atlas_texture.tres[/img]: An angry monster, your bones to break!
 
-Your Dice are her to help you! 
+Your Dice are here to help you! Here is what they do:
+
+[img=52]res://assets/textures/pip_attack.png[/img]: Attack your enemies, show no mercy!
+
+[img=52]res://assets/textures/pip_shield.png[/img]: Block their damge, in a hurry!
+
+[img=52]res://assets/textures/pip_poison.png[/img]: Poison them and make them weaker
+
+[img=52]res://assets/textures/pip_reroll.png[/img]: Roll again, you little sneaker!
+
+[img=52]res://assets/textures/pip_heal.png[/img]: Get some health back, in a pinch
+
+[img=52]res://assets/textures/pip_slime.png[/img]: Slime so they can't move an inch
 "
 
 [node name="Button" type="Button" parent="."]
