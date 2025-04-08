@@ -26,6 +26,14 @@ var act = 0
 func reset():
 	for prop_name in _defaults:
 		set(prop_name, _defaults[prop_name])
+	
+	player_stats = PlayerStats.new()
+	player_stats.equipment = [
+		preload("res://assets/items/punch.tres"),
+		preload("res://assets/items/block.tres"),
+	]
+	player_stats.initial_mana = 3
+	player_stats.initial_rerolls = 1
 
 var available_equipment = {
 	Enums.ITEMS.LEAD_PIPE : preload("res://assets/items/lead_pipe.tres"),
