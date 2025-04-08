@@ -7,10 +7,9 @@ const BATTLE = preload("res://scenes/battle/battle.tscn")
 var battle: Node2D
 
 func _ready() -> void:
-	for k in Mutation.KIND.values():
-		var mut = Mutation.new()
-		mut.kind = k
-		Globals.player_stats.mutations.append(mut)
+	var mut = Mutation.new()
+	mut.kind = Mutation.KIND.LIGHT_SPEED
+	Globals.player_stats.mutations.append(mut)
 	
 	battle = BATTLE.instantiate()
 	battle.battle_state.enemy = load("res://assets/enemies/rat.tres")
