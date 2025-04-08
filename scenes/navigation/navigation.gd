@@ -39,6 +39,9 @@ func _ready() -> void:
 			if tilemap.get_cell_atlas_coords(Vector2(i, 0)).x == Enums.LOCATION_TYPES.EMPTY:
 				current_node = Vector2(i, 0)
 				break
+	for i in tilemap.get_used_cells_by_id(1):
+		if tilemap.get_cell_atlas_coords(i).x < 6:
+			tilemap.set_cell(i, 1, Vector2i(randi_range(0, 5), 1))
 	visited_nodes.append(current_node)
 	_reconcile()
 	MusicMan.music(preload("res://assets/music/Pipe World (Adventure Theme) Final.ogg"))
@@ -145,11 +148,10 @@ func new_act() -> void:
 	if Globals.act == 3:
 		SceneGirl.change_scene("res://scenes/you_win/u_win.tscn")
 	else:
-		for i in tilemap.get_used_cells_by_id(1):
-			if tilemap.get_cell_atlas_coords(i).x < 6:
-				tilemap.set_cell(i, 1, Vector2i(randi_range(0, 5), 1))
+		#for i in tilemap.get_used_cells_by_id(1):
+			#if tilemap.get_cell_atlas_coords(i).x < 6:
+				#tilemap.set_cell(i, 1, Vector2i(randi_range(0, 5), 1))
 		visited_nodes = []
-		
 		current_node = Vector2i(0, 0)
 		$ScrollContainer.scroll_vertical = 0
 		_ready()
