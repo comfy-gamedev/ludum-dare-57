@@ -39,6 +39,10 @@ const CONFIG_FILE = "user://settings.cfg"
 	set(v):
 		misc_arachnophobia_mode = v
 
+@export var misc_alt_sfx_im_sorry: bool = false:
+	set(v):
+		misc_alt_sfx_im_sorry = v
+
 
 #region Plumbing
 

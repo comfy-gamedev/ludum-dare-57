@@ -159,6 +159,8 @@ func _setting_changed(setting_name: StringName) -> void:
 			if !Settings.misc_arachnophobia_mode:
 				scary_sfx.play()
 			$TextureRect.visible = !$TextureRect.visible
+		&"misc_alt_sfx_im_sorry":
+			pass
 
 
 func _on_back_button_pressed() -> void:

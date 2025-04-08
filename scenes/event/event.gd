@@ -188,7 +188,7 @@ func _on_option_1_pressed() -> void:
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.SHINY_OBJECT:
 			gained_item = Globals.player_stats.add_equipment()
-			Globals.player_nav_event = "forward"
+			#Globals.player_nav_event = "forward"
 		EVENTS.RAT_GIRL:
 			gained_item = Globals.player_stats.add_equipment()
 			Globals.player_stats.health = Globals.player_stats.health / 2
@@ -202,13 +202,13 @@ func _on_option_1_pressed() -> void:
 			gained_mutation = Globals.player_stats.add_mutation()
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.LADDER:
-			Globals.player_nav_event = "back"
+			#Globals.player_nav_event = "back"
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.SPINNING_BLADES:
-			Globals.player_nav_event = "back"
+			#Globals.player_nav_event = "back"
 			Globals.player_stats.health = Globals.player_stats.health / 2
 		EVENTS.CLOGGED_PIPE:
-			Globals.player_nav_event = "back"
+			#Globals.player_nav_event = "back"
 			Globals.player_stats.equipment.erase(selected_item)
 	
 	choice = 1
@@ -222,10 +222,10 @@ func _on_option_2_pressed() -> void:
 			Globals.player_stats.mutations.erase(selected_mutation)
 		EVENTS.STRANGE_BREW:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_nav_event = "forward"
+			#Globals.player_nav_event = "forward"
 		EVENTS.TUNNEL_REST:
 			Globals.player_stats.health = Globals.player_stats.max_health
-			Globals.player_nav_event = "forward"
+			#Globals.player_nav_event = "forward"
 		EVENTS.LOG_PEEK:
 			gained_item = Globals.player_stats.add_equipment()
 			Globals.player_stats.mutations.erase(selected_mutation)
@@ -234,24 +234,24 @@ func _on_option_2_pressed() -> void:
 			Globals.player_stats.mutations.erase(selected_mutation)
 		EVENTS.RAT_GIRL:
 			gained_item = Globals.player_stats.add_equipment()
-			Globals.player_nav_event = "forward"
+			#Globals.player_nav_event = "forward"
 		EVENTS.WORMS:
 			gained_mutation = Globals.player_stats.add_mutation()
 			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.SLIME:
 			gained_mutation = Globals.player_stats.add_mutation()
-			Globals.player_nav_event = "forward"
+			#Globals.player_nav_event = "forward"
 		EVENTS.BIOHAZARD:
 			gained_mutation = Globals.player_stats.add_mutation()
-			Globals.player_nav_event = "forward"
+			#Globals.player_nav_event = "forward"
 		EVENTS.LADDER:
-			Globals.player_nav_event = "back"
+			#Globals.player_nav_event = "back"
 			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.SPINNING_BLADES:
-			Globals.player_nav_event = "back"
+			#Globals.player_nav_event = "back"
 			Globals.player_stats.equipment.erase(selected_item)
 		EVENTS.CLOGGED_PIPE:
-			Globals.player_nav_event = "back"
+			#Globals.player_nav_event = "back"
 			Globals.player_stats.mutations.erase(selected_mutation)
 	
 	choice = 2
