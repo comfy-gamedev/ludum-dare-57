@@ -1,26 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddomhnpbs1h7c"]
+[gd_scene load_steps=5 format=3 uid="uid://ddomhnpbs1h7c"]
 
-[ext_resource type="Shader" uid="uid://dgydncsiucj6g" path="res://assets/materials/water_shader.gdshader" id="1_6bmsu"]
 [ext_resource type="Script" uid="uid://q276d3tkiwhv" path="res://scenes/upgrade/upgrade.gd" id="1_jp15f"]
+[ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_34x4o"]
+[ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_43eeg"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jp15f"]
-shader = ExtResource("1_6bmsu")
-shader_parameter/R = Vector2(0.8, 0.6)
-shader_parameter/scale = 0.5
-shader_parameter/speed = 0.5
-shader_parameter/moveSpeed = 0.1
-shader_parameter/direction = Vector3(0.5, 1, 0)
-shader_parameter/distortion = 0.5
-shader_parameter/layers = 2.0
-shader_parameter/shades = 3.0
-shader_parameter/steps = 6
-shader_parameter/tint = Vector3(0.4, 1, 0.5)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_34x4o"]
 
 [node name="Upgrade" type="Node2D"]
 script = ExtResource("1_jp15f")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_top = -21.0
+offset_right = 960.0
+offset_bottom = 564.0
+texture = ExtResource("2_34x4o")
+stretch_mode = 1
+
 [node name="ColorRect" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_jp15f")
+material = ExtResource("3_43eeg")
 offset_right = 960.0
 offset_bottom = 540.0
 
@@ -33,6 +30,7 @@ alignment = 1
 [node name="Label" type="Label" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
 text = "Choose An Upgrade!"
 horizontal_alignment = 1
 
@@ -50,6 +48,12 @@ theme_override_constants/separation = 50
 [node name="SkipButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_focus_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_34x4o")
 text = "Skip"
 
 [connection signal="pressed" from="VBoxContainer/SkipButton" to="." method="_on_skip_button_pressed"]
