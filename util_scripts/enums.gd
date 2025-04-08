@@ -11,6 +11,10 @@ enum PIP_TYPE {
 	REROLL,
 	NULLIFY,
 	SLIME,
+	DRAW,
+	MANA,
+	INSTANT_ATTACK,
+	INSTANT_PAIN,
 }
 
 const PIP_TEXTURES = {
@@ -20,6 +24,8 @@ const PIP_TEXTURES = {
 	Enums.PIP_TYPE.SLIME: preload("res://assets/textures/pip_slime.png"),
 	Enums.PIP_TYPE.POISON: preload("res://assets/textures/pip_poison.png"),
 	Enums.PIP_TYPE.HEAL: preload("res://assets/textures/pip_heal.png"),
+	Enums.PIP_TYPE.DRAW: preload("res://assets/textures/pip_draw.png"),
+	Enums.PIP_TYPE.MANA: preload("res://assets/textures/pip_handsize.png"),
 }
 
 enum LOCATION_TYPES {

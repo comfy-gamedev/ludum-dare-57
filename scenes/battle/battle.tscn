@@ -215,6 +215,18 @@ label_settings = SubResource("LabelSettings_oiw7q")
 horizontal_alignment = 2
 vertical_alignment = 2
 
+[node name="Control" type="Control" parent="EnemyScreen"]
+layout_mode = 2
+
+[node name="EnemyStats" type="HBoxContainer" parent="EnemyScreen/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_left = 51.0
+offset_top = 250.0
+offset_right = 707.0
+offset_bottom = 282.0
+theme_override_constants/separation = -10
+
 [node name="EnemySpeech" type="Sprite2D" parent="."]
 position = Vector2(319, 63)
 texture = ExtResource("10_kd6yx")
