@@ -34,7 +34,7 @@ metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
 
 [resource]
 script = ExtResource("2_e4nt1")
-max_hp = 45
+max_hp = 30
 sprite = ExtResource("3_1bij7")
 actions = Array[ExtResource("1_3nva0")]([SubResource("Resource_pjnjg"), SubResource("Resource_px6ef"), SubResource("Resource_3nva0"), SubResource("Resource_e4nt1")])
 action_mode = 0
