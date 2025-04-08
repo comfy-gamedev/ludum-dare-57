@@ -1,4 +1,5 @@
 extends Node2D
+
 const DIE_SPRITE = preload("res://actors/die_sprite.tscn")
 const BLOCK = preload("res://assets/items/block.tres")
 const PUNCH = preload("res://assets/items/punch.tres")
@@ -28,6 +29,7 @@ var _hand_tween: Tween
 @onready var ok_button: Button = %OKButton
 @onready var mana_label: Label = %ManaLabel
 @onready var bg: TextureRect = $BG
+@onready var enemy_stats: HBoxContainer = %EnemyStats
 
 @onready var hand_initial_position: Vector2 = hand.position
 
@@ -128,6 +130,25 @@ func _on_battle_state_changed() -> void:
 			hand.position.y -= 1.0
 			_hand_tween = create_tween()
 			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y, 0.2)
+	
+	for c in enemy_stats.get_children():
+		c.queue_free()
+	for i in battle_state.enemy_shield:
+		var c = TextureRect.new()
+		c.texture = preload("res://assets/textures/pip_shield.png")
+		enemy_stats.add_child(c)
+	for i in battle_state.enemy_poison:
+		var c = TextureRect.new()
+		c.texture = preload("res://assets/textures/pip_poison.png")
+		enemy_stats.add_child(c)
+	for i in battle_state.enemy_slime:
+		var c = TextureRect.new()
+		c.texture = preload("res://assets/textures/pip_slime.png")
+		enemy_stats.add_child(c)
+	for i in battle_state.enemy_strength:
+		var c = TextureRect.new()
+		c.texture = preload("res://assets/textures/pip_attack.png")
+		enemy_stats.add_child(c)
 
 func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
 	print("_trigger_event(%s, %s)" % [Enums.TRIGGERS.find_key(type), data])
@@ -143,6 +164,10 @@ func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
 				match pip:
 					Enums.PIP_TYPE.REROLL:
 						battle_state.rerolls += pips[pip]
+					Enums.PIP_TYPE.DRAW:
+						draw_from_deck()
+					Enums.PIP_TYPE.MANA:
+						battle_state.mana += 1
 
 func shuffle_discard() -> void:
 	print("Shuffling discard back into deck.")
