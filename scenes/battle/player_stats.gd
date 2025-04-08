@@ -40,16 +40,12 @@ var mutations: Array[Mutation]:
 		changed.emit()
 
 func add_equipment(id: int = -1) -> String:
-	if id == -1:
-		id = randi_range(0, Globals.available_equipment.size() - 1)
-	var item = Globals.available_equipment[id]
+	var item = Globals.available_equipment.values().pick_random()
 	equipment.append(item)
 	return item.name
 
 func add_mutation(id: int = -1) -> String:
-	if id == -1:
-		id = randi_range(0, Mutation.KIND.size() - 1)
 	var mut = Mutation.new()
-	mut.kind = id
+	mut.kind = Mutation.KIND.values().pick_random()
 	mutations.append(mut)
 	return mut.name

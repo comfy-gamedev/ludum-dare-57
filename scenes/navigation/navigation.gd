@@ -81,7 +81,7 @@ func _reconcile() -> void:
 		if c in visited_nodes:
 			tilemap.set_cell(c, 1, Vector2i(t.x, 0))
 		elif c in next_nodes:
-			tilemap.set_cell(c, 1, Vector2i(t.x, 1))
+			tilemap.set_cell(c, 1, Vector2i(t.x, 2))
 		else:
 			tilemap.set_cell(c, 1, Vector2i(t.x, 3))
 
@@ -175,7 +175,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Enums.LOCATION_STATE.DISABLED:
 				pass
 			Enums.LOCATION_STATE.AVAILABLE, Enums.LOCATION_STATE.HIGHLIGHT:
-				tilemap.set_cell(current_node, 1, Vector2i(dest.x, 0))
+				tilemap.set_cell(current_node, 1, Vector2i(tilemap.get_cell_atlas_coords(current_node).x, 0))
 				current_node = tile_coord
 				visited_nodes.append(current_node)
 				_reconcile()
