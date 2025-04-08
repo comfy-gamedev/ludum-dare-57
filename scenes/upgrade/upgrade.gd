@@ -86,6 +86,17 @@ func _ready() -> void:
 				c.description.hide()
 				c.die.die = item
 				c.clicked.connect(_pick_item.bind(item))
+		Enums.UPGRADE_REASON.BOSS:
+			label.text = "Choose An Item!"
+			for i in 3:
+				var item: StuffDie = load(ITEMS.pick_random())
+				var c = UPGRADE_CHOICE.instantiate()
+				options.add_child(c)
+				c.name_label.text = item.name
+				c.texture_rect.texture = item.item_image
+				c.description.hide()
+				c.die.die = item
+				c.clicked.connect(_pick_item.bind(item))
 
 func _pick_item(item: StuffDie) -> void:
 	Globals.player_stats.equipment.append(item)
