@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://2s7ckdyp7cto"]
+[gd_scene load_steps=10 format=3 uid="uid://2s7ckdyp7cto"]
 
 [ext_resource type="Script" uid="uid://bqdatf30o7yrb" path="res://scenes/how_to_play/how_to_play.gd" id="1_ki7tk"]
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="2_qqbb8"]
+[ext_resource type="Texture2D" uid="uid://b61dxxjjth410" path="res://assets/textures/brownBrick.png" id="2_exv6s"]
 [ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_mnrnl"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_mwq5a"]
 
@@ -13,6 +13,13 @@ content_margin_left = 16.0
 content_margin_top = 16.0
 content_margin_right = 16.0
 content_margin_bottom = 16.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ki7tk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6f42e"]
+bg_color = Color(0.121569, 0.168627, 0.141176, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hb5a5"]
 
 [node name="how_to_play" type="Control"]
 layout_mode = 3
@@ -28,11 +35,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -21.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_qqbb8")
+texture = ExtResource("2_exv6s")
+stretch_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 material = ExtResource("3_mnrnl")
 layout_mode = 1
 anchors_preset = 15
@@ -45,9 +56,9 @@ grow_vertical = 2
 light_mask = 0
 layout_mode = 2
 offset_left = 79.0
-offset_top = 40.0
+offset_top = 22.0
 offset_right = 886.0
-offset_bottom = 496.0
+offset_bottom = 480.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_g61f5")
@@ -62,6 +73,7 @@ metadata/_edit_group_ = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_fonts/normal_font = ExtResource("4_mwq5a")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
@@ -80,14 +92,36 @@ text = "Roll your dice to fight the enemies. Earn better dice by collecting item
 [img=42]res://assets/textures/tiles/new_atlas_texture.tres[/img]: A cache of loot for you to take
 
 [img=42]res://assets/textures/tiles/boss_atlas_texture.tres[/img]: An angry monster, your bones to break!
+
+Your Dice are here to help you! Here is what they do:
+
+[img=52]res://assets/textures/pip_attack.png[/img]: Attack your enemies, show no mercy!
+
+[img=52]res://assets/textures/pip_shield.png[/img]: Block their damge, in a hurry!
+
+[img=52]res://assets/textures/pip_poison.png[/img]: Poison them and make them weaker
+
+[img=52]res://assets/textures/pip_reroll.png[/img]: Roll again, you little sneaker!
+
+[img=52]res://assets/textures/pip_heal.png[/img]: Get some health back, in a pinch
+
+[img=52]res://assets/textures/pip_slime.png[/img]: Slime so they can't move an inch
 "
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
-offset_left = 6.0
-offset_top = -16.0
-offset_right = 185.0
-offset_bottom = 39.0
+offset_left = 373.0
+offset_top = 482.0
+offset_right = 575.0
+offset_bottom = 537.0
+theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_focus_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ki7tk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6f42e")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hb5a5")
 text = "Back to Menu"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -27,6 +27,7 @@ Globals="*res://autoload/globals/globals.gd"
 Settings="*res://autoload/globals/settings.gd"
 SceneGirl="*res://autoload/scene_girl/scene_girl.gd"
 MusicMan="*res://autoload/music_man.gd"
+GlobalButtons="res://autoload/global_buttons.tscn"
 
 [display]
 
