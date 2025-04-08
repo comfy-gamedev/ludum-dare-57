@@ -7,6 +7,7 @@ extends Control
 
 func _ready() -> void:
 	start_game_button.grab_focus()
+	MusicMan.music(preload("res://assets/music/Dead Flowers (Main Theme) Final.ogg"))
 
 
 func _on_start_game_button_pressed() -> void:

@@ -20,6 +20,7 @@ var _player_music_back_volume_linear: float:
 	set(v): _player_music_back.volume_db = linear_to_db(v)
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	_player_music_front = AudioStreamPlayer.new()
 	_player_music_front.name = "Music1"
 	_player_music_front.bus = &"Music"
