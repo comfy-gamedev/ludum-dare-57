@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://ci32q0ufnwtdj"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://xnrg5gghjwap"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_vm1jv"]
 [ext_resource type="Texture2D" uid="uid://br7rl3sk3hlj4" path="res://assets/textures/item_sprites/Hardhat.png" id="2_vm1jv"]
