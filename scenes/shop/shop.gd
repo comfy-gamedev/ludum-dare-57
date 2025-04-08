@@ -30,6 +30,8 @@ const ITEMS = [
 	"res://assets/items/trash_can_lid.tres",
 	"res://assets/items/vitamins.tres",
 	"res://assets/items/wet_gloves.tres",
+	"res://assets/items/blank.tres",
+	"res://assets/items/mana_ball.tres",
 ]
 
 var reason: Enums.UPGRADE_REASON
