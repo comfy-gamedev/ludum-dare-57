@@ -29,6 +29,10 @@ const CONFIG_FILE = "user://settings.cfg"
 		video_fullscreen = v
 		get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if v else Window.MODE_WINDOWED
 
+@export var disable_flashing: bool = false:
+	set(v):
+		disable_flashing = v
+
 @export_group("Misc", "misc_")
 
 @export var misc_arachnophobia_mode: bool = true:
