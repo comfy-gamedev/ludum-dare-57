@@ -41,10 +41,12 @@ func _ready() -> void:
 				break
 	visited_nodes.append(current_node)
 	_reconcile()
+	MusicMan.music(preload("res://assets/music/Pipe World (Adventure Theme) Final.ogg"))
 
 func _enter_tree() -> void:
 	if not is_node_ready():
 		return
+	MusicMan.music(preload("res://assets/music/Pipe World (Adventure Theme) Final.ogg"))
 	match Globals.player_nav_event:
 		"battle_won":
 			var dest = tilemap.get_cell_atlas_coords(current_node)

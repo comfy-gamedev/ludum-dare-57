@@ -33,6 +33,8 @@ var _hand_tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	MusicMan.music(preload("res://assets/music/Underworld (Battle Theme) Final.ogg"))
+	
 	battle_state.changed.connect(_on_battle_state_changed)
 	if not Globals.player_stats:
 		return
@@ -84,7 +86,12 @@ func _on_battle_state_changed() -> void:
 	
 	for c in enemy_intent.get_children():
 		c.queue_free()
-	match battle_state.enemy.actions[battle_state.enemy_action_index].action:
+	
+	var intent = battle_state.enemy.actions[battle_state.enemy_action_index].action
+	if battle_state.enemy_slime > 0:
+		intent = Enums.ENEMY_ACTION.PASS
+	
+	match intent:
 		Enums.ENEMY_ACTION.PASS:
 			var s = preload("res://actors/intent_icon.tscn").instantiate()
 			s.texture = preload("res://assets/textures/zzz.png")
@@ -92,7 +99,8 @@ func _on_battle_state_changed() -> void:
 		Enums.ENEMY_ACTION.ATTACK:
 			var s = preload("res://actors/intent_icon.tscn").instantiate()
 			s.texture = preload("res://assets/textures/pip_attack.png")
-			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
+			var dmg = battle_state.enemy_strength + battle_state.enemy.actions[battle_state.enemy_action_index].action_param
+			s.get_node("Label").text = str(dmg)
 			enemy_intent.add_child(s)
 		Enums.ENEMY_ACTION.DEFEND:
 			var s = preload("res://actors/intent_icon.tscn").instantiate()
@@ -275,7 +283,9 @@ func _on_go_button_pressed() -> void:
 		for type in pips:
 			match type:
 				Enums.PIP_TYPE.ATTACK:
-					var trigger = { damage = pips[type] }
+					var blocked = mini(battle_state.enemy_shield, pips[type])
+					battle_state.enemy_shield -= blocked
+					var trigger = { damage = pips[type] - blocked }
 					_trigger_event(Enums.TRIGGERS.PRE_DEAL_DAMAGE, trigger)
 					battle_state.enemy_hp -= trigger.damage
 					if trigger.damage > 0:
@@ -288,24 +298,42 @@ func _on_go_button_pressed() -> void:
 				Enums.PIP_TYPE.POISON:
 					battle_state.enemy_poison += pips[type]
 	
+	battle_state.enemy_shield = 0
+	
+	if battle_state.enemy_poison > 0:
+		battle_state.enemy_hp -= battle_state.enemy_poison
+		battle_state.enemy_poison = floori(battle_state.enemy_poison / 2.0)
+		enemy_damaged = true
+	
 	if battle_state.enemy_hp <= 0:
 		win()
 		return
 	
 	var enemy_action = battle_state.enemy.actions[battle_state.enemy_action_index]
-	match enemy_action.action:
+	var enemy_action_action = enemy_action.action
+	var enemy_action_param = enemy_action.action_param
+	if battle_state.enemy_slime > 0:
+		enemy_action_action = Enums.ENEMY_ACTION.PASS
+		battle_state.enemy_slime = 0
+	match enemy_action_action:
 		Enums.ENEMY_ACTION.PASS:
 			pass
 		Enums.ENEMY_ACTION.ATTACK:
 			var trigger = {
-				damage = maxi(0, enemy_action.action_param - battle_state.player_shield),
-				shielded = mini(enemy_action.action_param, battle_state.player_shield),
+				damage = maxi(0, battle_state.enemy_strength + enemy_action_param - battle_state.player_shield),
+				shielded = mini(battle_state.enemy_strength + enemy_action_param, battle_state.player_shield),
 			}
 			_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
 			Globals.player_stats.health -= trigger.damage
 			if trigger.damage > 0:
 				player_damaged = true
 			_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
+		Enums.ENEMY_ACTION.DEFEND:
+			battle_state.enemy_shield += enemy_action_param
+		Enums.ENEMY_ACTION.HEAL:
+			battle_state.enemy_hp = mini(battle_state.enemy_hp + enemy_action_param, battle_state.enemy.max_hp)
+		Enums.ENEMY_ACTION.STRENGTH:
+			battle_state.enemy_strength += enemy_action_param
 	battle_state.player_shield = 0
 	match battle_state.enemy.action_mode:
 		Enums.ENEMY_ACTION_MODE.LOOP:
@@ -325,6 +353,14 @@ func _on_go_button_pressed() -> void:
 					result = i
 					jump = log(randf()) / log(roll)
 			battle_state.enemy_action_index = result
+	
+	for i in battle_state.roll_results.size():
+		var r: BattleState.RollResult = battle_state.roll_results[i]
+		var pips = r.die.get_total_pips(r.face)
+		for type in pips:
+			match type:
+				Enums.PIP_TYPE.SLIME:
+					battle_state.enemy_slime += pips[type]
 	
 	if Globals.player_stats.health <= 0:
 		lose()

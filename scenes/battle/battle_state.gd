@@ -65,6 +65,24 @@ var enemy_poison: int:
 		enemy_poison = v
 		changed.emit()
 
+var enemy_shield: int:
+	set(v):
+		if enemy_shield == v: return
+		enemy_shield = v
+		changed.emit()
+
+var enemy_strength: int:
+	set(v):
+		if enemy_strength == v: return
+		enemy_strength = v
+		changed.emit()
+
+var enemy_slime: int:
+	set(v):
+		if enemy_slime == v: return
+		enemy_slime = v
+		changed.emit()
+
 
 var player_shield: int:
 	set(v):
