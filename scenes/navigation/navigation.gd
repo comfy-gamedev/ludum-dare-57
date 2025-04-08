@@ -146,7 +146,7 @@ func new_act() -> void:
 	else:
 		for i in tilemap.get_used_cells_by_id(1):
 			if tilemap.get_cell_atlas_coords(i).x < 6:
-				tilemap.set_cell(i, 1, Vector2i(0, randi_range(0, 5)))
+				tilemap.set_cell(i, 1, Vector2i(randi_range(0, 5), 1))
 		visited_nodes = []
 		_ready()
 
