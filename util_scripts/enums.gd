@@ -26,6 +26,8 @@ const PIP_TEXTURES = {
 	Enums.PIP_TYPE.HEAL: preload("res://assets/textures/pip_heal.png"),
 	Enums.PIP_TYPE.DRAW: preload("res://assets/textures/pip_draw.png"),
 	Enums.PIP_TYPE.MANA: preload("res://assets/textures/pip_handsize.png"),
+	Enums.PIP_TYPE.INSTANT_ATTACK: preload("res://assets/textures/pip_immediate_damage.png"),
+	Enums.PIP_TYPE.INSTANT_PAIN: preload("res://assets/textures/pip_immediate_wound.png"),
 }
 
 enum LOCATION_TYPES {
@@ -108,6 +110,8 @@ enum ITEMS {
 	HI_VIS_VEST,
 	OVERALLS,
 	WET_GLOVES,
+	BLANK_DIE,
+	MANA_BALL,
 }
 
 enum UPGRADE_REASON {

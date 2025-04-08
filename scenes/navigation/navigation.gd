@@ -134,10 +134,11 @@ func forward_two() -> void:
 	if not good_options.is_empty():
 		options = good_options
 	
-	current_node = options.pick_random() 
-	visited_nodes.append(current_node)
-	
-	_reconcile()
+	if options != []:
+		current_node = options.pick_random() 
+		visited_nodes.append(current_node)
+		
+		_reconcile()
 
 func new_act() -> void:
 	Globals.act += 1

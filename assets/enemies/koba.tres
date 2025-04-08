@@ -14,7 +14,7 @@ metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
 [sub_resource type="Resource" id="Resource_w0npa"]
 script = ExtResource("1_ri8e6")
 action = 4
-action_param = 5
+action_param = 1
 random_weight = 1.0
 metadata/_custom_type_script = "uid://dmv1gbqhp1qj0"
 
