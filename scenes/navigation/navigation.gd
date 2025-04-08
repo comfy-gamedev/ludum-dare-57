@@ -149,6 +149,7 @@ func new_act() -> void:
 			if tilemap.get_cell_atlas_coords(i).x < 6:
 				tilemap.set_cell(i, 1, Vector2i(randi_range(0, 5), 1))
 		visited_nodes = []
+		current_node = Vector2i(0, 0)
 		_ready()
 
 func _unhandled_input(event: InputEvent) -> void:
