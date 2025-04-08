@@ -1,12 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://vv8xcc8umdr"]
+[gd_scene load_steps=9 format=3 uid="uid://vv8xcc8umdr"]
 
-[ext_resource type="Texture2D" uid="uid://cuc586y7f344a" path="res://assets/textures/tempBricks.png" id="1_e576c"]
 [ext_resource type="Script" uid="uid://5j4xrkvyx77b" path="res://scenes/intro_panel/intro_panel.gd" id="1_mtplt"]
 [ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="2_7n4cr"]
+[ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_mtplt"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_uiwe1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g61f5"]
 bg_color = Color(0.129155, 0.21273, 0.16645, 0.815686)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mtplt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uiwe1"]
+bg_color = Color(0.121569, 0.168627, 0.141176, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g61f5"]
 
 [node name="intro_panel" type="Node2D"]
 script = ExtResource("1_mtplt")
@@ -15,7 +22,8 @@ script = ExtResource("1_mtplt")
 offset_top = -21.0
 offset_right = 960.0
 offset_bottom = 564.0
-texture = ExtResource("1_e576c")
+texture = ExtResource("2_mtplt")
+stretch_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = ExtResource("2_7n4cr")
@@ -28,6 +36,7 @@ offset_left = 91.0
 offset_top = 69.0
 offset_right = 878.0
 offset_bottom = 475.0
+theme_override_colors/default_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_fonts/normal_font = ExtResource("4_uiwe1")
 theme_override_font_sizes/normal_font_size = 44
 bbcode_enabled = true
@@ -49,6 +58,14 @@ offset_left = 417.0
 offset_top = 475.0
 offset_right = 577.0
 offset_bottom = 522.0
+theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_focus_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mtplt")
+theme_override_styles/hover = SubResource("StyleBoxFlat_uiwe1")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_g61f5")
 text = "Continue?"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
