@@ -1,0 +1,127 @@
+[gd_scene load_steps=11 format=3 uid="uid://gf35602k844f"]
+
+[ext_resource type="Texture2D" uid="uid://dwhph2yux82ox" path="res://assets/textures/ui_border_filled.png" id="1_gr8te"]
+[ext_resource type="Texture2D" uid="uid://cmoc6id0tsbqy" path="res://assets/textures/brick_bg.png" id="2_16hr0"]
+[ext_resource type="Script" uid="uid://bniwrxe20idry" path="res://scenes/battle/character_screen.gd" id="2_u61pb"]
+[ext_resource type="Texture2D" uid="uid://diocku5scd3kr" path="res://assets/textures/phil.png" id="3_u61pb"]
+[ext_resource type="Texture2D" uid="uid://ih7xnyhu1oaj" path="res://assets/textures/ui_health.png" id="4_4pyyc"]
+[ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="5_m2q8i"]
+[ext_resource type="Texture2D" uid="uid://che4x7t12yhhr" path="res://assets/textures/ui_rerolls.png" id="6_d66uy"]
+[ext_resource type="Texture2D" uid="uid://x5q5x2hl2b6y" path="res://assets/textures/ui_handsize.png" id="7_pfv3p"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_py4tk"]
+texture = ExtResource("1_gr8te")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="LabelSettings" id="LabelSettings_oiw7q"]
+font = ExtResource("5_m2q8i")
+font_size = 19
+font_color = Color(0.87451, 0.878431, 0.729412, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="CharacterScreen" type="Panel"]
+offset_right = 288.0
+offset_bottom = 288.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
+script = ExtResource("2_u61pb")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(144, 144)
+texture = ExtResource("2_16hr0")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(144, 144)
+texture = ExtResource("3_u61pb")
+
+[node name="DisplayAlignment" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.704861
+anchor_right = 1.0
+anchor_bottom = 0.940972
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Displays" type="VBoxContainer" parent="DisplayAlignment"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="HealthPanel" type="TextureRect" parent="DisplayAlignment/Displays"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("4_4pyyc")
+metadata/_edit_group_ = true
+
+[node name="HealthLabel" type="Label" parent="DisplayAlignment/Displays/HealthPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 18.0
+offset_top = 3.0
+offset_right = 41.0
+offset_bottom = 15.0
+text = "10"
+label_settings = SubResource("LabelSettings_oiw7q")
+horizontal_alignment = 2
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="RerollsPanel" type="TextureRect" parent="DisplayAlignment/Displays"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("6_d66uy")
+metadata/_edit_group_ = true
+
+[node name="RerollsLabel" type="Label" parent="DisplayAlignment/Displays/RerollsPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 18.0
+offset_top = 3.0
+offset_right = 41.0
+offset_bottom = 15.0
+text = "10"
+label_settings = SubResource("LabelSettings_oiw7q")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="ManaPanel" type="TextureRect" parent="DisplayAlignment/Displays"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("7_pfv3p")
+metadata/_edit_group_ = true
+
+[node name="ManaLabel" type="Label" parent="DisplayAlignment/Displays/ManaPanel"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 18.0
+offset_top = 3.0
+offset_right = 41.0
+offset_bottom = 15.0
+text = "10"
+label_settings = SubResource("LabelSettings_oiw7q")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="StatusPips" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0245001
+anchor_top = 1.031
+anchor_right = 0.975889
+anchor_bottom = 1.031
+offset_left = -0.0560303
+offset_top = -31.928
+offset_right = -0.0560303
+offset_bottom = 0.071991
+grow_vertical = 0
+theme_override_constants/separation = -10
+metadata/_edit_use_anchors_ = true

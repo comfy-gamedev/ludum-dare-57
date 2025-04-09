@@ -2,19 +2,17 @@ class_name Enums
 extends RefCounted
 
 enum PIP_TYPE {
-	ATTACK,
-	REND,
-	POISON,
-	DEFEND,
-	ARMOR,
-	HEAL,
-	REROLL,
-	NULLIFY,
-	SLIME,
-	DRAW,
-	MANA,
-	INSTANT_ATTACK,
-	INSTANT_PAIN,
+	ATTACK = 0,
+	POISON = 2,
+	DEFEND = 3,
+	HEAL = 5,
+	REROLL = 6,
+	SLIME = 8,
+	DRAW = 9,
+	MANA = 10,
+	INSTANT_ATTACK = 11,
+	INSTANT_PAIN = 12,
+	STRENGTH = 13,
 }
 
 const PIP_TEXTURES = {
@@ -25,9 +23,10 @@ const PIP_TEXTURES = {
 	Enums.PIP_TYPE.POISON: preload("res://assets/textures/pip_poison.png"),
 	Enums.PIP_TYPE.HEAL: preload("res://assets/textures/pip_heal.png"),
 	Enums.PIP_TYPE.DRAW: preload("res://assets/textures/pip_draw.png"),
-	Enums.PIP_TYPE.MANA: preload("res://assets/textures/pip_handsize.png"),
+	Enums.PIP_TYPE.MANA: preload("res://assets/textures/pip_mana.png"),
 	Enums.PIP_TYPE.INSTANT_ATTACK: preload("res://assets/textures/pip_immediate_damage.png"),
 	Enums.PIP_TYPE.INSTANT_PAIN: preload("res://assets/textures/pip_immediate_wound.png"),
+	Enums.PIP_TYPE.STRENGTH: preload("res://assets/textures/pip_strength.png"),
 }
 
 enum LOCATION_TYPES {
@@ -61,7 +60,7 @@ enum ENEMY_ACTION_MODE {
 	RANDOM,
 }
 
-enum TRIGGERS {
+enum TRIGGER {
 	COMBAT_START,
 	TURN_START,
 	FIRST_ROLL,
@@ -73,51 +72,18 @@ enum TRIGGERS {
 	POST_DEAL_DAMAGE,
 }
 
-enum ITEMS {
-	LEAD_PIPE,
-	SLIMY_LEAD_PIPE,
-	PIPE_WITH_NAIL,
-	BOARD,
-	DAGGER,
-	POISON_DAGGER,
-	MANHOLE_COVER,
-	SLEDGEHAMMER,
-	GLASS_BOTTLE,
-	HAMMER,
-	SHIV,
-	PIPE_WRENCH,
-	PADDLE,
-	Vitamins,
-	EMPTY_POISON_BOTTLE,
-	FULL_BEER_BOTTLE,
-	PAIR_OF_SHOES,
-	WARM_EGG,
-	PACK_OF_CDS,
-	BUCKET_OF_SLIME,
-	FISHING_ROD,
-	BAG_OF_PENNIES,
-	REALLY_LONG_SHOELACE,
-	GLASSES,
-	TEMPORARY_TATTOO,
-	TRAFFIC_CONE_HAT,
-	ARM_WARMERS,
-	TRASH_CAN_LID,
-	TRASH_CAN_BODY,
-	CLEAN_SOCK,
-	DIRTY_SOCK,
-	DIVING_HELMET,
-	HARD_HAT,
-	HI_VIS_VEST,
-	OVERALLS,
-	WET_GLOVES,
-	BLANK_DIE,
-	MANA_BALL,
-}
-
 enum UPGRADE_REASON {
 	TREASURE,
 	MUTATION,
 	ENEMY,
 	ELITE,
 	BOSS,
+}
+
+enum ITEM_RARITY {
+	COMMON,
+	UNCOMMON,
+	RARE,
+	ULTRA_RARE,
+	UNAVAILABLE,
 }

@@ -1,12 +1,13 @@
+class_name DieModel
 extends Node3D
 
 var die: Object:
 	set(v):
 		if die == v: return
-		if die is BattleState.LayeredDie:
+		if die is LayeredDie:
 			die.changed.disconnect(_reconcile)
 		die = v
-		if die is BattleState.LayeredDie:
+		if die is LayeredDie:
 			die.changed.connect(_reconcile)
 		_reconcile()
 
@@ -32,7 +33,7 @@ func _reconcile():
 		if die == null:
 			die_faces[i].visible = false
 			continue
-		var underlying = die.source_die if die is BattleState.LayeredDie else die
+		var underlying = die.source_die if die is LayeredDie else die
 		if i >= underlying.faces.size():
 			die_faces[i].visible = false
 		else:

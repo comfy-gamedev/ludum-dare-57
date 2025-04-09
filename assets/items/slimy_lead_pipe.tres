@@ -1,7 +1,6 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://5yr2jj6pua3u"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=10 format=3 uid="uid://5yr2jj6pua3u"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_t2gs2"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_c7u7s"]
 [ext_resource type="Texture2D" uid="uid://c5hlq3gnbudap" path="res://assets/textures/weapon_sprites/Slimy Lead Pipe.png" id="2_tqqv8"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_tqqv8"]
 
@@ -54,7 +53,8 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 script = ExtResource("3_tqqv8")
 name = "Slimey Lead Pipe"
 item_image = ExtResource("2_tqqv8")
+item_rarity = 0
 faces = Array[ExtResource("1_t2gs2")]([SubResource("Resource_c7u7s"), SubResource("Resource_hff4x"), SubResource("Resource_tqqv8"), SubResource("Resource_alx84"), SubResource("Resource_5dx7u"), SubResource("Resource_n40ch")])
 count = 0.0
-roll_effects = Array[ExtResource("2_c7u7s")]([])
+roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

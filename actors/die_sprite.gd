@@ -5,11 +5,11 @@ signal clicked()
 
 const MOUSE_SENSITIVITY = Vector2.ONE / 30.0
 const FLOAT_DAMPING = 0.95
-const SNAPPAGE = TAU / 24.0
 
 enum AnimMode {
 	NONE,
 	FLOATING,
+	ROLLING,
 }
 
 @export var die_rotation: Quaternion = Quaternion.IDENTITY:
@@ -36,7 +36,7 @@ enum AnimMode {
 		outline_color = v
 		_reconcile()
 
-var die: BattleState.LayeredDie:
+var die: LayeredDie:
 	set(v):
 		if die == v: return
 		if die:
@@ -54,8 +54,10 @@ var _outline_override: Color = Color.TRANSPARENT:
 		_outline_override = v
 		_reconcile()
 var _float_velocity: Vector2
+var _roll_offset_axis_angle: Vector3
 
-@onready var die_node: Node3D = $SubViewport/Die
+@onready var die_node: DieModel = $SubViewport/Die as DieModel
+@onready var sub_viewport: SubViewport = $SubViewport
 
 func _ready() -> void:
 	_reconcile()
@@ -64,6 +66,7 @@ func _process(delta: float) -> void:
 	match animation_mode:
 		AnimMode.NONE:
 			_added_rotation = Quaternion.IDENTITY
+			_reconcile()
 			set_process(false)
 			return
 		AnimMode.FLOATING:
@@ -74,20 +77,41 @@ func _process(delta: float) -> void:
 			_float_velocity *= FLOAT_DAMPING
 			_reconcile()
 			return
+		AnimMode.ROLLING:
+			_added_rotation = Quaternion(_roll_offset_axis_angle.normalized(), _roll_offset_axis_angle.length())
+			_reconcile()
+			return
 
 func get_combined_rotation() -> Quaternion:
 	var rot = _added_rotation * die_rotation
 	match animation_mode:
 		AnimMode.FLOATING:
 			rot = Quaternion.from_euler(Vector3(0, 0, sin(_time) * TAU / 4.0)) * rot
-	#rot = Quaternion.from_euler(rot.get_euler().snappedf(SNAPPAGE))
 	return rot
 
+func random_tap() -> void:
+	_float_velocity = Vector2.from_angle(TAU * randf()) * 0.5
+
+func roll() -> void:
+	animation_mode = AnimMode.ROLLING
+	die_rotation = die_node.get_face_orientation(die.rolled_face)
+	var axis = Vector2.from_angle(TAU * randf())
+	var angle = randf_range(TAU, TAU * 2.0)
+	_roll_offset_axis_angle = Vector3(axis.x, axis.y, 0.0) * angle
+	var t = create_tween()
+	t.tween_property(self, "_roll_offset_axis_angle", Vector3.ZERO, 0.2)
+	await t.finished
+	animation_mode = AnimMode.NONE
+
+func is_rolling() -> bool:
+	return animation_mode == AnimMode.ROLLING
+
 func _reconcile() -> void:
-	if die_node:
-		die_node.die = die
-		die_node.basis = Basis(get_combined_rotation()).scaled(Vector3.ONE * die_scale)
+	if not is_inside_tree(): return
+	die_node.die = die
+	die_node.basis = Basis(get_combined_rotation()).scaled(Vector3.ONE * die_scale)
 	(material as ShaderMaterial).set_shader_parameter("outline_color", _outline_override if _outline_override.a != 0 else outline_color)
+	sub_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event.is_action_pressed("click"):

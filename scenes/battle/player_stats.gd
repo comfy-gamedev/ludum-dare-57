@@ -40,7 +40,7 @@ var mutations: Array[Mutation]:
 		changed.emit()
 
 func add_equipment(id: int = -1) -> String:
-	var item = Globals.available_equipment.values().pick_random()
+	var item = load(ItemDB.items[Enums.ITEM_RARITY.COMMON].pick_random())
 	equipment.append(item)
 	return item.name
 

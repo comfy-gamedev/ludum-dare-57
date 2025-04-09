@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://fcx1o2xpujbv"
-path="res://.godot/imported/speech.png-9c766793a977d924b4a5ba452a848a41.ctex"
+uid="uid://dpedwjn41uxy1"
+path="res://.godot/imported/pip_weak.png-06c2e0a81ed25e1c30204af6ab7fbaa0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/speech.png"
-dest_files=["res://.godot/imported/speech.png-9c766793a977d924b4a5ba452a848a41.ctex"]
+source_file="res://assets/textures/pip_weak.png"
+dest_files=["res://.godot/imported/pip_weak.png-06c2e0a81ed25e1c30204af6ab7fbaa0.ctex"]
 
 [params]
 

@@ -2,6 +2,8 @@
 extends EditorScript
 
 
-# Called when the script is executed (using File -> Run in Script Editor).
 func _run() -> void:
-	print_rich("[rainbow]Hello, world![/rainbow]")
+	for f in DirAccess.get_files_at("res://assets/items/"):
+		var i = load("res://assets/items/".path_join(f))
+		i.item_rarity = Enums.ITEM_RARITY.COMMON
+		ResourceSaver.save(i)

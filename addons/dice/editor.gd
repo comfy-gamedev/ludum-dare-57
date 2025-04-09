@@ -1,11 +1,13 @@
 @tool
 extends VBoxContainer
 
-var die: StuffDie
-@export var face: int
-@onready var lock_check_button: CheckButton = $HBoxContainer/LockCheckButton
-
 const WIDGET = preload("res://addons/dice/widget.tscn")
+
+@export var face: int
+
+var die: StuffDie
+
+@onready var lock_check_button: CheckButton = $HBoxContainer/LockCheckButton
 
 func _ready() -> void:
 	if EditorInterface.get_edited_scene_root() == self:
@@ -19,10 +21,10 @@ func _ready() -> void:
 		if i not in Enums.PIP_TEXTURES:
 			continue
 		var w = WIDGET.instantiate()
-		w.get_node("TextureRect").texture = Enums.PIP_TEXTURES[i]
-		w.get_node("TextureRect").tooltip_text = Enums.PIP_TYPE.find_key(i)
-		w.get_node("SpinBox").value = die.faces[face].pips.get(i, 0)
-		w.get_node("SpinBox").value_changed.connect(
+		w.texture_rect.texture = Enums.PIP_TEXTURES[i]
+		w.texture_rect.tooltip_text = Enums.PIP_TYPE.find_key(i)
+		w.spin_box.value = die.faces[face].pips.get(i, 0)
+		w.spin_box.value_changed.connect(
 			func (v):
 				die.faces[face].pips[i] = int(v)
 				if v == 0:

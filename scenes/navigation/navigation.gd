@@ -183,13 +183,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				match dest.x:
 					Enums.LOCATION_TYPES.ENEMY:
 						SceneGirl.push_scene(BATTLE, func (battle):
-							battle.battle_state.enemy = load(enemies.pick_random()))
+							battle.state.enemy = load(enemies.pick_random()))
 					Enums.LOCATION_TYPES.ELITE:
 						SceneGirl.push_scene(BATTLE, func (battle):
-							battle.battle_state.enemy = load(elites.pick_random()))
+							battle.state.enemy = load(elites.pick_random()))
 					Enums.LOCATION_TYPES.BOSS:
 						SceneGirl.push_scene(BATTLE, func (battle):
-							battle.battle_state.enemy = load(bosses.pick_random()))
+							battle.state.enemy = load(bosses.pick_random()))
 					Enums.LOCATION_TYPES.EVENT:
 						SceneGirl.push_scene(EVENT, func(x):)
 					Enums.LOCATION_TYPES.TREASURE:

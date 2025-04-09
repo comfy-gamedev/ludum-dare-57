@@ -1,5 +1,7 @@
+class_name Battle
 extends Node2D
 
+const DIE_FACE_PIP = preload("res://actors/die_face_pip.tscn")
 const DIE_SPRITE = preload("res://actors/die_sprite.tscn")
 const BLOCK = preload("res://assets/items/block.tres")
 const PUNCH = preload("res://assets/items/punch.tres")
@@ -10,7 +12,7 @@ const BROWN_BRICKS = preload("res://assets/textures/brown_bricks.png")
 @export var hand_width: float = 100.0
 @export var rolled_width: float = 100.0
 
-var battle_state: BattleState = BattleState.new()
+var state: BattleState = BattleState.new()
 
 var _hand_tween: Tween
 
@@ -18,18 +20,14 @@ var _hand_tween: Tween
 @onready var rolled: Node2D = %Rolled
 @onready var enemy_intent: Node2D = %EnemyIntent
 
-@onready var rerolls_label: Label = %RerollsLabel
-@onready var enemy_sprite: Sprite2D = %EnemySprite
-@onready var player_sprite: Sprite2D = %PlayerSprite
-@onready var enemy_heart_label: Label = %EnemyHeartLabel
-@onready var player_heart_label: Label = %PlayerHeartLabel
+@onready var player_screen: CharacterScreen = %PlayerScreen
+@onready var enemy_screen: CharacterScreen = %EnemyScreen
+
 @onready var mutation_grid_container: GridContainer = %MutationGridContainer
 @onready var popup_panel: Panel = %PopupPanel
 @onready var popup_label: RichTextLabel = %PopupLabel
 @onready var ok_button: Button = %OKButton
-@onready var mana_label: Label = %ManaLabel
 @onready var bg: TextureRect = $BG
-@onready var enemy_stats: HBoxContainer = %EnemyStats
 
 @onready var hand_initial_position: Vector2 = hand.position
 
@@ -37,7 +35,6 @@ var _hand_tween: Tween
 @onready var creepy_crunchy: AudioStreamPlayer = $CreepyCrunchy
 @onready var dice_roll: AudioStreamPlayer = $DiceRoll
 @onready var hit_impact_crunch: AudioStreamPlayer = $HitImpactCrunch
-@onready var hit_impact_crunch_aah_2: AudioStreamPlayer = $HitImpactCrunchAah2
 @onready var hit_impact_crunch_oof: AudioStreamPlayer = $HitImpactCrunchOof
 @onready var impacts = [
 	$HitImpactCrunch,
@@ -48,207 +45,121 @@ var _hand_tween: Tween
 @onready var longer_die_roll: AudioStreamPlayer = $LongerDieRoll
 @onready var ughhit: AudioStreamPlayer = $Ughhit
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	MusicMan.music(preload("res://assets/music/Underworld (Battle Theme) Final.ogg"))
 	
-	battle_state.changed.connect(_on_battle_state_changed)
+	state.enemy_intent_changed.connect(_on_state_enemy_intent_changed)
+	state.player_state.changed.connect(_on_player_state_changed)
+	state.player_state.pre_damage.connect(_on_player_state_pre_damage)
+	state.player_state.post_damage.connect(_on_player_state_post_damage)
+	state.enemy_state.changed.connect(_on_enemy_state_changed)
+	state.enemy_state.pre_damage.connect(_on_enemy_state_pre_damage)
+	state.enemy_state.post_damage.connect(_on_enemy_state_post_damage)
+	
 	if not Globals.player_stats:
 		return
-	Globals.player_stats.changed.connect(_on_player_stats_changed)
+	
+	state.player_state.hp = Globals.player_stats.health
+	
 	for eq in Globals.player_stats.equipment:
 		for i in eq.count:
-			battle_state.deck.append(BattleState.LayeredDie.new(eq))
-	battle_state.deck.shuffle()
-	if not battle_state.enemy:
-		battle_state.enemy = load("res://assets/enemies/rat.tres")
-	enemy_sprite.texture = battle_state.enemy.sprite
+			state.deck.append(LayeredDie.new(eq))
+	state.deck.shuffle()
 	
-	battle_state.enemy.max_hp *= 1 + (Globals.act * 0.2)
+	if not state.enemy:
+		state.enemy = load("res://assets/enemies/rat.tres").duplicate()
 	
-	battle_state.enemy_hp = battle_state.enemy.max_hp
+	enemy_screen.sprite.texture = state.enemy.sprite
+	
+	state.enemy.max_hp *= 1 + (Globals.act * 0.2)
+	
+	state.enemy_state.hp = state.enemy.max_hp
+	
+	player_screen.character_state = state.player_state
+	enemy_screen.character_state = state.enemy_state
 	
 	for m in Globals.player_stats.mutations:
 		var tr = MUTATION_ICON.instantiate()
 		tr.texture = m.get_texture()
 		mutation_grid_container.add_child(tr)
 	
-	match battle_state.enemy.action_mode:
-		Enums.ENEMY_ACTION_MODE.LOOP:
-			pass
-		Enums.ENEMY_ACTION_MODE.RANDOM:
-			var result = 0
-			var roll = randf() ** (1.0 / battle_state.enemy.actions[0].random_weight)
-			var jump = log(randf()) / log(roll)
-			for i in range(1, battle_state.enemy.actions.size()):
-				jump -= battle_state.enemy.actions[i].random_weight
-				if jump <= 0.0:
-					var t = roll ** battle_state.enemy.actions[i].random_weight
-					roll = randf_range(t, 1.0) ** (1.0 / battle_state.enemy.actions[i].random_weight)
-					result = i
-					jump = log(randf()) / log(roll)
-			battle_state.enemy_action_index = result
-	
-	_on_battle_state_changed()
-	_trigger_event(Enums.TRIGGERS.COMBAT_START)
+	_trigger_event(Enums.TRIGGER.COMBAT_START)
 	start_turn()
-	player_heart_label.text = str(Globals.player_stats.health)
 
-func _on_player_stats_changed() -> void:
-	player_heart_label.text = str(Globals.player_stats.health)
-
-func _on_battle_state_changed() -> void:
-	enemy_heart_label.text = str(battle_state.enemy_hp)
-	rerolls_label.text = str(battle_state.rerolls)
-	mana_label.text = str(battle_state.mana)
-	
-	for c in enemy_intent.get_children():
-		c.queue_free()
-	
-	var intent = battle_state.enemy.actions[battle_state.enemy_action_index].action
-	if battle_state.enemy_slime > 0:
-		intent = Enums.ENEMY_ACTION.PASS
-	
-	match intent:
-		Enums.ENEMY_ACTION.PASS:
-			var s = preload("res://actors/intent_icon.tscn").instantiate()
-			s.texture = preload("res://assets/textures/zzz.png")
-			enemy_intent.add_child(s)
-		Enums.ENEMY_ACTION.ATTACK:
-			var s = preload("res://actors/intent_icon.tscn").instantiate()
-			s.texture = preload("res://assets/textures/pip_attack.png")
-			var dmg = battle_state.enemy_strength + battle_state.enemy.actions[battle_state.enemy_action_index].action_param
-			s.get_node("Label").text = str(dmg)
-			enemy_intent.add_child(s)
-		Enums.ENEMY_ACTION.DEFEND:
-			var s = preload("res://actors/intent_icon.tscn").instantiate()
-			s.texture = preload("res://assets/textures/pip_shield.png")
-			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
-			enemy_intent.add_child(s)
-		Enums.ENEMY_ACTION.HEAL:
-			var s = preload("res://actors/intent_icon.tscn").instantiate()
-			s.texture = preload("res://assets/textures/pip_heal.png")
-			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
-			enemy_intent.add_child(s)
-		Enums.ENEMY_ACTION.STRENGTH:
-			var s = preload("res://actors/intent_icon.tscn").instantiate()
-			s.texture = preload("res://assets/textures/intent_strength.png")
-			s.get_node("Label").text = str(battle_state.enemy.actions[battle_state.enemy_action_index].action_param)
-			enemy_intent.add_child(s)
-	
-	if battle_state.mana == 0:
-		if hand.position == hand_initial_position:
-			_hand_tween = create_tween()
-			hand.position.y += 1.0
-			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y + 50.0, 0.2)
-	else:
-		if hand.position != hand_initial_position:
-			hand.position.y -= 1.0
-			_hand_tween = create_tween()
-			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y, 0.2)
-	
-	for c in enemy_stats.get_children():
-		c.queue_free()
-	for i in battle_state.enemy_shield:
-		var c = TextureRect.new()
-		c.texture = preload("res://assets/textures/pip_shield.png")
-		enemy_stats.add_child(c)
-	for i in battle_state.enemy_poison:
-		var c = TextureRect.new()
-		c.texture = preload("res://assets/textures/pip_poison.png")
-		enemy_stats.add_child(c)
-	for i in battle_state.enemy_slime:
-		var c = TextureRect.new()
-		c.texture = preload("res://assets/textures/pip_slime.png")
-		enemy_stats.add_child(c)
-	for i in battle_state.enemy_strength:
-		var c = TextureRect.new()
-		c.texture = preload("res://assets/textures/pip_attack.png")
-		enemy_stats.add_child(c)
-
-func _trigger_event(type: Enums.TRIGGERS, data: Dictionary = {}) -> void:
-	print("_trigger_event(%s, %s)" % [Enums.TRIGGERS.find_key(type), data])
+func _trigger_event(type: Enums.TRIGGER, data: Dictionary = {}) -> void:
+	print("_trigger_event(%s, %s)" % [Enums.TRIGGER.find_key(type), data])
 	for i in Globals.player_stats.mutations.size():
 		var m = Globals.player_stats.mutations[i]
-		if m.triggered(type, data, battle_state):
+		if m.triggered(type, data, self):
 			mutation_grid_container.get_child(i).pulse()
-	
-	match type:
-		Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
-			var pips = data.roll_result.die.get_total_pips(data.roll_result.face)
-			for pip in pips:
-				match pip:
-					Enums.PIP_TYPE.REROLL:
-						battle_state.rerolls += pips[pip]
-					Enums.PIP_TYPE.DRAW:
-						draw_from_deck()
-					Enums.PIP_TYPE.MANA:
-						battle_state.mana += pips[pip]
-					Enums.PIP_TYPE.INSTANT_ATTACK:
-						battle_state.enemy_hp -= pips[pip]
-					Enums.PIP_TYPE.INSTANT_PAIN:
-						Globals.player_stats.health -= pips[pip]
 
 func shuffle_discard() -> void:
 	print("Shuffling discard back into deck.")
-	battle_state.deck = battle_state.discard
-	battle_state.discard = []
+	state.deck = state.discard
+	state.discard = []
 
 func start_turn() -> void:
 	print("Starting turn.")
 	
-	battle_state.mana = Globals.player_stats.initial_mana
-	battle_state.rerolls = Globals.player_stats.initial_rerolls
+	state.player_state.mana = Globals.player_stats.initial_mana
+	state.player_state.rerolls = Globals.player_stats.initial_rerolls
+	
+	discard_all(state.roll_results)
+	discard_all(state.hand)
 	
 	for i in 5:
 		if not draw_from_deck():
 			break
 	
-	_trigger_event(Enums.TRIGGERS.TURN_START)
+	state.prepare_enemy_act()
+	
+	_trigger_event(Enums.TRIGGER.TURN_START)
 
 func draw_from_deck() -> bool:
-	if battle_state.deck.is_empty():
+	if state.deck.is_empty():
 		shuffle_discard()
-	if battle_state.deck.is_empty():
+	if state.deck.is_empty():
 		return false
-	var die: BattleState.LayeredDie = battle_state.deck.pop_back()
+	var die: LayeredDie = state.deck.pop_back()
 	print("Drawing die ", die, " from deck.")
-	battle_state.hand.append(die)
+	state.hand.append(die)
 	var sprite = DIE_SPRITE.instantiate()
 	sprite.die = die
 	sprite.animation_mode = DieSprite.AnimMode.FLOATING
 	hand.add_child(sprite)
-	sprite.position.x = float(sprite.get_index()) / float(battle_state.hand.size() - 1) * hand_width
+	sprite.position.x = float(sprite.get_index()) / float(state.hand.size() - 1) * hand_width
 	sprite.clicked.connect(_on_die_clicked.bind(sprite))
+	sprite.random_tap()
 	_adjust_sprite_positions()
 	return true
 
-func discard_die(die: BattleState.LayeredDie) -> void:
-	var i = battle_state.roll_results.find_custom(func (x): return x.die == die)
+func discard_die(die: LayeredDie) -> void:
+	var i = state.roll_results.find(die)
 	if i != -1:
 		print("Discarding die ", die, " from roll_results.")
-		battle_state.roll_results.remove_at(i)
-	elif die in battle_state.hand:
+		state.roll_results.remove_at(i)
+	elif die in state.hand:
 		print("Discarding die ", die, " from hand.")
-		battle_state.hand.erase(die)
-	elif die in battle_state.deck:
+		state.hand.erase(die)
+	elif die in state.deck:
 		print("Discarding die ", die, " from deck.")
-		battle_state.deck.erase(die)
+		state.deck.erase(die)
 	else:
 		print("Discarding die ", die, " NOT FOUND.")
-	battle_state.discard.append(die)
+	
+	state.discard.append(die)
 	
 	die.clear_turn_pips()
 	die.clear_roll_pips()
 	
 	var sprite: DieSprite = die.battle_sprite
-	if not is_instance_valid(sprite):
-		return
-	sprite.reparent(self)
-	var tween = create_tween()
-	tween.tween_property(sprite, "position", Vector2(900, 500), 0.2)
-	await tween.finished
-	sprite.queue_free()
+	if is_instance_valid(sprite):
+		sprite.reparent(self)
+		var tween = create_tween()
+		tween.tween_property(sprite, "position", Vector2(900, 500), 0.2)
+		await tween.finished
+		sprite.queue_free()
 
 func discard_all(dice: Array) -> void:
 	for d in dice.duplicate():
@@ -269,49 +180,73 @@ func lose() -> void:
 	Globals.player_nav_event = "battle_lost"
 	SceneGirl.pop_scene()
 
+func apply_die_instants(die: LayeredDie, face: int = -1) -> void:
+	if face == -1:
+		face = die.rolled_face
+	var pips = die.get_total_pips(face)
+	for pip in pips:
+		match pip:
+			Enums.PIP_TYPE.REROLL:
+				state.player_state.rerolls += pips[pip]
+			Enums.PIP_TYPE.DRAW:
+				draw_from_deck()
+			Enums.PIP_TYPE.MANA:
+				state.player_state.mana += pips[pip]
+			Enums.PIP_TYPE.INSTANT_ATTACK:
+				state.enemy_state.deal_damage(pips[pip])
+			Enums.PIP_TYPE.INSTANT_PAIN:
+				state.player_state.deal_damage(pips[pip])
+
+func apply_die(die: LayeredDie, face: int = -1) -> void:
+	if face == -1:
+		face = die.rolled_face
+	var pips = die.get_total_pips(face)
+	for type in pips:
+		match type:
+			Enums.PIP_TYPE.ATTACK:
+				state.enemy_state.deal_damage(pips[type])
+			Enums.PIP_TYPE.HEAL:
+				state.player_state.hp = mini(state.player_state.hp + pips[type], Globals.player_stats.max_health)
+			Enums.PIP_TYPE.DEFEND:
+				state.player_state.add_status_pip(Enums.PIP_TYPE.DEFEND, pips[type])
+			Enums.PIP_TYPE.POISON:
+				state.enemy_state.add_status_pip(Enums.PIP_TYPE.POISON, pips[type])
+			Enums.PIP_TYPE.SLIME:
+				state.enemy_state.add_status_pip(Enums.PIP_TYPE.SLIME, pips[type])
+
 func _on_die_clicked(sprite: DieSprite) -> void:
-	var die: BattleState.LayeredDie = sprite.die
-	if battle_state.mana > 0 and die in battle_state.hand:
-		var roll = BattleState.RollResult.new(die, randi_range(0, 5))
-		battle_state.roll_results.append(roll)
-		battle_state.hand.erase(die)
+	if sprite.is_rolling(): return
+	var die: LayeredDie = sprite.die
+	var trigger = null
+	
+	if state.player_state.mana > 0 and die in state.hand:
+		state.player_state.mana -= 1
+		die.rolled_face = randi_range(0, 5)
+		state.roll_results.append(die)
+		state.hand.erase(die)
 		sprite.reparent(rolled)
-		sprite.animation_mode = DieSprite.AnimMode.NONE
-		var orientation := Quaternion(
-			sprite.die_node.get_face_orientation(roll.face))
-		var orig = sprite.get_combined_rotation()
-		create_tween().tween_method(func (x):
-			sprite.die_rotation = orig.slerp(orientation, x)
-		, 0.0, 1.0, 0.2)
 		_adjust_sprite_positions()
-		roll.die.clear_roll_pips()
-		battle_state.mana -= 1
-		_trigger_event(Enums.TRIGGERS.FIRST_ROLL, { roll_result = roll })
+		trigger = Enums.TRIGGER.FIRST_ROLL
+	elif state.player_state.rerolls > 0 and die in state.roll_results:
+		state.player_state.rerolls -= 1
+		die.rolled_face = randi_range(0, 5)
+		trigger = Enums.TRIGGER.REROLL
+	
+	if trigger != null:
+		die.clear_roll_pips()
 		dice_roll.play()
-	elif battle_state.rerolls > 0:
-		var f = battle_state.roll_results.find_custom(func (x): return x.die == die)
-		if f != -1:
-			var roll = battle_state.roll_results[f]
-			roll.face = randi_range(0, 5)
-			var orientation := Quaternion(
-				sprite.die_node.get_face_orientation(roll.face))
-			var orig = sprite.get_combined_rotation()
-			create_tween().tween_method(func (x):
-				sprite.die_rotation = orig.slerp(orientation, x)
-			, 0.0, 1.0, 0.2)
-			battle_state.rerolls -= 1
-			roll.die.clear_roll_pips()
-			_trigger_event(Enums.TRIGGERS.REROLL, { roll_result = roll })
-			dice_roll.play()
+		await die.battle_sprite.roll()
+		_trigger_event(trigger, { roll_result = die })
+		apply_die_instants(die)
 
 func _adjust_sprite_positions() -> void:
-	var hand_spacing = mini(96.0, hand_width / hand.get_child_count())
+	var hand_spacing = minf(96.0, hand_width / hand.get_child_count())
 	var hand_start = hand_width / 2.0 - (hand.get_child_count() - 1) / 2.0 * hand_spacing
 	for i in hand.get_child_count():
 		var p = Vector2(hand_start + hand_spacing * i, 0.0)
 		create_tween().set_trans(Tween.TRANS_CIRC).set_ease(Tween.EASE_OUT) \
 			.tween_property(hand.get_child(i), "position", p, 0.2)
-	var rolled_spacing = mini(96.0, rolled_width / rolled.get_child_count())
+	var rolled_spacing = minf(96.0, rolled_width / rolled.get_child_count())
 	var rolled_start = rolled_width / 2.0 - (rolled.get_child_count() - 1) / 2.0 * rolled_spacing
 	for i in rolled.get_child_count():
 		var p = Vector2(rolled_start + rolled_spacing * i, 0.0)
@@ -327,127 +262,136 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			win()
 
 func _on_go_button_pressed() -> void:
-	_trigger_event(Enums.TRIGGERS.GO)
+	_trigger_event(Enums.TRIGGER.GO)
 	
-	var player_damaged: bool = false
-	var enemy_damaged: bool = false
+	var player_inital_hp: int = state.player_state.hp
+	var enemy_initial_hp: int = state.enemy_state.hp
 	
-	for i in battle_state.roll_results.size():
-		var r: BattleState.RollResult = battle_state.roll_results[i]
-		var pips = r.die.get_total_pips(r.face)
-		for type in pips:
-			match type:
-				Enums.PIP_TYPE.ATTACK:
-					var blocked = mini(battle_state.enemy_shield, pips[type])
-					battle_state.enemy_shield -= blocked
-					var trigger = { damage = pips[type] - blocked }
-					_trigger_event(Enums.TRIGGERS.PRE_DEAL_DAMAGE, trigger)
-					battle_state.enemy_hp -= trigger.damage
-					if trigger.damage > 0:
-						enemy_damaged = true
-					_trigger_event(Enums.TRIGGERS.POST_DEAL_DAMAGE, trigger)
-				Enums.PIP_TYPE.DEFEND:
-					battle_state.player_shield += pips[type]
-				Enums.PIP_TYPE.HEAL:
-					Globals.player_stats.health = mini(Globals.player_stats.health + pips[type], Globals.player_stats.max_health)
-				Enums.PIP_TYPE.POISON:
-					battle_state.enemy_poison += pips[type]
+	# Player action.
+	for i in state.roll_results.size():
+		apply_die(state.roll_results[i])
 	
-	battle_state.enemy_shield = 0
+	state.enemy_state.set_status_pip(Enums.PIP_TYPE.DEFEND, 0)
 	
-	if battle_state.enemy_poison > 0:
-		battle_state.enemy_hp -= battle_state.enemy_poison
-		battle_state.enemy_poison = floori(battle_state.enemy_poison / 2.0)
-		enemy_damaged = true
+	# Enemy poison.
+	if state.enemy_state.get_status_pip(Enums.PIP_TYPE.POISON) > 0:
+		state.enemy_state.deal_damage(state.enemy_state.get_status_pip(Enums.PIP_TYPE.POISON))
+		state.enemy_state.set_status_pip(Enums.PIP_TYPE.POISON, floori(state.enemy_state.get_status_pip(Enums.PIP_TYPE.POISON) / 2.0))
 	
-	if battle_state.enemy_hp <= 0:
+	# Early victory check.
+	if state.enemy_state.hp <= 0:
 		win()
 		return
 	
-	var enemy_action = battle_state.enemy.actions[battle_state.enemy_action_index]
-	var enemy_action_action = enemy_action.action
-	var enemy_action_param = enemy_action.action_param
-	if battle_state.enemy_slime > 0:
-		enemy_action_action = Enums.ENEMY_ACTION.PASS
-		battle_state.enemy_slime = 0
-	match enemy_action_action:
+	# Player poison.
+	if state.player_state.get_status_pip(Enums.PIP_TYPE.POISON) > 0:
+		state.player_state.deal_damage(state.player_state.get_status_pip(Enums.PIP_TYPE.POISON))
+		state.player_state.set_status_pip(Enums.PIP_TYPE.POISON, floori(state.player_state.get_status_pip(Enums.PIP_TYPE.POISON) / 2.0))
+	
+	# Enemy action.
+	match state.enemy_act.action:
 		Enums.ENEMY_ACTION.PASS:
 			pass
 		Enums.ENEMY_ACTION.ATTACK:
-			var trigger = {
-				damage = maxi(0, battle_state.enemy_strength + enemy_action_param - battle_state.player_shield),
-				shielded = mini(battle_state.enemy_strength + enemy_action_param, battle_state.player_shield),
-			}
-			_trigger_event(Enums.TRIGGERS.PRE_TAKE_DAMAGE, trigger)
-			Globals.player_stats.health -= trigger.damage
-			if trigger.damage > 0:
-				player_damaged = true
-			_trigger_event(Enums.TRIGGERS.POST_TAKE_DAMAGE, trigger)
+			state.player_state.deal_damage(state.enemy_state.get_status_pip(Enums.PIP_TYPE.STRENGTH) + state.enemy_act.param)
 		Enums.ENEMY_ACTION.DEFEND:
-			battle_state.enemy_shield += enemy_action_param
+			state.enemy_state.add_status_pip(Enums.PIP_TYPE.DEFEND, state.enemy_act.param)
 		Enums.ENEMY_ACTION.HEAL:
-			battle_state.enemy_hp = mini(battle_state.enemy_hp + enemy_action_param, battle_state.enemy.max_hp)
+			state.enemy_state.hp = mini(state.enemy_state.hp + state.enemy_act.param, state.enemy.max_hp)
 		Enums.ENEMY_ACTION.STRENGTH:
-			battle_state.enemy_strength += enemy_action_param
-	battle_state.player_shield = 0
-	match battle_state.enemy.action_mode:
-		Enums.ENEMY_ACTION_MODE.LOOP:
-			var i = battle_state.enemy_action_index + 1
-			if i >= battle_state.enemy.actions.size():
-				i = battle_state.enemy.action_loop_point
-			battle_state.enemy_action_index = clampi(i, 0, battle_state.enemy.actions.size())
-		Enums.ENEMY_ACTION_MODE.RANDOM:
-			var result = 0
-			var roll = randf() ** (1.0 / battle_state.enemy.actions[0].random_weight)
-			var jump = log(randf()) / log(roll)
-			for i in range(1, battle_state.enemy.actions.size()):
-				jump -= battle_state.enemy.actions[i].random_weight
-				if jump <= 0.0:
-					var t = roll ** battle_state.enemy.actions[i].random_weight
-					roll = randf_range(t, 1.0) ** (1.0 / battle_state.enemy.actions[i].random_weight)
-					result = i
-					jump = log(randf()) / log(roll)
-			battle_state.enemy_action_index = result
+			state.enemy_state.add_status_pip(Enums.PIP_TYPE.STRENGTH, state.enemy_act.param)
 	
-	for i in battle_state.roll_results.size():
-		var r: BattleState.RollResult = battle_state.roll_results[i]
-		var pips = r.die.get_total_pips(r.face)
-		for type in pips:
-			match type:
-				Enums.PIP_TYPE.SLIME:
-					battle_state.enemy_slime += pips[type]
+	state.player_state.set_status_pip(Enums.PIP_TYPE.DEFEND, 0)
 	
-	if Globals.player_stats.health <= 0:
+	# Check loss.
+	if state.player_state.hp <= 0:
 		lose()
 		return
 	
-	if battle_state.enemy_hp <= 0:
+	# Check victory.
+	if state.enemy_state.hp <= 0:
 		win()
 		return
 	
-	if not Settings.disable_flashing and player_damaged:
-		var t = create_tween()
-		t.tween_method(func (x):
-			bg.texture = BRICK if floori(x) % 2 == 0 else BROWN_BRICKS
-		, 0.0, 10.0, 0.5)
-		t.tween_callback(func (): bg.texture = BRICK)
-	
-	if enemy_damaged:
-		var o = enemy_sprite.position
-		var t = create_tween()
-		t.tween_method(func (x):
-			var i = floori(x) % 2
-			enemy_sprite.position.x = o.x + (-10 if i == 0 else 10)
-		, 0.0, 10.0, 0.5)
-		t.tween_callback(func (): enemy_sprite.position = o)
-	
-	if enemy_damaged:
+	# Enemy damaged.
+	if state.enemy_state.hp != enemy_initial_hp:
+		enemy_screen.shake()
 		impacts.pick_random().play()
 	
-	if player_damaged:
+	# Player damaged.
+	if state.player_state.hp != player_inital_hp:
+		player_screen.shake()
 		impacts.pick_random().play()
-	
-	discard_all(battle_state.roll_results.map(func (x): return x.die))
-	discard_all(battle_state.hand)
+		if not Settings.disable_flashing:
+			var t = create_tween()
+			t.tween_method(func (x):
+				bg.texture = BRICK if floori(x) % 2 == 0 else BROWN_BRICKS
+			, 0.0, 10.0, 0.5)
+			t.tween_callback(func ():
+				bg.texture = BRICK)
 	
 	start_turn()
+
+func _on_state_enemy_intent_changed() -> void:
+	for c in enemy_intent.get_children():
+		c.queue_free()
+	
+	var intent = state.enemy_act.action
+	var intent_value = state.enemy_act.param
+	
+	var pip = DIE_FACE_PIP.instantiate()
+	enemy_intent.add_child(pip)
+	pip.size *= 2
+	pip.position = -pip.size/2.0
+	pip.label.pivot_offset = Vector2(32, 32)
+	pip.label.scale = Vector2(2, 2)
+	
+	match intent:
+		Enums.ENEMY_ACTION.PASS:
+			pip.texture = preload("res://assets/textures/zzz.png")
+		Enums.ENEMY_ACTION.ATTACK:
+			pip.texture = Enums.PIP_TEXTURES[Enums.PIP_TYPE.ATTACK]
+			var plus = state.enemy_state.get_status_pip(Enums.PIP_TYPE.STRENGTH)
+			intent_value = plus + state.enemy_act.param
+			if plus != 0:
+				pip.label.label_settings.font_color = Color("85b396")
+		Enums.ENEMY_ACTION.DEFEND:
+			pip.texture = Enums.PIP_TEXTURES[Enums.PIP_TYPE.DEFEND]
+		Enums.ENEMY_ACTION.HEAL:
+			pip.texture = Enums.PIP_TEXTURES[Enums.PIP_TYPE.HEAL]
+		Enums.ENEMY_ACTION.STRENGTH:
+			pip.texture = Enums.PIP_TEXTURES[Enums.PIP_TYPE.STRENGTH]
+	
+	if intent_value > 1:
+		pip.label.text = str(intent_value)
+		pip.label.show()
+	
+
+func _on_player_state_changed() -> void:
+	Globals.player_stats.health = state.player_state.hp
+	
+	if state.player_state.mana == 0:
+		if hand.position == hand_initial_position:
+			_hand_tween = create_tween()
+			hand.position.y += 1.0
+			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y + 50.0, 0.2)
+	else:
+		if hand.position != hand_initial_position:
+			hand.position.y -= 1.0
+			_hand_tween = create_tween()
+			_hand_tween.tween_property(hand, "position:y", hand_initial_position.y, 0.2)
+
+func _on_player_state_pre_damage(data: Dictionary) -> void:
+	_trigger_event(Enums.TRIGGER.PRE_TAKE_DAMAGE, data)
+
+func _on_player_state_post_damage(data: Dictionary) -> void:
+	_trigger_event(Enums.TRIGGER.POST_TAKE_DAMAGE, data)
+
+func _on_enemy_state_changed() -> void:
+	pass
+
+func _on_enemy_state_pre_damage(data: Dictionary) -> void:
+	_trigger_event(Enums.TRIGGER.PRE_DEAL_DAMAGE, data)
+
+func _on_enemy_state_post_damage(data: Dictionary) -> void:
+	_trigger_event(Enums.TRIGGER.POST_DEAL_DAMAGE, data)

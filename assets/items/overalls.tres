@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://b3cwklrar0ha0"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=10 format=3 uid="uid://b3cwklrar0ha0"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_lixal"]
 [ext_resource type="Texture2D" uid="uid://dplpnjh7f2nie" path="res://assets/textures/weapon_sprites/Overalls.png" id="2_lixal"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="3_7j8x8"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="4_87ltm"]
 
 [sub_resource type="Resource" id="Resource_7k8o4"]
@@ -59,7 +58,8 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 script = ExtResource("4_87ltm")
 name = "Overalls"
 item_image = ExtResource("2_lixal")
+item_rarity = 0
 faces = Array[ExtResource("1_lixal")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
 count = 4.0
-roll_effects = Array[ExtResource("3_7j8x8")]([])
+roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

@@ -1,26 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://pteh7k3pyx6q"]
+[gd_scene load_steps=6 format=3 uid="uid://pteh7k3pyx6q"]
 
 [ext_resource type="Script" uid="uid://c2ahaaqypxcnc" path="res://actors/die_face.gd" id="1_4uhwo"]
-[ext_resource type="Texture2D" uid="uid://6s8q7jjhl6fd" path="res://assets/textures/die_face.png" id="2_7vo8i"]
-[ext_resource type="PackedScene" uid="uid://frjf56k6vksb" path="res://pip_template.tscn" id="3_pxl8g"]
-[ext_resource type="Texture2D" uid="uid://blq0jtp46le5a" path="res://assets/textures/pip_attack.png" id="4_xp041"]
+[ext_resource type="Texture2D" uid="uid://6s8q7jjhl6fd" path="res://assets/textures/die_face.png" id="2_3yadj"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4uhwo"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2doa"]
 resource_local_to_scene = true
 shading_mode = 0
-albedo_texture = ExtResource("2_7vo8i")
+albedo_texture = SubResource("ViewportTexture_4uhwo")
 texture_filter = 0
 
 [sub_resource type="QuadMesh" id="QuadMesh_smdi5"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4j10v"]
-resource_local_to_scene = true
-transparency = 2
-alpha_scissor_threshold = 0.5
-alpha_antialiasing_mode = 0
-shading_mode = 0
-albedo_texture = ExtResource("4_xp041")
-texture_filter = 0
 
 [node name="DieFace" type="Node3D"]
 script = ExtResource("1_4uhwo")
@@ -30,7 +22,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
 material_override = SubResource("StandardMaterial3D_s2doa")
 mesh = SubResource("QuadMesh_smdi5")
 
-[node name="PipTemplate" parent="." instance=ExtResource("3_pxl8g")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.51)
-visible = false
-material_override = SubResource("StandardMaterial3D_4j10v")
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+size = Vector2i(64, 64)
+render_target_update_mode = 1
+
+[node name="Face" type="TextureRect" parent="SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_3yadj")

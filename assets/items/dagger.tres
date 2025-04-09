@@ -1,7 +1,6 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://c5df0ke2klvm8"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=10 format=3 uid="uid://c5df0ke2klvm8"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_vhj5b"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_eg7jw"]
 [ext_resource type="Texture2D" uid="uid://tr1dgorbff3n" path="res://assets/textures/weapon_sprites/Dagger.png" id="2_pyf80"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_pyf80"]
 
@@ -59,7 +58,8 @@ autolocking = false
 script = ExtResource("3_pyf80")
 name = "Dagger"
 item_image = ExtResource("2_pyf80")
+item_rarity = 0
 faces = Array[ExtResource("1_vhj5b")]([SubResource("Resource_412wc"), SubResource("Resource_rthtr"), SubResource("Resource_jc7ym"), SubResource("Resource_ryvho"), SubResource("Resource_5a6d8"), SubResource("Resource_eg7jw")])
-count = 1
-roll_effects = Array[ExtResource("2_eg7jw")]([])
+count = null
+roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

@@ -16,9 +16,11 @@ texture = SubResource("ViewportTexture_caisl")
 script = ExtResource("1_caisl")
 
 [node name="SubViewport" type="SubViewport" parent="."]
+physics_interpolation_mode = 2
 own_world_3d = true
 transparent_bg = true
 size = Vector2i(128, 128)
+render_target_update_mode = 1
 
 [node name="Die" parent="SubViewport" instance=ExtResource("1_4b6o3")]
 

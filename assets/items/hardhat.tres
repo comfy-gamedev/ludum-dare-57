@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://cj6shxg51bsen"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=10 format=3 uid="uid://cj6shxg51bsen"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_x6qlf"]
 [ext_resource type="Texture2D" uid="uid://br7rl3sk3hlj4" path="res://assets/textures/item_sprites/Hardhat.png" id="2_x6qlf"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="3_ggjo0"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="4_x17cm"]
 
 [sub_resource type="Resource" id="Resource_7k8o4"]
@@ -59,7 +58,8 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 script = ExtResource("4_x17cm")
 name = "Hardhat"
 item_image = ExtResource("2_x6qlf")
+item_rarity = 0
 faces = Array[ExtResource("1_x6qlf")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
 count = 4.0
-roll_effects = Array[ExtResource("3_ggjo0")]([])
+roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

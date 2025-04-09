@@ -2,35 +2,26 @@ extends Node2D
 
 const UPGRADE_CHOICE = preload("res://actors/upgrade_choice.tscn")
 
-const ITEMS = [
-	"res://assets/items/arm_warmers.tres",
-	"res://assets/items/board.tres",
-	"res://assets/items/clean_sock.tres",
-	"res://assets/items/dagger.tres",
-	"res://assets/items/dirty_sock.tres",
-	"res://assets/items/diving_helmet.tres",
-	"res://assets/items/empty_bottle_of_poison.tres",
-	"res://assets/items/glass bottle.tres",
-	"res://assets/items/hammer.tres",
-	"res://assets/items/hardhat.tres",
-	"res://assets/items/hi_vis_vest.tres",
-	"res://assets/items/lead_pipe.tres",
-	"res://assets/items/lead_pipe_with_nail.tres",
-	"res://assets/items/manhole_cover.tres",
-	"res://assets/items/overalls.tres",
-	"res://assets/items/paddle.tres",
-	"res://assets/items/pipe_wrench.tres",
-	"res://assets/items/poison_dagger.tres",
-	"res://assets/items/shiv.tres",
-	"res://assets/items/sledgehammer.tres",
-	"res://assets/items/slimy_lead_pipe.tres",
-	"res://assets/items/traffic_cone.tres",
-	"res://assets/items/trash_can_lid.tres",
-	"res://assets/items/vitamins.tres",
-	"res://assets/items/wet_gloves.tres",
-	"res://assets/items/blank.tres",
-	"res://assets/items/mana_ball.tres",
-]
+var ITEM_RATES = {
+	Enums.UPGRADE_REASON.TREASURE: {
+		Enums.ITEM_RARITY.COMMON: 1.0,
+		Enums.ITEM_RARITY.UNCOMMON: 0.4,
+	},
+	Enums.UPGRADE_REASON.ENEMY: {
+		Enums.ITEM_RARITY.COMMON: 1.0,
+		Enums.ITEM_RARITY.UNCOMMON: 0.3,
+		Enums.ITEM_RARITY.RARE: 0.05,
+	},
+	Enums.UPGRADE_REASON.ELITE: {
+		Enums.ITEM_RARITY.COMMON: 1.1,
+		Enums.ITEM_RARITY.UNCOMMON: 1.0,
+		Enums.ITEM_RARITY.RARE: 0.2,
+	},
+	Enums.UPGRADE_REASON.BOSS: {
+		Enums.ITEM_RARITY.COMMON: 1.1,
+		Enums.ITEM_RARITY.ULTRA_RARE: 1.0,
+	},
+}
 
 var reason: Enums.UPGRADE_REASON
 
@@ -40,10 +31,14 @@ var reason: Enums.UPGRADE_REASON
 func _ready() -> void:
 	$VBoxContainer/SkipButton.grab_focus()
 	match reason:
-		Enums.UPGRADE_REASON.TREASURE:
+		Enums.UPGRADE_REASON.TREASURE,\
+		Enums.UPGRADE_REASON.ENEMY,\
+		Enums.UPGRADE_REASON.ELITE,\
+		Enums.UPGRADE_REASON.BOSS:
 			label.text = "Choose An Item!"
-			for i in 2:
-				var item: StuffDie = load(ITEMS.pick_random())
+			var choices = ItemDB.pick_n(3, ITEM_RATES[reason])
+			for i in choices.size():
+				var item: StuffDie = choices[i]
 				var c = UPGRADE_CHOICE.instantiate()
 				options.add_child(c)
 				c.name_label.text = item.name
@@ -64,39 +59,6 @@ func _ready() -> void:
 				c.description.autowrap_mode = TextServer.AUTOWRAP_WORD
 				c.description.custom_minimum_size = Vector2(400, 0)
 				c.clicked.connect(_pick_mutation.bind(mut))
-		Enums.UPGRADE_REASON.ENEMY:
-			label.text = "Choose An Item!"
-			for i in 2:
-				var item: StuffDie = load(ITEMS.pick_random())
-				var c = UPGRADE_CHOICE.instantiate()
-				options.add_child(c)
-				c.name_label.text = item.name
-				c.texture_rect.texture = item.item_image
-				c.description.hide()
-				c.die.die = item
-				c.clicked.connect(_pick_item.bind(item))
-		Enums.UPGRADE_REASON.ELITE:
-			label.text = "Choose An Item!"
-			for i in 3:
-				var item: StuffDie = load(ITEMS.pick_random())
-				var c = UPGRADE_CHOICE.instantiate()
-				options.add_child(c)
-				c.name_label.text = item.name
-				c.texture_rect.texture = item.item_image
-				c.description.hide()
-				c.die.die = item
-				c.clicked.connect(_pick_item.bind(item))
-		Enums.UPGRADE_REASON.BOSS:
-			label.text = "Choose An Item!"
-			for i in 3:
-				var item: StuffDie = load(ITEMS.pick_random())
-				var c = UPGRADE_CHOICE.instantiate()
-				options.add_child(c)
-				c.name_label.text = item.name
-				c.texture_rect.texture = item.item_image
-				c.description.hide()
-				c.die.die = item
-				c.clicked.connect(_pick_item.bind(item))
 
 func _pick_item(item: StuffDie) -> void:
 	Globals.player_stats.equipment.append(item)

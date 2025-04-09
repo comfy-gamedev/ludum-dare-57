@@ -1,6 +1,8 @@
 @tool
 extends EditorPlugin
+
 const SCREEN = preload("res://addons/dice/screen.tscn")
+
 var screen: Node
 
 func _enter_tree() -> void:

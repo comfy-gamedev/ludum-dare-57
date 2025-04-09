@@ -82,94 +82,94 @@ func get_texture() -> Texture2D:
 		t = preload("res://assets/textures/dna.png")
 	return t
 
-func triggered(trigger_event: Enums.TRIGGERS, data: Dictionary, battle_state: BattleState) -> bool:
+func triggered(trigger_event: Enums.TRIGGER, data: Dictionary, battle: Battle) -> bool:
 	match kind:
 		KIND.ENLARGED_EYES:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						d.add_persistent_buff(Enums.PIP_TYPE.DEFEND, 1)
 					return true
 		KIND.SPIKY:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						d.add_persistent_buff(Enums.PIP_TYPE.ATTACK, -1)
 					return true
-				Enums.TRIGGERS.PRE_TAKE_DAMAGE:
-					battle_state.enemy_hp -= data.shielded
+				Enums.TRIGGER.PRE_TAKE_DAMAGE:
+					battle.state.enemy_state.deal_damage(data.blocked)
 					return true
 		KIND.HARDENED_SCALES:
 			match trigger_event:
-				Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
-					if data.roll_result.die.get_total_pips(data.roll_result.face) == {}:
-						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.DEFEND, 1)
+				Enums.TRIGGER.FIRST_ROLL, Enums.TRIGGER.REROLL:
+					if data.roll_result.get_total_pips() == {}:
+						data.roll_result.add_roll_pip(data.roll_result.rolled_face, Enums.PIP_TYPE.DEFEND, 1)
 						return true
 		KIND.HEIGHTENED_INSTINCTS:
 			match trigger_event:
-				Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
+				Enums.TRIGGER.FIRST_ROLL, Enums.TRIGGER.REROLL:
 					var face_attacks = []
 					for f in 6:
-						face_attacks.append(data.roll_result.die.get_total_pips(f).get(Enums.PIP_TYPE.ATTACK, 0))
-					if face_attacks[data.roll_result.face] > 0 and face_attacks.max() == face_attacks[data.roll_result.face]:
-						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.ATTACK, face_attacks[data.roll_result.face])
+						face_attacks.append(data.roll_result.get_total_pips(f).get(Enums.PIP_TYPE.ATTACK, 0))
+					if face_attacks[data.roll_result.rolled_face] > 0 and face_attacks.max() == face_attacks[data.roll_result.rolled_face]:
+						data.roll_result.add_roll_pip(data.roll_result.rolled_face, Enums.PIP_TYPE.ATTACK, face_attacks[data.roll_result.rolled_face])
 						return true
 		KIND.BUSTY:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						for i in 6:
 							if d.get_total_pips(i) == {}:
 								d.add_persistent_pip(i, Enums.PIP_TYPE.SLIME, 1)
 					return true
 		KIND.SLIMEY:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						for i in 6:
 							if d.get_total_pips(i).get(Enums.PIP_TYPE.ATTACK, 0) > 0:
 								d.add_persistent_pip(i, Enums.PIP_TYPE.SLIME, 1)
 					return true
 		KIND.SHELLIFIED:
 			match trigger_event:
-				Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
+				Enums.TRIGGER.FIRST_ROLL, Enums.TRIGGER.REROLL:
 					var face_defends = []
 					for f in 6:
-						face_defends.append(data.roll_result.die.get_total_pips(f).get(Enums.PIP_TYPE.DEFEND, 0))
-					if face_defends[data.roll_result.face] > 0 and face_defends.max() == face_defends[data.roll_result.face]:
-						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.DEFEND, face_defends[data.roll_result.face])
+						face_defends.append(data.roll_result.get_total_pips(f).get(Enums.PIP_TYPE.DEFEND, 0))
+					if face_defends[data.roll_result.rolled_face] > 0 and face_defends.max() == face_defends[data.roll_result.rolled_face]:
+						data.roll_result.add_roll_pip(data.roll_result.rolled_face, Enums.PIP_TYPE.DEFEND, face_defends[data.roll_result.rolled_face])
 						return true
 		KIND.FUZZY:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						for i in 6:
 							if d.get_total_pips(i).get(Enums.PIP_TYPE.DEFEND, 0) > 0:
 								d.add_persistent_pip(i, Enums.PIP_TYPE.POISON, 1)
 					return true
 		KIND.EXTRA_TOES:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						for i in 6:
 							if d.get_total_pips(i) == {}:
 								d.add_persistent_pip(i, Enums.PIP_TYPE.REROLL, 1)
 					return true
 		KIND.HOLLOW_TEETH:
 			match trigger_event:
-				Enums.TRIGGERS.COMBAT_START:
-					for d in battle_state.deck:
+				Enums.TRIGGER.COMBAT_START:
+					for d in battle.state.deck:
 						for i in 6:
 							if d.get_total_pips(i).get(Enums.PIP_TYPE.ATTACK, 0) > 0:
 								d.add_persistent_pip(i, Enums.PIP_TYPE.HEAL, 1)
 					return true
 		KIND.LIGHT_SPEED:
 			match trigger_event:
-				Enums.TRIGGERS.FIRST_ROLL, Enums.TRIGGERS.REROLL:
-					var attacks = data.roll_result.die.get_total_pips(data.roll_result.face).get(Enums.PIP_TYPE.ATTACK, 0)
+				Enums.TRIGGER.FIRST_ROLL, Enums.TRIGGER.REROLL:
+					var attacks = data.roll_result.get_total_pips().get(Enums.PIP_TYPE.ATTACK, 0)
 					if attacks > 0:
-						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.ATTACK, -attacks)
-						data.roll_result.die.add_roll_pip(data.roll_result.face, Enums.PIP_TYPE.INSTANT_ATTACK, attacks)
+						data.roll_result.add_roll_pip(data.roll_result.rolled_face, Enums.PIP_TYPE.ATTACK, -attacks)
+						data.roll_result.add_roll_pip(data.roll_result.rolled_face, Enums.PIP_TYPE.INSTANT_ATTACK, attacks)
 						return true
 	
 	return false

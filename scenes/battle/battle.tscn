@@ -1,18 +1,12 @@
-[gd_scene load_steps=32 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=24 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
 [ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_icoan"]
-[ext_resource type="Texture2D" uid="uid://cmoc6id0tsbqy" path="res://assets/textures/brick_bg.png" id="5_icoan"]
-[ext_resource type="Texture2D" uid="uid://diocku5scd3kr" path="res://assets/textures/phil.png" id="5_mxe8n"]
-[ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="6_pll4o"]
-[ext_resource type="Texture2D" uid="uid://ih7xnyhu1oaj" path="res://assets/textures/ui_health.png" id="7_icoan"]
-[ext_resource type="Texture2D" uid="uid://bob07h7fg06ci" path="res://assets/textures/Croc3.png" id="9_icoan"]
-[ext_resource type="Texture2D" uid="uid://che4x7t12yhhr" path="res://assets/textures/ui_rerolls.png" id="9_kd6yx"]
+[ext_resource type="PackedScene" uid="uid://gf35602k844f" path="res://scenes/battle/character_screen.tscn" id="4_t1kk3"]
 [ext_resource type="Texture2D" uid="uid://dwhph2yux82ox" path="res://assets/textures/ui_border_filled.png" id="9_oiw7q"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="10_fisqk"]
-[ext_resource type="Texture2D" uid="uid://fcx1o2xpujbv" path="res://assets/speech.png" id="10_kd6yx"]
-[ext_resource type="Texture2D" uid="uid://x5q5x2hl2b6y" path="res://assets/textures/ui_handsize.png" id="10_n6gaa"]
+[ext_resource type="Texture2D" uid="uid://fcx1o2xpujbv" path="res://assets/textures/speech.png" id="10_kd6yx"]
 [ext_resource type="AudioStream" uid="uid://cjh5bpcjhm2a8" path="res://assets/sfx/foley_assets/clicky_sound.wav" id="14_tnndc"]
 [ext_resource type="AudioStream" uid="uid://bqcsbtvmkeu00" path="res://assets/sfx/foley_assets/creepy_crunchy.wav" id="15_k6ux7"]
 [ext_resource type="AudioStream" uid="uid://d1le3gn8t06n0" path="res://assets/sfx/foley_assets/dice_roll.wav" id="16_1oulw"]
@@ -30,22 +24,6 @@ texture_margin_right = 16.0
 texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_py4tk"]
-texture = ExtResource("9_oiw7q")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[sub_resource type="LabelSettings" id="LabelSettings_oiw7q"]
-font = ExtResource("6_pll4o")
-font_size = 19
-font_color = Color(0.87451, 0.878431, 0.729412, 1)
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mxe8n"]
 
@@ -111,129 +89,20 @@ offset_bottom = 540.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_fisqk")
 
-[node name="PlayerScreen" type="PanelContainer" parent="."]
-offset_left = 181.0
-offset_top = 113.0
-offset_right = 469.0
-offset_bottom = 401.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
-metadata/_edit_group_ = true
-metadata/_edit_use_anchors_ = true
-
-[node name="TextureRect" type="TextureRect" parent="PlayerScreen"]
-layout_mode = 2
-texture = ExtResource("5_icoan")
-
-[node name="PlayerSprite" type="Sprite2D" parent="PlayerScreen"]
+[node name="PlayerScreen" parent="." instance=ExtResource("4_t1kk3")]
 unique_name_in_owner = true
-position = Vector2(144, 141)
-texture = ExtResource("5_mxe8n")
+offset_left = 179.0
+offset_top = 110.0
+offset_right = 467.0
+offset_bottom = 398.0
+align = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-offset_left = 294.0
-offset_top = 384.0
-offset_right = 446.0
-offset_bottom = 404.0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-
-[node name="PlayerHeart" type="TextureRect" parent="HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("7_icoan")
-metadata/_edit_group_ = true
-
-[node name="PlayerHeartLabel" type="Label" parent="HBoxContainer/PlayerHeart"]
+[node name="EnemyScreen" parent="." instance=ExtResource("4_t1kk3")]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 18.0
-offset_top = 3.0
-offset_right = 41.0
-offset_bottom = 15.0
-text = "10"
-label_settings = SubResource("LabelSettings_oiw7q")
-horizontal_alignment = 2
-vertical_alignment = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="RerollsIcon" type="TextureRect" parent="HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("9_kd6yx")
-metadata/_edit_group_ = true
-
-[node name="RerollsLabel" type="Label" parent="HBoxContainer/RerollsIcon"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 18.0
-offset_top = 3.0
-offset_right = 41.0
-offset_bottom = 15.0
-text = "10"
-label_settings = SubResource("LabelSettings_oiw7q")
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="ManaIcon" type="TextureRect" parent="HBoxContainer"]
-layout_mode = 2
-texture = ExtResource("10_n6gaa")
-metadata/_edit_group_ = true
-
-[node name="ManaLabel" type="Label" parent="HBoxContainer/ManaIcon"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 18.0
-offset_top = 3.0
-offset_right = 41.0
-offset_bottom = 15.0
-text = "10"
-label_settings = SubResource("LabelSettings_oiw7q")
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="EnemyScreen" type="PanelContainer" parent="."]
-offset_left = 468.0
-offset_right = 756.0
-offset_bottom = 288.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
-metadata/_edit_group_ = true
-metadata/_edit_use_anchors_ = true
-
-[node name="TextureRect" type="TextureRect" parent="EnemyScreen"]
-layout_mode = 2
-texture = ExtResource("5_icoan")
-
-[node name="EnemySprite" type="Sprite2D" parent="EnemyScreen"]
-unique_name_in_owner = true
-position = Vector2(144, 143)
-texture = ExtResource("9_icoan")
-
-[node name="EnemyHeart" type="Sprite2D" parent="EnemyScreen"]
-position = Vector2(23, 271)
-texture = ExtResource("7_icoan")
-centered = false
-metadata/_edit_group_ = true
-
-[node name="EnemyHeartLabel" type="Label" parent="EnemyScreen/EnemyHeart"]
-unique_name_in_owner = true
-offset_left = 18.0
-offset_top = 3.0
-offset_right = 41.0
-offset_bottom = 15.0
-text = "10"
-label_settings = SubResource("LabelSettings_oiw7q")
-horizontal_alignment = 2
-vertical_alignment = 2
-
-[node name="Control" type="Control" parent="EnemyScreen"]
-layout_mode = 2
-
-[node name="EnemyStats" type="HBoxContainer" parent="EnemyScreen/Control"]
-unique_name_in_owner = true
-layout_mode = 2
-offset_left = 51.0
-offset_top = 250.0
-offset_right = 707.0
-offset_bottom = 282.0
-theme_override_constants/separation = -10
+offset_left = 469.0
+offset_top = -1.0
+offset_right = 757.0
+offset_bottom = 287.0
 
 [node name="EnemySpeech" type="Sprite2D" parent="."]
 position = Vector2(319, 63)

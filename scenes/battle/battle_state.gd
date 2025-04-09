@@ -1,178 +1,118 @@
 class_name BattleState
 extends RefCounted
 
-signal changed()
+signal enemy_intent_changed()
 
-var deck: Array[LayeredDie]:
-	set(v):
-		if deck == v: return
-		deck = v
-		changed.emit()
+var deck: Array[LayeredDie]
+var hand: Array[LayeredDie]
+var discard: Array[LayeredDie]
+var roll_results: Array[LayeredDie]
 
-var hand: Array[LayeredDie]:
-	set(v):
-		if hand == v: return
-		hand = v
-		changed.emit()
+var enemy_state: CharacterState = CharacterState.new()
+var player_state: CharacterState = CharacterState.new()
 
-var discard: Array[LayeredDie]:
-	set(v):
-		if discard == v: return
-		discard = v
-		changed.emit()
+var enemy: Enemy
+var enemy_act: Dictionary
 
-var roll_results: Array[RollResult]:
-	set(v):
-		if roll_results == v: return
-		roll_results = v
-		changed.emit()
+var _enemy_action_index: int = -1
 
-
-var mana: int:
-	set(v):
-		if mana == v: return
-		mana = v
-		changed.emit()
-
-var rerolls: int:
-	set(v):
-		if rerolls == v: return
-		rerolls = v
-		changed.emit()
-
-
-var enemy: Enemy:
-	set(v):
-		if enemy == v: return
-		enemy = v
-		changed.emit()
-
-var enemy_hp: int:
-	set(v):
-		if enemy_hp == v: return
-		enemy_hp = v
-		changed.emit()
-
-var enemy_action_index: int:
-	set(v):
-		if enemy_action_index == v: return
-		enemy_action_index = v
-		changed.emit()
-
-var enemy_poison: int:
-	set(v):
-		if enemy_poison == v: return
-		enemy_poison = v
-		changed.emit()
-
-var enemy_shield: int:
-	set(v):
-		if enemy_shield == v: return
-		enemy_shield = v
-		changed.emit()
-
-var enemy_strength: int:
-	set(v):
-		if enemy_strength == v: return
-		enemy_strength = v
-		changed.emit()
-
-var enemy_slime: int:
-	set(v):
-		if enemy_slime == v: return
-		enemy_slime = v
-		changed.emit()
-
-
-var player_shield: int:
-	set(v):
-		if player_shield == v: return
-		player_shield = v
-		changed.emit()
-
-
-class RollResult:
-	var die: LayeredDie
-	var face: int
+func prepare_enemy_act() -> void:
+	if enemy_state.get_status_pip(Enums.PIP_TYPE.SLIME) > 0:
+		enemy_act = {
+			action = Enums.ENEMY_ACTION.PASS,
+			param = 0,
+		}
+		enemy_state.set_status_pip(Enums.PIP_TYPE.SLIME, 0)
+		enemy_intent_changed.emit()
+		return
 	
-	func _init(p_die: LayeredDie, p_face: int) -> void:
-		die = p_die
-		face = p_face
+	match enemy.action_mode:
+		Enums.ENEMY_ACTION_MODE.LOOP:
+			_enemy_action_index += 1
+			if _enemy_action_index >= enemy.actions.size():
+				_enemy_action_index = enemy.action_loop_point
+		Enums.ENEMY_ACTION_MODE.RANDOM:
+			# https://en.wikipedia.org/wiki/Reservoir_sampling#Algorithm_A-ExpJ
+			# https://doi.org/10.1016/j.ipl.2005.11.003
+			var result = 0
+			var roll = randf() ** (1.0 / enemy.actions[0].random_weight)
+			var jump = log(randf()) / log(roll)
+			for i in range(1, enemy.actions.size()):
+				jump -= enemy.actions[i].random_weight
+				if jump <= 0.0:
+					var t = roll ** enemy.actions[i].random_weight
+					roll = randf_range(t, 1.0) ** (1.0 / enemy.actions[i].random_weight)
+					result = i
+					jump = log(randf()) / log(roll)
+			_enemy_action_index = result
+	
+	_enemy_action_index = clampi(_enemy_action_index, 0, enemy.actions.size())
+	
+	enemy_act = {
+		action = enemy.actions[_enemy_action_index].action,
+		param = enemy.actions[_enemy_action_index].action_param,
+	}
+	
+	enemy_intent_changed.emit()
 
-
-class LayeredDie:
+class CharacterState:
 	signal changed()
+	signal pre_damage(data: Dictionary)
+	signal post_damage(data: Dictionary)
 	
-	var source_die: StuffDie
-	var faces: Array[LayeredDieFace]
+	var hp: int:
+		set(v):
+			if hp == v: return
+			hp = v
+			changed.emit()
 	
-	var persistent_buff_pips: Dictionary[Enums.PIP_TYPE, int]
-	var turn_buff_pips: Dictionary[Enums.PIP_TYPE, int]
-	var roll_buff_pips: Dictionary[Enums.PIP_TYPE, int]
+	var mana: int = -1:
+		set(v):
+			if mana == v: return
+			mana = v
+			changed.emit()
 	
-	var battle_sprite: DieSprite
+	var rerolls: int = -1:
+		set(v):
+			if rerolls == v: return
+			rerolls = v
+			changed.emit()
 	
-	func _init(p_die: StuffDie) -> void:
-		source_die = p_die
-		for i in 6:
-			faces.append(LayeredDieFace.new())
+	var status_pips: Dictionary[Enums.PIP_TYPE, int]:
+		set(v):
+			if status_pips == v: return
+			status_pips = v
+			changed.emit()
 	
-	func get_total_pips(face: int) -> Dictionary[Enums.PIP_TYPE, int]:
-		var result: Dictionary[Enums.PIP_TYPE, int] = {}
-		for type in source_die.faces[face].pips:
-			result[type] = result.get(type, 0) + source_die.faces[face].pips[type]
-		for type in faces[face].persistent_pips:
-			result[type] = result.get(type, 0) + faces[face].persistent_pips[type]
-		for type in faces[face].turn_pips:
-			result[type] = result.get(type, 0) + faces[face].turn_pips[type]
-		for type in faces[face].roll_pips:
-			result[type] = result.get(type, 0) + faces[face].roll_pips[type]
-		for type in result:
-			result[type] += persistent_buff_pips.get(type, 0)
-			result[type] += turn_buff_pips.get(type, 0)
-			result[type] += roll_buff_pips.get(type, 0)
-		for type in result.keys():
-			if result[type] <= 0:
-				result.erase(type)
-		return result
+	func get_status_pip(pip_type: Enums.PIP_TYPE) -> int:
+		return status_pips.get(pip_type, 0)
 	
-	func add_persistent_pip(face: int, type: Enums.PIP_TYPE, count: int) -> void:
-		faces[face].persistent_pips[type] = faces[face].persistent_pips.get(type, 0) + count
+	func set_status_pip(pip_type: Enums.PIP_TYPE, amount: int) -> void:
+		if amount == status_pips.get(pip_type, 0): return
+		if amount:
+			status_pips[pip_type] = amount
+		else:
+			status_pips.erase(pip_type)
 		changed.emit()
 	
-	func add_persistent_buff(type: Enums.PIP_TYPE, count: int) -> void:
-		persistent_buff_pips[type] = persistent_buff_pips.get(type, 0) + count
-		changed.emit()
+	func add_status_pip(pip_type: Enums.PIP_TYPE, amount: int) -> void:
+		set_status_pip(pip_type, get_status_pip(pip_type) + amount)
 	
-	func add_turn_pip(face: int, type: Enums.PIP_TYPE, count: int) -> void:
-		faces[face].turn_pips[type] = faces[face].turn_pips.get(type, 0) + count
+	func deal_damage(amount: int) -> int:
+		var shield = get_status_pip(Enums.PIP_TYPE.DEFEND)
+		var blocked: int = 0
+		if shield:
+			blocked = mini(shield, amount)
+			amount -= blocked
+			add_status_pip(Enums.PIP_TYPE.DEFEND, -blocked)
+		amount = mini(amount, hp)
+		
+		var data = { damage = amount, blocked = blocked }
+		pre_damage.emit(data)
+		if data.damage > 0:
+			hp -= data.damage
+		post_damage.emit(data)
 		changed.emit()
+		return data.damage
 	
-	func add_turn_buff(type: Enums.PIP_TYPE, count: int) -> void:
-		turn_buff_pips[type] = turn_buff_pips.get(type, 0) + count
-		changed.emit()
-	
-	func add_roll_pip(face: int, type: Enums.PIP_TYPE, count: int) -> void:
-		faces[face].roll_pips[type] = faces[face].roll_pips.get(type, 0) + count
-		changed.emit()
-	
-	func add_roll_buff(type: Enums.PIP_TYPE, count: int) -> void:
-		roll_buff_pips[type] = roll_buff_pips.get(type, 0) + count
-		changed.emit()
-	
-	func clear_turn_pips() -> void:
-		turn_buff_pips.clear()
-		for f in faces:
-			f.turn_pips.clear()
-		changed.emit()
-	
-	func clear_roll_pips() -> void:
-		roll_buff_pips.clear()
-		for f in faces:
-			f.roll_pips.clear()
-		changed.emit()
 
-class LayeredDieFace:
-	var persistent_pips: Dictionary[Enums.PIP_TYPE, int]
-	var turn_pips: Dictionary[Enums.PIP_TYPE, int]
-	var roll_pips: Dictionary[Enums.PIP_TYPE, int]

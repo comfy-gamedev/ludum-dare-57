@@ -48,6 +48,7 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 [sub_resource type="Resource" id="Resource_1ditj"]
 script = ExtResource("2_1psvw")
 name = ""
+item_rarity = 0
 faces = Array[ExtResource("3_i1e0v")]([SubResource("Resource_sbmo0"), SubResource("Resource_8v6f0"), SubResource("Resource_p2v3f"), SubResource("Resource_l8dhr"), SubResource("Resource_4sqts"), SubResource("Resource_6ugj1")])
 count = 20
 roll_effects = Array[ExtResource("4_5ui55")]([])

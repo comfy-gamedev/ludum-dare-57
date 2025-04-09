@@ -1,8 +1,7 @@
-[gd_resource type="Resource" script_class="StuffDie" load_steps=11 format=3 uid="uid://dqmxojbcp6dae"]
+[gd_resource type="Resource" script_class="StuffDie" load_steps=10 format=3 uid="uid://dqmxojbcp6dae"]
 
 [ext_resource type="Script" uid="uid://bpbftt3jpx20w" path="res://resource_types/stuff_die/stuff_die_face.gd" id="1_lums8"]
 [ext_resource type="Texture2D" uid="uid://bwr6tx8orc31" path="res://assets/textures/item_sprites/Sock with lots of holes.png" id="2_7rbnr"]
-[ext_resource type="Script" uid="uid://btr6l5gh3smbd" path="res://resource_types/stuff_die/roll_effect.gd" id="2_n4weq"]
 [ext_resource type="Script" uid="uid://dpuxmcvs3l1gt" path="res://resource_types/stuff_die/stuff_die.gd" id="3_7rbnr"]
 
 [sub_resource type="Resource" id="Resource_7k8o4"]
@@ -63,7 +62,8 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 script = ExtResource("3_7rbnr")
 name = "Dirty Sock"
 item_image = ExtResource("2_7rbnr")
+item_rarity = 0
 faces = Array[ExtResource("1_lums8")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
 count = 4.0
-roll_effects = Array[ExtResource("2_n4weq")]([])
+roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

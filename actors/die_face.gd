@@ -1,10 +1,17 @@
 extends Node3D
 
+const DIE_FACE_PIP = preload("res://actors/die_face_pip.tscn")
+const MAX_PIPS = 9
+const CENTER_POSITION = Vector2(16, 16)
 const POSITIONS = [
-	Vector3(-0.25, 0.25, 0.0),
-	Vector3(0.25, -0.25, 0.0),
-	Vector3(0.25, 0.25, 0.0),
-	Vector3(-0.25, -0.25, 0.0),
+	Vector2(0, 0),
+	Vector2(32, 32),
+	Vector2(0, 32),
+	Vector2(32, 0),
+	Vector2(0, 16),
+	Vector2(32, 16),
+	Vector2(16, 0),
+	Vector2(16, 32),
 ]
 
 var face: StuffDieFace:
@@ -19,9 +26,8 @@ var pips: Dictionary[Enums.PIP_TYPE, int]:
 		pips = v
 		_refresh()
 
-var pip_meshes: Array[Node3D]
-
-@onready var pip_template: MeshInstance3D = $PipTemplate
+@onready var sub_viewport: SubViewport = $SubViewport
+@onready var pip_nodes: Array[Node] = []
 
 func _ready() -> void:
 	_refresh()
@@ -29,37 +35,51 @@ func _ready() -> void:
 func _refresh():
 	if not is_inside_tree():
 		return
-	for n in pip_meshes:
-		n.queue_free()
-	pip_meshes = []
+	
+	sub_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	
 	if face == null:
+		for p in pip_nodes:
+			p.queue_free()
+		pip_nodes.clear()
 		return
-	var pip_list = []
-	for p in pips:
-		if pips[p] > 0:
-			pip_list.push_back({ type = p, count = pips[p] })
-	pip_list.sort_custom(func (a, b): return a.count > b.count)
-	for i in pip_list.size():
+	if pips.size() == 0:
+		for p in pip_nodes:
+			p.hide()
+		return
+	
+	var pip_list = PipUtils.deconstruct_pips(pips, MAX_PIPS)
+	
+	var num_pips = mini(MAX_PIPS, pip_list.size())
+	var first = pip_list.size() - num_pips
+	
+	for i in range(first, pip_list.size()):
 		var p = pip_list[i]
-		if p.count > 4 - pip_meshes.size() - (pip_list.size() - i - 1):
-			var m: MeshInstance3D = pip_template.duplicate()
-			var mat: StandardMaterial3D = m.material_override.duplicate()
-			m.material_override = mat
-			mat.albedo_texture = Enums.PIP_TEXTURES[p.type]
-			var label = m.get_node("Label3D")
-			label.text = str(p.count)
-			label.visible = true
-			pip_meshes.append(m)
+		
+		var pip: TextureRect
+		if i - first < pip_nodes.size():
+			pip = pip_nodes[i]
 		else:
-			for ii in p.count:
-				var m: MeshInstance3D = pip_template.duplicate()
-				var mat: StandardMaterial3D = m.material_override.duplicate()
-				m.material_override = mat
-				mat.albedo_texture = Enums.PIP_TEXTURES[p.type]
-				pip_meshes.append(m)
-	if pip_meshes.size() > 1:
-		for i in pip_meshes.size():
-			pip_meshes[i].position += POSITIONS[i]
-	for i in pip_meshes.size():
-		pip_meshes[i].visible = true
-		add_child(pip_meshes[i])
+			pip = DIE_FACE_PIP.instantiate()
+			pip_nodes.append(pip)
+			sub_viewport.add_child(pip)
+		
+		pip.show()
+		
+		if i == pip_list.size() - 1 and i % 2 == 0:
+			pip.position = CENTER_POSITION
+		else:
+			pip.position = POSITIONS[i - first]
+		
+		pip.texture = Enums.PIP_TEXTURES[p.type]
+		
+		if p.count > 1:
+			pip.label.text = str(p.count)
+			pip.label.show()
+		else:
+			pip.label.hide()
+			pip.label.text = ""
+		
+	
+	for i in range(pip_list.size(), pip_nodes.size()):
+		pip_nodes[i].hide()
