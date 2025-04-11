@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://vxf1a1v5ed6q"]
+
+[node name="Option1" type="Button"]
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_font_sizes/font_size = 30
+text = "Better play it safe and jam the mechanism with your ___________. (lose 1 item)"
+autowrap_mode = 2

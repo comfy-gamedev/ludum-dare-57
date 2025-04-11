@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0dw3vv15cfob"]
+[gd_scene load_steps=9 format=3 uid="uid://d0dw3vv15cfob"]
 
 [ext_resource type="Shader" uid="uid://dgydncsiucj6g" path="res://assets/materials/water_shader.gdshader" id="1_biivm"]
 [ext_resource type="Script" uid="uid://bwma5snvwiw70" path="res://scenes/event/event.gd" id="1_uuxf3"]
+[ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="3_wfxja"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uuxf3"]
 shader = ExtResource("1_biivm")
@@ -16,62 +17,88 @@ shader_parameter/shades = 3.0
 shader_parameter/steps = 6
 shader_parameter/tint = Vector3(0.38, 0.44, 0.44)
 
-[node name="Event" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uuxf3"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0.266667, 0.368627, 0.305882, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="FontVariation" id="FontVariation_wfxja"]
+base_font = ExtResource("3_wfxja")
+variation_transform = Transform2D(1, 0.3, 0, 1, 0, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_lry0m"]
+base_font = ExtResource("3_wfxja")
+variation_embolden = 1.0
+variation_transform = Transform2D(1, 0.3, 0, 1, 0, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_djiyq"]
+base_font = ExtResource("3_wfxja")
+variation_embolden = 1.0
+
+[node name="Event" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_uuxf3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_uuxf3")
+layout_mode = 0
 offset_right = 960.0
 offset_bottom = 540.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_top = 20.0
-offset_right = 960.0
-offset_bottom = 540.0
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_constants/separation = 20
 
-[node name="EventBox" type="ColorRect" parent="VBoxContainer"]
-custom_minimum_size = Vector2(800, 300)
+[node name="EventBox" type="PanelContainer" parent="MarginContainer/VBox"]
 layout_mode = 2
-size_flags_horizontal = 4
-color = Color(0.266667, 0.368627, 0.305882, 1)
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_uuxf3")
 
-[node name="EventPic" type="TextureRect" parent="VBoxContainer/EventBox"]
-layout_mode = 0
-offset_left = 22.0
-offset_top = 22.0
-offset_right = 278.0
-offset_bottom = 278.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBox/EventBox"]
+layout_mode = 2
 
-[node name="EventText" type="Label" parent="VBoxContainer/EventBox"]
-custom_minimum_size = Vector2(450, 0)
-layout_mode = 0
-offset_left = 300.0
-offset_top = 25.0
-offset_right = 340.0
-offset_bottom = 64.0
-theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_font_sizes/font_size = 35
-text = "The sewer makes a turn here, and there's a section of water that's remarkably clean and clear. Now would be a great time to rinse off and dress some of your wounds. (Small Heal)"
+[node name="Image" type="TextureRect" parent="MarginContainer/VBox/EventBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+stretch_mode = 2
+
+[node name="EventText" type="RichTextLabel" parent="MarginContainer/VBox/EventBox/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/normal_font = ExtResource("3_wfxja")
+theme_override_fonts/italics_font = SubResource("FontVariation_wfxja")
+theme_override_fonts/bold_italics_font = SubResource("FontVariation_lry0m")
+theme_override_fonts/bold_font = SubResource("FontVariation_djiyq")
+theme_override_font_sizes/bold_italics_font_size = 38
+theme_override_font_sizes/italics_font_size = 38
+theme_override_font_sizes/mono_font_size = 38
+theme_override_font_sizes/normal_font_size = 38
+theme_override_font_sizes/bold_font_size = 38
+bbcode_enabled = true
 autowrap_mode = 2
-
-[node name="Option1" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
-text = "Better play it safe and jam the mechanism with your ___________. (lose 1 item)"
-autowrap_mode = 2
-
-[node name="Option2" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
-text = "Options 2"
-autowrap_mode = 2
-
-[node name="Skip" type="Button" parent="VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Skip"
-
-[connection signal="pressed" from="VBoxContainer/Option1" to="." method="_on_option_1_pressed"]
-[connection signal="pressed" from="VBoxContainer/Option2" to="." method="_on_option_2_pressed"]
-[connection signal="pressed" from="VBoxContainer/Skip" to="." method="_on_skip_pressed"]

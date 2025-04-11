@@ -76,6 +76,12 @@ const descriptions = {
 	KIND.LIGHT_SPEED: "All attacks become instant.",
 }
 
+func get_name() -> String:
+	var t = names[kind]
+	if not t:
+		t = "Unknown"
+	return t
+
 func get_texture() -> Texture2D:
 	var t = textures[kind]
 	if not t:
