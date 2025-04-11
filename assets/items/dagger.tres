@@ -60,6 +60,6 @@ name = "Dagger"
 item_image = ExtResource("2_pyf80")
 item_rarity = 0
 faces = Array[ExtResource("1_vhj5b")]([SubResource("Resource_412wc"), SubResource("Resource_rthtr"), SubResource("Resource_jc7ym"), SubResource("Resource_ryvho"), SubResource("Resource_5a6d8"), SubResource("Resource_eg7jw")])
-count = null
+count = 1
 roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

@@ -21,6 +21,7 @@ func _ready() -> void:
 		if i not in Enums.PIP_TEXTURES:
 			continue
 		var w = WIDGET.instantiate()
+		add_child(w)
 		w.texture_rect.texture = Enums.PIP_TEXTURES[i]
 		w.texture_rect.tooltip_text = Enums.PIP_TYPE.find_key(i)
 		w.spin_box.value = die.faces[face].pips.get(i, 0)
@@ -31,7 +32,6 @@ func _ready() -> void:
 					die.faces[face].pips.erase(i)
 				ResourceSaver.save(die)
 		)
-		add_child(w)
 	lock_check_button.button_pressed = die.faces[face].autolocking
 
 func _on_lock_check_button_toggled(toggled_on: bool) -> void:

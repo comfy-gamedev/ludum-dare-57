@@ -5,5 +5,5 @@ extends EditorScript
 func _run() -> void:
 	for f in DirAccess.get_files_at("res://assets/items/"):
 		var i = load("res://assets/items/".path_join(f))
-		i.item_rarity = Enums.ITEM_RARITY.COMMON
+		i.count = maxi(0, int(i.count))
 		ResourceSaver.save(i)

@@ -56,6 +56,6 @@ name = "Lead Pipe"
 item_image = ExtResource("2_1myyl")
 item_rarity = 0
 faces = Array[ExtResource("1_oe0vn")]([SubResource("Resource_oe0vn"), SubResource("Resource_xwu53"), SubResource("Resource_1myyl"), SubResource("Resource_awg8t"), SubResource("Resource_535ec"), SubResource("Resource_upgvf")])
-count = 0.0
+count = 1
 roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

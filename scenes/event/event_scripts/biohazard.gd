@@ -15,9 +15,9 @@ func run(e: EventScene) -> void:
 		(Jump forward. Gain a mutation)")
 	
 	var choice = await e.choice
-
+	
 	e.clear()
-
+	
 	match choice:
 		0:
 			gained_mutation = Globals.player_stats.add_mutation()
@@ -33,7 +33,7 @@ func run(e: EventScene) -> void:
 				You walk down the path and realize this may be a shortcut, leading you even deeper
 				into the sewer. After a while you get used to the smell of the glowing water,
 				and realize that the fumes have begun to mutate you!")
-
+	
 	e.add_option("Continue")
-
+	
 	await e.choice

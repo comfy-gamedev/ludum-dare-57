@@ -55,6 +55,6 @@ name = "Board"
 item_image = ExtResource("2_a3vlj")
 item_rarity = 0
 faces = Array[ExtResource("1_8v7ox")]([SubResource("Resource_hgcna"), SubResource("Resource_njxe5"), SubResource("Resource_eoqpo"), SubResource("Resource_a3vlj"), SubResource("Resource_sfk55"), SubResource("Resource_046m7")])
-count = null
+count = 1
 roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

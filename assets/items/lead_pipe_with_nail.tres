@@ -58,6 +58,6 @@ name = "Lead Pipe With Nail"
 item_image = ExtResource("2_7c45a")
 item_rarity = 0
 faces = Array[ExtResource("1_7c45a")]([SubResource("Resource_y2oxn"), SubResource("Resource_mjb26"), SubResource("Resource_m4j4n"), SubResource("Resource_7c45a"), SubResource("Resource_85tpu"), SubResource("Resource_f0b60")])
-count = null
+count = 1
 roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"
