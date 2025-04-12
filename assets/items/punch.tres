@@ -38,17 +38,14 @@ metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 [sub_resource type="Resource" id="Resource_a8gv7"]
 script = ExtResource("1_ty5f2")
 pips = Dictionary[int, int]({
-0: 1,
-2: 5
+0: 1
 })
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
 [sub_resource type="Resource" id="Resource_40qfg"]
 script = ExtResource("1_ty5f2")
-pips = Dictionary[int, int]({
-2: 1
-})
+pips = Dictionary[int, int]({})
 autolocking = false
 metadata/_custom_type_script = "uid://bpbftt3jpx20w"
 
@@ -57,6 +54,6 @@ script = ExtResource("3_7qctg")
 name = "Punch"
 item_rarity = 4
 faces = Array[ExtResource("1_ty5f2")]([SubResource("Resource_7k8o4"), SubResource("Resource_43yr7"), SubResource("Resource_r1clb"), SubResource("Resource_bgnms"), SubResource("Resource_a8gv7"), SubResource("Resource_40qfg")])
-count = 5
+count = 5.0
 roll_effects = null
 metadata/_custom_type_script = "uid://dpuxmcvs3l1gt"

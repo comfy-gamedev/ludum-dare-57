@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://co58d1fidkymh"
-path="res://.godot/imported/pipework.png-93a3f1ee0a74221d855a3643da78bce0.ctex"
+uid="uid://n4umb7nq2hyt"
+path="res://.godot/imported/wrench.png-0bf537c67e84e6157d5037b8d039d173.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/pipework.png"
-dest_files=["res://.godot/imported/pipework.png-93a3f1ee0a74221d855a3643da78bce0.ctex"]
+source_file="res://assets/textures/wrench.png"
+dest_files=["res://.godot/imported/wrench.png-0bf537c67e84e6157d5037b8d039d173.ctex"]
 
 [params]
 

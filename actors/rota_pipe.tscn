@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3nm2wka4g1yw"]
+
+[ext_resource type="Texture2D" uid="uid://du0thy4vkhvse" path="res://assets/textures/tiles/pipework.png" id="1_spyic"]
+[ext_resource type="Script" uid="uid://dads5g6b0jle4" path="res://actors/rota_pipe.gd" id="2_0j2iu"]
+[ext_resource type="Texture2D" uid="uid://n4umb7nq2hyt" path="res://assets/textures/wrench.png" id="3_fqm5e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d436"]
+atlas = ExtResource("1_spyic")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="Gradient" id="Gradient_f7pvq"]
+offsets = PackedFloat32Array(0.676328, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="RotaPipe" type="Sprite2D"]
+texture = SubResource("AtlasTexture_4d436")
+script = ExtResource("2_0j2iu")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+texture = ExtResource("3_fqm5e")
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+angular_velocity_min = -500.0
+angular_velocity_max = 500.0
+damping_min = 100.0
+damping_max = 100.0
+scale_amount_min = 0.5
+scale_amount_max = 0.5
+color_ramp = SubResource("Gradient_f7pvq")

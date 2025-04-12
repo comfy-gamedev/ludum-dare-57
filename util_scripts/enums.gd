@@ -29,24 +29,6 @@ const PIP_TEXTURES = {
 	Enums.PIP_TYPE.STRENGTH: preload("res://assets/textures/pip_strength.png"),
 }
 
-enum LOCATION_TYPES {
-	ENEMY = 1,
-	ELITE = 2,
-	TREASURE = 0,
-	EVENT = 3,
-	EMPTY = 7,
-	BOSS = 6,
-	MUTATION = 4,
-	SHOP = 5,
-}
-
-enum LOCATION_STATE {
-	CROSSED = 0,
-	AVAILABLE = 1,
-	HIGHLIGHT = 2,
-	DISABLED = 3,
-}
-
 enum ENEMY_ACTION {
 	PASS,
 	ATTACK,

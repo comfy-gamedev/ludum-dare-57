@@ -1,15 +1,7 @@
-[gd_resource type="TileSet" load_steps=21 format=3 uid="uid://efplr82wukuj"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://efplr82wukuj"]
 
 [ext_resource type="Texture2D" uid="uid://du0thy4vkhvse" path="res://assets/textures/tiles/pipework.png" id="1_ixtdv"]
 [ext_resource type="Texture2D" uid="uid://lm7wek6jdbmw" path="res://assets/textures/location_symbols.png" id="2_2kbuo"]
-[ext_resource type="Texture2D" uid="uid://mj84em0h3my7" path="res://assets/textures/tiles/barter_atlas_texture.tres" id="3_d7r12"]
-[ext_resource type="Texture2D" uid="uid://dw4gmlyxnfe1r" path="res://assets/textures/tiles/Location spaces.png" id="3_tv6qs"]
-[ext_resource type="Texture2D" uid="uid://dh5ulmfl4y6cg" path="res://assets/textures/tiles/boss_atlas_texture.tres" id="5_1lbr2"]
-[ext_resource type="Texture2D" uid="uid://c74218e1n18cb" path="res://assets/textures/tiles/elite_atlas_texture.tres" id="6_pr5yw"]
-[ext_resource type="Texture2D" uid="uid://cd5ithrld425m" path="res://assets/textures/tiles/enemy_atlas_texture.tres" id="7_227ug"]
-[ext_resource type="Texture2D" uid="uid://cpqcfjdal6076" path="res://assets/textures/tiles/event_atlas_texture.tres" id="8_bs5ku"]
-[ext_resource type="Texture2D" uid="uid://bjjc4n3ht3trw" path="res://assets/textures/tiles/mutation_atlas_texture.tres" id="9_nxtql"]
-[ext_resource type="Texture2D" uid="uid://blt5ej8cxsioj" path="res://assets/textures/tiles/new_atlas_texture.tres" id="10_l2xi2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2kbuo"]
 texture = ExtResource("1_ixtdv")
@@ -75,6 +67,14 @@ texture_region_size = Vector2i(32, 32)
 10:0/0/terrains_peering_bit/right_side = 0
 10:0/0/terrains_peering_bit/bottom_side = 0
 10:0/0/terrains_peering_bit/top_side = 0
+1:1/0 = 0
+1:1/0/terrain_set = 0
+1:1/0/terrains_peering_bit/right_side = 0
+1:1/0/terrains_peering_bit/left_side = 0
+2:1/0 = 0
+2:1/0/terrain_set = 0
+2:1/0/terrains_peering_bit/bottom_side = 0
+2:1/0/terrains_peering_bit/top_side = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_tv6qs"]
 texture = ExtResource("2_2kbuo")
@@ -112,53 +112,6 @@ texture_region_size = Vector2i(32, 32)
 2:2/0 = 0
 3:2/0 = 0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rs5ll"]
-texture = ExtResource("3_d7r12")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_aqv7p"]
-texture = ExtResource("3_tv6qs")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
-6:0/0 = 0
-7:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n7348"]
-texture = ExtResource("5_1lbr2")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fksqn"]
-texture = ExtResource("6_pr5yw")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_odip4"]
-texture = ExtResource("7_227ug")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c17kw"]
-texture = ExtResource("8_bs5ku")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0jpp4"]
-texture = ExtResource("9_nxtql")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i33f0"]
-texture = ExtResource("10_l2xi2")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
 [resource]
 tile_size = Vector2i(32, 32)
 terrain_set_0/mode = 2
@@ -168,11 +121,3 @@ custom_data_layer_0/name = "Destination"
 custom_data_layer_0/type = 21
 sources/0 = SubResource("TileSetAtlasSource_2kbuo")
 sources/1 = SubResource("TileSetAtlasSource_tv6qs")
-sources/3 = SubResource("TileSetAtlasSource_aqv7p")
-sources/2 = SubResource("TileSetAtlasSource_rs5ll")
-sources/4 = SubResource("TileSetAtlasSource_n7348")
-sources/5 = SubResource("TileSetAtlasSource_fksqn")
-sources/6 = SubResource("TileSetAtlasSource_odip4")
-sources/7 = SubResource("TileSetAtlasSource_c17kw")
-sources/8 = SubResource("TileSetAtlasSource_0jpp4")
-sources/9 = SubResource("TileSetAtlasSource_i33f0")
