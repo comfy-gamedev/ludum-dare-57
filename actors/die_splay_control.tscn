@@ -1,0 +1,69 @@
+[gd_scene load_steps=3 format=3 uid="uid://cff4h2l4k8hw4"]
+
+[ext_resource type="Script" uid="uid://cr2fvprxobwt2" path="res://actors/die_splay_control.gd" id="1_qplrc"]
+[ext_resource type="PackedScene" uid="uid://d0qc4xfs7hoe4" path="res://actors/die_face_control.tscn" id="2_ljfus"]
+
+[node name="DieSplayControl" type="Control"]
+custom_minimum_size = Vector2(256, 192)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 1
+script = ExtResource("1_qplrc")
+
+[node name="DieFaceControl" parent="." instance=ExtResource("2_ljfus")]
+layout_mode = 0
+anchor_top = 0.333333
+anchor_right = 0.25
+anchor_bottom = 0.666667
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="DieFaceControl2" parent="." instance=ExtResource("2_ljfus")]
+layout_mode = 0
+anchor_left = 0.25
+anchor_top = 0.333333
+anchor_right = 0.5
+anchor_bottom = 0.666667
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="DieFaceControl3" parent="." instance=ExtResource("2_ljfus")]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.333333
+anchor_right = 0.75
+anchor_bottom = 0.666667
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="DieFaceControl4" parent="." instance=ExtResource("2_ljfus")]
+layout_mode = 0
+anchor_left = 0.75
+anchor_top = 0.333333
+anchor_right = 1.0
+anchor_bottom = 0.666667
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="DieFaceControl5" parent="." instance=ExtResource("2_ljfus")]
+layout_mode = 0
+anchor_left = 0.25
+anchor_right = 0.5
+anchor_bottom = 0.333333
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true
+
+[node name="DieFaceControl6" parent="." instance=ExtResource("2_ljfus")]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.666667
+anchor_right = 0.75
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+metadata/_edit_use_anchors_ = true

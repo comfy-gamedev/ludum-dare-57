@@ -2,6 +2,8 @@ class_name DieSprite
 extends Sprite2D
 
 signal clicked()
+signal mouse_enter()
+signal mouse_exit()
 
 const MOUSE_SENSITIVITY = Vector2.ONE / 30.0
 const FLOAT_DAMPING = 0.95
@@ -107,7 +109,7 @@ func is_rolling() -> bool:
 	return animation_mode == AnimMode.ROLLING
 
 func _reconcile() -> void:
-	if not is_inside_tree(): return
+	if not is_node_ready(): return
 	die_node.die = die
 	die_node.basis = Basis(get_combined_rotation()).scaled(Vector3.ONE * die_scale)
 	(material as ShaderMaterial).set_shader_parameter("outline_color", _outline_override if _outline_override.a != 0 else outline_color)
@@ -122,7 +124,9 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 
 func _on_area_2d_mouse_entered() -> void:
 	_outline_override = Color.YELLOW
+	mouse_enter.emit()
 
 
 func _on_area_2d_mouse_exited() -> void:
 	_outline_override = Color.TRANSPARENT
+	mouse_exit.emit()

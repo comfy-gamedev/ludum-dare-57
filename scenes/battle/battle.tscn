@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=20 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
 [ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_icoan"]
 [ext_resource type="PackedScene" uid="uid://gf35602k844f" path="res://scenes/battle/character_screen.tscn" id="4_t1kk3"]
-[ext_resource type="Texture2D" uid="uid://dwhph2yux82ox" path="res://assets/textures/ui_border_filled.png" id="9_oiw7q"]
+[ext_resource type="StyleBox" uid="uid://c0t4t8cfljujc" path="res://assets/textures/ui_border_filled_stylebox.tres" id="7_n6gaa"]
+[ext_resource type="PackedScene" uid="uid://xknio6dqaw0v" path="res://actors/die_card.tscn" id="8_n6gaa"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="10_fisqk"]
 [ext_resource type="Texture2D" uid="uid://fcx1o2xpujbv" path="res://assets/textures/speech.png" id="10_kd6yx"]
 [ext_resource type="AudioStream" uid="uid://cjh5bpcjhm2a8" path="res://assets/sfx/foley_assets/clicky_sound.wav" id="14_tnndc"]
@@ -25,50 +26,10 @@ texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mxe8n"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icoan"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kd6yx"]
-texture = ExtResource("9_oiw7q")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t1kk3"]
-texture = ExtResource("9_oiw7q")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-modulate_color = Color(0.43, 0.43, 0.43, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n6gaa"]
-texture = ExtResource("9_oiw7q")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-modulate_color = Color(0.89, 0.89, 0.89, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxe8n"]
 bg_color = Color(0, 0, 0, 0.501961)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_icoan"]
-texture = ExtResource("9_oiw7q")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_0yh6x")
@@ -119,11 +80,11 @@ offset_left = 780.0
 offset_top = 319.0
 offset_right = 836.0
 offset_bottom = 366.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_mxe8n")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_icoan")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_icoan")
-theme_override_styles/hover = SubResource("StyleBoxTexture_kd6yx")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_t1kk3")
-theme_override_styles/normal = SubResource("StyleBoxTexture_n6gaa")
+theme_override_styles/hover = ExtResource("7_n6gaa")
+theme_override_styles/pressed = ExtResource("7_n6gaa")
+theme_override_styles/normal = ExtResource("7_n6gaa")
 text = "GO"
 
 [node name="MutationGridContainer" type="GridContainer" parent="."]
@@ -142,7 +103,7 @@ offset_bottom = 242.0
 
 [node name="Hand" type="Node2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(300, 500)
+position = Vector2(300, 464.915)
 
 [node name="EnemyIntent" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -174,7 +135,7 @@ offset_right = 230.0
 offset_bottom = 140.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_icoan")
+theme_override_styles/panel = ExtResource("7_n6gaa")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/PopupPanel"]
 layout_mode = 2
@@ -194,6 +155,16 @@ vertical_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Yes"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DiePopup" parent="CanvasLayer" instance=ExtResource("8_n6gaa")]
+unique_name_in_owner = true
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 288.0
+offset_bottom = 399.0
 
 [node name="ClickySound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("14_tnndc")

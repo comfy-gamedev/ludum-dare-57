@@ -16,6 +16,8 @@ var state: BattleState = BattleState.new()
 
 var _hand_tween: Tween
 
+var _hovered_sprite: DieSprite
+
 @onready var hand: Node2D = %Hand
 @onready var rolled: Node2D = %Rolled
 @onready var enemy_intent: Node2D = %EnemyIntent
@@ -28,6 +30,7 @@ var _hand_tween: Tween
 @onready var popup_label: RichTextLabel = %PopupLabel
 @onready var ok_button: Button = %OKButton
 @onready var bg: TextureRect = $BG
+@onready var die_popup: PanelContainer = %DiePopup
 
 @onready var hand_initial_position: Vector2 = hand.position
 
@@ -130,6 +133,8 @@ func draw_from_deck() -> bool:
 	hand.add_child(sprite)
 	sprite.position.x = float(sprite.get_index()) / float(state.hand.size() - 1) * hand_width
 	sprite.clicked.connect(_on_die_clicked.bind(sprite))
+	sprite.mouse_enter.connect(_on_die_mouse_enter.bind(sprite))
+	sprite.mouse_exit.connect(_on_die_mouse_exit.bind(sprite))
 	sprite.random_tap()
 	_adjust_sprite_positions()
 	return true
@@ -238,6 +243,20 @@ func _on_die_clicked(sprite: DieSprite) -> void:
 		await die.battle_sprite.roll()
 		_trigger_event(trigger, { roll_result = die })
 		apply_die_instants(die)
+
+func _on_die_mouse_enter(sprite: DieSprite) -> void:
+	if _hovered_sprite != sprite:
+		_hovered_sprite = sprite
+		die_popup.visible = true
+		die_popup.die = sprite.die.source_die
+
+func _on_die_mouse_exit(sprite: DieSprite) -> void:
+	if _hovered_sprite == sprite:
+		_hovered_sprite = null
+		await get_tree().create_timer(0.2).timeout
+		if _hovered_sprite == null:
+			die_popup.visible = false
+			die_popup.die = null
 
 func _adjust_sprite_positions() -> void:
 	var hand_spacing = minf(96.0, hand_width / hand.get_child_count())

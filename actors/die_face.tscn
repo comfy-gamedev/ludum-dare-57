@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://pteh7k3pyx6q"]
 
 [ext_resource type="Script" uid="uid://c2ahaaqypxcnc" path="res://actors/die_face.gd" id="1_4uhwo"]
-[ext_resource type="Texture2D" uid="uid://6s8q7jjhl6fd" path="res://assets/textures/die_face.png" id="2_3yadj"]
+[ext_resource type="PackedScene" uid="uid://d0qc4xfs7hoe4" path="res://actors/die_face_control.tscn" id="2_ymgum"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_4uhwo"]
 viewport_path = NodePath("SubViewport")
@@ -27,10 +27,6 @@ disable_3d = true
 size = Vector2i(64, 64)
 render_target_update_mode = 1
 
-[node name="Face" type="TextureRect" parent="SubViewport"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_3yadj")
+[node name="DieFaceControl" parent="SubViewport" instance=ExtResource("2_ymgum")]
+
+[connection signal="refresh" from="SubViewport/DieFaceControl" to="." method="_on_die_face_control_refresh"]

@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://gf35602k844f"]
+[gd_scene load_steps=10 format=3 uid="uid://gf35602k844f"]
 
-[ext_resource type="Texture2D" uid="uid://dwhph2yux82ox" path="res://assets/textures/ui_border_filled.png" id="1_gr8te"]
+[ext_resource type="StyleBox" uid="uid://c0t4t8cfljujc" path="res://assets/textures/ui_border_filled_stylebox.tres" id="1_16hr0"]
 [ext_resource type="Texture2D" uid="uid://cmoc6id0tsbqy" path="res://assets/textures/brick_bg.png" id="2_16hr0"]
 [ext_resource type="Script" uid="uid://bniwrxe20idry" path="res://scenes/battle/character_screen.gd" id="2_u61pb"]
 [ext_resource type="Texture2D" uid="uid://diocku5scd3kr" path="res://assets/textures/phil.png" id="3_u61pb"]
@@ -8,15 +8,6 @@
 [ext_resource type="FontFile" uid="uid://dv4y6a2mw7r2y" path="res://assets/fonts/Silver_nodescent.ttf" id="5_m2q8i"]
 [ext_resource type="Texture2D" uid="uid://che4x7t12yhhr" path="res://assets/textures/ui_rerolls.png" id="6_d66uy"]
 [ext_resource type="Texture2D" uid="uid://x5q5x2hl2b6y" path="res://assets/textures/ui_handsize.png" id="7_pfv3p"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_py4tk"]
-texture = ExtResource("1_gr8te")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
 
 [sub_resource type="LabelSettings" id="LabelSettings_oiw7q"]
 font = ExtResource("5_m2q8i")
@@ -28,7 +19,7 @@ outline_color = Color(0, 0, 0, 1)
 [node name="CharacterScreen" type="Panel"]
 offset_right = 288.0
 offset_bottom = 288.0
-theme_override_styles/panel = SubResource("StyleBoxTexture_py4tk")
+theme_override_styles/panel = ExtResource("1_16hr0")
 script = ExtResource("2_u61pb")
 
 [node name="Background" type="Sprite2D" parent="."]

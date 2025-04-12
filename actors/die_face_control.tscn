@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0qc4xfs7hoe4"]
+
+[ext_resource type="Texture2D" uid="uid://6s8q7jjhl6fd" path="res://assets/textures/die_face.png" id="1_8ab64"]
+[ext_resource type="Script" uid="uid://bsuqf1boa51yk" path="res://actors/die_face_control.gd" id="2_5f3pq"]
+
+[node name="DieFaceControl" type="TextureRect"]
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("1_8ab64")
+script = ExtResource("2_5f3pq")

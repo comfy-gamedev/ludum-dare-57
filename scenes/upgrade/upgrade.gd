@@ -1,6 +1,7 @@
 extends Node2D
 
 const UPGRADE_CHOICE = preload("res://actors/upgrade_choice.tscn")
+const DIE_CARD = preload("res://actors/die_card.tscn")
 
 var ITEM_RATES = {
 	Enums.UPGRADE_REASON.TREASURE: {
@@ -39,12 +40,9 @@ func _ready() -> void:
 			var choices = ItemDB.pick_n(3, ITEM_RATES[reason])
 			for i in choices.size():
 				var item: StuffDie = choices[i]
-				var c = UPGRADE_CHOICE.instantiate()
+				var c = DIE_CARD.instantiate()
 				options.add_child(c)
-				c.name_label.text = item.name
-				c.texture_rect.texture = item.item_image
-				c.description.hide()
-				c.die.die = item
+				c.die = item
 				c.clicked.connect(_pick_item.bind(item))
 		Enums.UPGRADE_REASON.MUTATION:
 			label.text = "Choose A Mutation!"
