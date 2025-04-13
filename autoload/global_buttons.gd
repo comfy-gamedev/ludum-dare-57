@@ -3,7 +3,7 @@ extends CanvasLayer
 const MUSIC_OFF = preload("res://assets/textures/music_off.png")
 const MUSIC_ON = preload("res://assets/textures/music_on.png")
 
-@onready var music_button: Button = $MusicButton
+@onready var music_button: Button = %MusicButton
 @onready var music_bus: int = AudioServer.get_bus_index("Music")
 
 func _ready() -> void:

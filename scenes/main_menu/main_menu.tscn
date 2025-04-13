@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dl3lrfam021ul"]
+[gd_scene load_steps=12 format=3 uid="uid://dl3lrfam021ul"]
 
 [ext_resource type="Script" uid="uid://cr8n54gk2qp8l" path="res://scenes/main_menu/main_menu.gd" id="1_te6vx"]
 [ext_resource type="Texture2D" uid="uid://bcafi3e5fhcyt" path="res://assets/textures/kungk.png" id="2_0ebjn"]
+[ext_resource type="Script" uid="uid://dhhpqfjfoesq3" path="res://node_types/remote_control.gd" id="3_uqeha"]
+[ext_resource type="Script" uid="uid://cxhl2e5rcopul" path="res://node_types/remote_canvas_layer.gd" id="4_wem23"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ts50w"]
 bg_color = Color(0.501961, 0.419608, 0.564706, 1)
@@ -36,10 +38,11 @@ texture = ExtResource("2_0ebjn")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TextureRect"]
 layout_mode = 2
-offset_top = 316.14
-offset_right = 285.0
-offset_bottom = 666.14
+anchor_top = 0.585444
+anchor_right = 0.296875
+anchor_bottom = 1.23359
 theme_override_constants/separation = 80
+metadata/_edit_use_anchors_ = true
 
 [node name="MenuButtonContainer" type="VBoxContainer" parent="TextureRect/VBoxContainer"]
 layout_mode = 2
@@ -48,9 +51,44 @@ theme_override_constants/separation = 10
 [node name="CenterContainer" type="CenterContainer" parent="TextureRect/VBoxContainer/MenuButtonContainer"]
 layout_mode = 2
 
-[node name="StartGameButton" type="Button" parent="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer"]
-unique_name_in_owner = true
+[node name="RemoteControl" type="Control" parent="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer" node_paths=PackedStringArray("remote_node")]
 layout_mode = 2
+script = ExtResource("3_uqeha")
+remote_node = NodePath("../../../../../RemoteCanvasLayer/StartGameButton")
+metadata/_custom_type_script = "uid://dhhpqfjfoesq3"
+
+[node name="CenterContainer2" type="CenterContainer" parent="TextureRect/VBoxContainer/MenuButtonContainer"]
+layout_mode = 2
+
+[node name="RemoteControl" type="Control" parent="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer2" node_paths=PackedStringArray("remote_node")]
+layout_mode = 2
+script = ExtResource("3_uqeha")
+remote_node = NodePath("../../../../../RemoteCanvasLayer/HowToPlayButton")
+metadata/_custom_type_script = "uid://dhhpqfjfoesq3"
+
+[node name="CenterContainer3" type="CenterContainer" parent="TextureRect/VBoxContainer/MenuButtonContainer"]
+layout_mode = 2
+
+[node name="RemoteControl" type="Control" parent="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer3" node_paths=PackedStringArray("remote_node")]
+layout_mode = 2
+script = ExtResource("3_uqeha")
+remote_node = NodePath("../../../../../RemoteCanvasLayer/OptionsButton")
+metadata/_custom_type_script = "uid://dhhpqfjfoesq3"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(480, 270)
+ignore_rotation = false
+
+[node name="RemoteCanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("4_wem23")
+metadata/_custom_type_script = "uid://cxhl2e5rcopul"
+
+[node name="StartGameButton" type="Button" parent="RemoteCanvasLayer"]
+unique_name_in_owner = true
+offset_left = 142.0
+offset_top = 316.14
+offset_right = 350.0
+offset_bottom = 375.14
 theme_type_variation = &"MainMenuButton"
 theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
@@ -61,12 +99,12 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_0ebjn")
 theme_override_styles/hover = SubResource("StyleBoxFlat_ob46e")
 text = "Start Game"
 
-[node name="CenterContainer2" type="CenterContainer" parent="TextureRect/VBoxContainer/MenuButtonContainer"]
-layout_mode = 2
-
-[node name="HowToPlayButton" type="Button" parent="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer2"]
+[node name="HowToPlayButton" type="Button" parent="RemoteCanvasLayer"]
 unique_name_in_owner = true
-layout_mode = 2
+offset_left = 142.0
+offset_top = 326.14
+offset_right = 368.0
+offset_bottom = 385.14
 theme_type_variation = &"MainMenuButton"
 theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
@@ -77,12 +115,12 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_ob46e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_uqeha")
 text = "How To Play"
 
-[node name="CenterContainer3" type="CenterContainer" parent="TextureRect/VBoxContainer/MenuButtonContainer"]
-layout_mode = 2
-
-[node name="OptionsButton" type="Button" parent="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer3"]
+[node name="OptionsButton" type="Button" parent="RemoteCanvasLayer"]
 unique_name_in_owner = true
-layout_mode = 2
+offset_left = 142.0
+offset_top = 336.14
+offset_right = 299.0
+offset_bottom = 395.14
 theme_type_variation = &"MainMenuButton"
 theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
@@ -93,13 +131,9 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_wem23")
 theme_override_styles/hover = SubResource("StyleBoxFlat_3ovsr")
 text = "Options"
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(480, 270)
-ignore_rotation = false
-
-[connection signal="mouse_entered" from="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer/StartGameButton" to="." method="_on_start_game_button_mouse_entered"]
-[connection signal="pressed" from="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer/StartGameButton" to="." method="_on_start_game_button_pressed"]
-[connection signal="mouse_entered" from="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer2/HowToPlayButton" to="." method="_on_how_to_play_button_mouse_entered"]
-[connection signal="pressed" from="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer2/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
-[connection signal="mouse_entered" from="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer3/OptionsButton" to="." method="_on_options_button_mouse_entered"]
-[connection signal="pressed" from="TextureRect/VBoxContainer/MenuButtonContainer/CenterContainer3/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="mouse_entered" from="RemoteCanvasLayer/StartGameButton" to="." method="_on_start_game_button_mouse_entered"]
+[connection signal="pressed" from="RemoteCanvasLayer/StartGameButton" to="." method="_on_start_game_button_pressed"]
+[connection signal="mouse_entered" from="RemoteCanvasLayer/HowToPlayButton" to="." method="_on_how_to_play_button_mouse_entered"]
+[connection signal="pressed" from="RemoteCanvasLayer/HowToPlayButton" to="." method="_on_how_to_play_button_pressed"]
+[connection signal="mouse_entered" from="RemoteCanvasLayer/OptionsButton" to="." method="_on_options_button_mouse_entered"]
+[connection signal="pressed" from="RemoteCanvasLayer/OptionsButton" to="." method="_on_options_button_pressed"]

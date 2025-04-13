@@ -1,3 +1,4 @@
+@tool
 extends TextureRect
 
 signal refresh()
@@ -16,12 +17,6 @@ const POSITIONS = [
 	Vector2(16, 32),
 ]
 
-var face: StuffDieFace:
-	set(v):
-		if face == v: return
-		face = v
-		_refresh()
-
 var pips: Dictionary[Enums.PIP_TYPE, int]:
 	set(v):
 		if pips == v: return
@@ -34,19 +29,12 @@ func _ready() -> void:
 	_refresh()
 
 func _refresh():
+	if Engine.is_editor_hint() and EditorInterface.get_edited_scene_root() and EditorInterface.get_edited_scene_root().is_ancestor_of(self):
+		return
+	
 	refresh.emit()
 	
 	if not is_inside_tree():
-		return
-	
-	if face == null:
-		for p in pip_nodes:
-			p.queue_free()
-		pip_nodes.clear()
-		return
-	if pips.size() == 0:
-		for p in pip_nodes:
-			p.hide()
 		return
 	
 	var pip_list = PipUtils.deconstruct_pips(pips, MAX_PIPS)
@@ -80,7 +68,6 @@ func _refresh():
 		else:
 			pip.label.hide()
 			pip.label.text = ""
-		
 	
 	for i in range(pip_list.size(), pip_nodes.size()):
 		pip_nodes[i].hide()

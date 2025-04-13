@@ -24,7 +24,7 @@ var ITEM_RATES = {
 	},
 }
 
-var reason: Enums.UPGRADE_REASON
+var reason: Enums.UPGRADE_REASON = Enums.UPGRADE_REASON.MUTATION
 
 @onready var options: HBoxContainer = %Options
 @onready var label: Label = %Label
@@ -52,7 +52,6 @@ func _ready() -> void:
 				options.add_child(c)
 				c.name_label.text = Mutation.names[mut]
 				c.texture_rect.texture = Mutation.textures[mut]
-				c.splay_texture_rect.hide()
 				c.description.text = Mutation.descriptions[mut]
 				c.description.autowrap_mode = TextServer.AUTOWRAP_WORD
 				c.description.custom_minimum_size = Vector2(400, 0)

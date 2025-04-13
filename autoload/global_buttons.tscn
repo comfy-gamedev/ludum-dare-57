@@ -6,10 +6,25 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4jr4l"]
 
 [node name="GlobalButtons" type="CanvasLayer"]
-layer = 50
+layer = 128
 script = ExtResource("1_4jr4l")
 
-[node name="MusicButton" type="Button" parent="."]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+ratio = 1.7778
+
+[node name="Control" type="Control" parent="AspectRatioContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="MusicButton" type="Button" parent="AspectRatioContainer/Control"]
+unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -20,4 +35,4 @@ focus_mode = 0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_4jr4l")
 icon = ExtResource("2_kapbb")
 
-[connection signal="pressed" from="MusicButton" to="." method="_on_music_button_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/Control/MusicButton" to="." method="_on_music_button_pressed"]

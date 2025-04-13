@@ -1,13 +1,15 @@
-[gd_scene load_steps=20 format=3 uid="uid://jbx7rf6o0vao"]
+[gd_scene load_steps=22 format=3 uid="uid://jbx7rf6o0vao"]
 
 [ext_resource type="Script" uid="uid://delii6tmbeqrh" path="res://scenes/battle/battle.gd" id="1_0yh6x"]
 [ext_resource type="Texture2D" uid="uid://fga4da56a7kg" path="res://assets/textures/ui_border.png" id="2_agsc7"]
 [ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_icoan"]
 [ext_resource type="PackedScene" uid="uid://gf35602k844f" path="res://scenes/battle/character_screen.tscn" id="4_t1kk3"]
+[ext_resource type="Script" uid="uid://dhhpqfjfoesq3" path="res://node_types/remote_control.gd" id="6_mvulk"]
 [ext_resource type="StyleBox" uid="uid://c0t4t8cfljujc" path="res://assets/textures/ui_border_filled_stylebox.tres" id="7_n6gaa"]
 [ext_resource type="PackedScene" uid="uid://xknio6dqaw0v" path="res://actors/die_card.tscn" id="8_n6gaa"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="10_fisqk"]
 [ext_resource type="Texture2D" uid="uid://fcx1o2xpujbv" path="res://assets/textures/speech.png" id="10_kd6yx"]
+[ext_resource type="Script" uid="uid://cxhl2e5rcopul" path="res://node_types/remote_canvas_layer.gd" id="10_w40i5"]
 [ext_resource type="AudioStream" uid="uid://cjh5bpcjhm2a8" path="res://assets/sfx/foley_assets/clicky_sound.wav" id="14_tnndc"]
 [ext_resource type="AudioStream" uid="uid://bqcsbtvmkeu00" path="res://assets/sfx/foley_assets/creepy_crunchy.wav" id="15_k6ux7"]
 [ext_resource type="AudioStream" uid="uid://d1le3gn8t06n0" path="res://assets/sfx/foley_assets/dice_roll.wav" id="16_1oulw"]
@@ -26,10 +28,10 @@ texture_margin_bottom = 16.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icoan"]
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxe8n"]
 bg_color = Color(0, 0, 0, 0.501961)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_icoan"]
 
 [node name="Battle" type="Node2D"]
 script = ExtResource("1_0yh6x")
@@ -75,17 +77,16 @@ texture = ExtResource("10_kd6yx")
 flip_h = true
 flip_v = true
 
-[node name="GoButton" type="Button" parent="."]
+[node name="GoButtonRemoteControl" type="Control" parent="." node_paths=PackedStringArray("remote_node")]
+layout_mode = 3
+anchors_preset = 0
 offset_left = 780.0
 offset_top = 319.0
-offset_right = 836.0
-offset_bottom = 366.0
-theme_override_styles/focus = SubResource("StyleBoxEmpty_icoan")
-theme_override_styles/disabled = SubResource("StyleBoxEmpty_icoan")
-theme_override_styles/hover = ExtResource("7_n6gaa")
-theme_override_styles/pressed = ExtResource("7_n6gaa")
-theme_override_styles/normal = ExtResource("7_n6gaa")
-text = "GO"
+offset_right = 860.0
+offset_bottom = 390.0
+script = ExtResource("6_mvulk")
+remote_node = NodePath("../RemoteCanvasLayer/GoButton")
+metadata/_custom_type_script = "uid://dhhpqfjfoesq3"
 
 [node name="MutationGridContainer" type="GridContainer" parent="."]
 unique_name_in_owner = true
@@ -165,6 +166,23 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 288.0
 offset_bottom = 399.0
+enable_click = false
+
+[node name="RemoteCanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("10_w40i5")
+metadata/_custom_type_script = "uid://cxhl2e5rcopul"
+
+[node name="GoButton" type="Button" parent="RemoteCanvasLayer"]
+offset_left = 780.0
+offset_top = 319.0
+offset_right = 860.0
+offset_bottom = 390.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_icoan")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_icoan")
+theme_override_styles/hover = ExtResource("7_n6gaa")
+theme_override_styles/pressed = ExtResource("7_n6gaa")
+theme_override_styles/normal = ExtResource("7_n6gaa")
+text = "GO"
 
 [node name="ClickySound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("14_tnndc")
@@ -190,4 +208,4 @@ stream = ExtResource("28_j021e")
 [node name="Ughhit" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("29_eu6pb")
 
-[connection signal="pressed" from="GoButton" to="." method="_on_go_button_pressed"]
+[connection signal="pressed" from="RemoteCanvasLayer/GoButton" to="." method="_on_go_button_pressed"]

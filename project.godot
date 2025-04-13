@@ -12,7 +12,7 @@ config_version=5
 
 config/name="LD57 - Depths"
 config/tags=PackedStringArray("template")
-run/main_scene="res://scenes/main_menu/main_menu.tscn"
+run/main_scene="uid://cvfk1nlqkb6sw"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time.release=2000
@@ -34,11 +34,11 @@ ItemDB="*res://autoload/item_db.gd"
 
 window/size/viewport_width=960
 window/size/viewport_height=540
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/cider_state/plugin.cfg", "res://addons/cider_wiki/plugin.cfg", "res://addons/dice/plugin.cfg")
+enabled=PackedStringArray("res://addons/cider_state/plugin.cfg", "res://addons/cider_wiki/plugin.cfg", "res://addons/dice/plugin.cfg", "res://addons/smooth_pixel_subviewport_container/plugin.cfg")
 
 [gui]
 

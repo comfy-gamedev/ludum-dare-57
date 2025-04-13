@@ -1,7 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://3fnebg8beehh"]
+[gd_scene load_steps=5 format=3 uid="uid://3fnebg8beehh"]
 
 [ext_resource type="PackedScene" uid="uid://pteh7k3pyx6q" path="res://actors/die_face.tscn" id="1_e2lmd"]
 [ext_resource type="Script" uid="uid://dy1dnvjdyedtc" path="res://actors/die.gd" id="1_jhkij"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhkij"]
+resource_local_to_scene = true
+cull_mode = 1
+shading_mode = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_s2doa"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_jhkij")
+size = Vector3(1.1, 1.1, 1.1)
 
 [node name="Die" type="Node3D"]
 script = ExtResource("1_jhkij")
@@ -22,3 +32,7 @@ transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 
 
 [node name="DieFace5" parent="." instance=ExtResource("1_e2lmd")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+
+[node name="Outline" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_s2doa")

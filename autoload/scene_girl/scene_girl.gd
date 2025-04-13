@@ -15,14 +15,18 @@ signal load_progress(value: float)
 ## Minimum time to show the loading screen for.
 ## [signal load_progress] will be simulated with fake values.
 ## Automatically set to 0.0 when running in an exported build.
-var minimum_load_time: float = 1.0
+var minimum_load_time: float = 0.0
 
 var default_transition_scene: PackedScene = preload("res://autoload/scene_girl/default_scene_transition.tscn")
 var default_loading_screen_scene: PackedScene = preload("res://autoload/scene_girl/default_loading_screen.tscn")
 
+@onready var scene_root: Node = get_tree().root
+@onready var current_scene: Node = get_tree().current_scene
+
 var _default_transition: AnimationPlayer = null
 var _current_transition: AnimationPlayer = null
 var _pending_change_scene_file: String = ""
+var _pending_change_unload_current: bool = true
 var _loading_screen: Node = null
 var _time_elapsed: float = 0.0
 
@@ -64,6 +68,9 @@ func _process(delta: float) -> void:
 			var next_scene = ResourceLoader.load_threaded_get(_pending_change_scene_file)
 			_finish_change_scene(next_scene.instantiate())
 
+func set_scene_root(node: Node) -> void:
+	scene_root = node
+
 ## Initiates a scene change.
 ##
 ## Immediately pauses the scene and begins loading [param scene_file] in the background.
@@ -82,18 +89,20 @@ func _process(delta: float) -> void:
 ## The "in" transition animation will be played using the same logic as the "out" animation.
 ##
 ## [param scene_file]: the file path to the PackedScene to be loaded.
-func change_scene(scene_file: String) -> void:
+## [param unload_current]: determines whether the current scene will be unloaded.
+func change_scene(scene_file: String, unload_current: bool = true) -> void:
 	if _pending_change_scene_file:
 		push_error("Cannot change scene while another is pending.")
 		return
 	
 	_pending_change_scene_file = scene_file
+	_pending_change_unload_current = unload_current
 	
-	_current_transition = get_tree().current_scene.get_node_or_null("SceneTransition")
+	_current_transition = current_scene.get_node_or_null("SceneTransition")
 	
 	if not _current_transition:
 		_default_transition = default_transition_scene.instantiate()
-		get_tree().root.add_child(_default_transition)
+		scene_root.add_child(_default_transition)
 		_current_transition = _default_transition
 	
 	_current_transition.play("out")
@@ -111,12 +120,12 @@ func push_scene(scene: PackedScene, setup: Callable = Callable()) -> void:
 		push_error("Cannot change scene while another is pending.")
 		return
 	
-	scene_stack.push_back(get_tree().current_scene)
-	get_tree().root.remove_child(get_tree().current_scene)
+	scene_stack.push_back(current_scene)
+	scene_root.remove_child(current_scene)
 	var new_node = scene.instantiate()
 	setup.call(new_node)
-	get_tree().root.add_child(new_node)
-	get_tree().current_scene = new_node
+	scene_root.add_child(new_node)
+	current_scene = new_node
 
 func pop_scene() -> void:
 	if _pending_change_scene_file:
@@ -124,11 +133,11 @@ func pop_scene() -> void:
 		return
 	
 	var old_node = scene_stack.pop_back()
-	get_tree().current_scene.queue_free()
-	get_tree().root.remove_child(get_tree().current_scene)
+	current_scene.queue_free()
+	scene_root.remove_child(current_scene)
 	if old_node:
-		get_tree().root.add_child(old_node)
-		get_tree().current_scene = old_node
+		scene_root.add_child(old_node)
+		current_scene = old_node
 
 func _on_out_animation_finished(anim_name: StringName) -> void:
 	assert(anim_name == &"out")
@@ -144,10 +153,12 @@ func _on_out_animation_finished(anim_name: StringName) -> void:
 	
 	if default_loading_screen_scene:
 		_loading_screen = default_loading_screen_scene.instantiate()
-		get_tree().root.add_child(_loading_screen)
+		scene_root.add_child(_loading_screen)
 
 func _finish_change_scene(next_scene: Node) -> void:
-	get_tree().unload_current_scene()
+	if _pending_change_unload_current:
+		current_scene.queue_free()
+		current_scene = null
 	
 	_pending_change_scene_file = ""
 	set_process(false)
@@ -160,18 +171,18 @@ func _finish_change_scene(next_scene: Node) -> void:
 
 func _add_current_scene(next_scene: Node) -> void:
 	if not next_scene:
-		get_tree().current_scene = null
+		current_scene = null
 		return
 	
-	get_tree().root.add_child(next_scene)
-	get_tree().current_scene = next_scene
+	scene_root.add_child(next_scene)
+	current_scene = next_scene
 	
-	_current_transition = get_tree().current_scene.get_node_or_null("SceneTransition")
+	_current_transition = current_scene.get_node_or_null("SceneTransition")
 	
 	if not _current_transition:
 		if not _default_transition:
 			_default_transition = default_transition_scene.instantiate()
-			get_tree().root.add_child(_default_transition)
+			scene_root.add_child(_default_transition)
 		_current_transition = _default_transition
 	else:
 		if _default_transition:

@@ -1,11 +1,5 @@
 extends Node3D
 
-var face: StuffDieFace:
-	set(v):
-		if face == v: return
-		face = v
-		_refresh()
-
 var pips: Dictionary[Enums.PIP_TYPE, int]:
 	set(v):
 		if pips == v: return
@@ -22,7 +16,6 @@ func _refresh():
 	if not is_inside_tree():
 		return
 	
-	die_face_control.face = face
 	die_face_control.pips = pips
 
 

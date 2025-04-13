@@ -50,11 +50,6 @@ var die: LayeredDie:
 
 var _time: float = 0.0
 var _added_rotation: Quaternion
-var _outline_override: Color = Color.TRANSPARENT:
-	set(v):
-		if _outline_override == v: return
-		_outline_override = v
-		_reconcile()
 var _float_velocity: Vector2
 var _roll_offset_axis_angle: Vector3
 
@@ -112,7 +107,6 @@ func _reconcile() -> void:
 	if not is_node_ready(): return
 	die_node.die = die
 	die_node.basis = Basis(get_combined_rotation()).scaled(Vector3.ONE * die_scale)
-	(material as ShaderMaterial).set_shader_parameter("outline_color", _outline_override if _outline_override.a != 0 else outline_color)
 	sub_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
@@ -123,10 +117,11 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 
 
 func _on_area_2d_mouse_entered() -> void:
-	_outline_override = Color.YELLOW
+	die_node.outline = true
+	die_node.outline_color = Color("e09ea0")
 	mouse_enter.emit()
 
 
 func _on_area_2d_mouse_exited() -> void:
-	_outline_override = Color.TRANSPARENT
+	die_node.outline = false
 	mouse_exit.emit()

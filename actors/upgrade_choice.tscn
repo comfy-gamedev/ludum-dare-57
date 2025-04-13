@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgjetxvat2yxu"]
+[gd_scene load_steps=3 format=3 uid="uid://bgjetxvat2yxu"]
 
 [ext_resource type="Script" uid="uid://w618mds7jm4f" path="res://actors/upgrade_choice.gd" id="1_s1b4d"]
 [ext_resource type="Texture2D" uid="uid://d0lqm1lyoy25u" path="res://assets/textures/weapon_sprites/Pipe Wrench.png" id="1_v1sn1"]
-[ext_resource type="PackedScene" uid="uid://cff4h2l4k8hw4" path="res://actors/die_splay_control.tscn" id="3_i17eh"]
 
 [node name="UpgradeChoice" type="PanelContainer"]
 custom_minimum_size = Vector2(200, 0)
@@ -18,12 +17,14 @@ script = ExtResource("1_s1b4d")
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 128)
 layout_mode = 2
 texture = ExtResource("1_v1sn1")
 stretch_mode = 5
 
 [node name="Name" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 text = "Greataxe"
@@ -31,9 +32,6 @@ horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Description" type="Label" parent="VBoxContainer"]
-layout_mode = 2
-
-[node name="DieSplayControl" parent="VBoxContainer" instance=ExtResource("3_i17eh")]
 unique_name_in_owner = true
 layout_mode = 2
 

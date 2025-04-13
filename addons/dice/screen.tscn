@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cfpsteudos4o4"]
+[gd_scene load_steps=3 format=3 uid="uid://cfpsteudos4o4"]
 
 [ext_resource type="Script" uid="uid://l7v3ef506imr" path="res://addons/dice/screen.gd" id="1_svv35"]
+[ext_resource type="PackedScene" uid="uid://cff4h2l4k8hw4" path="res://actors/die_splay_control.tscn" id="3_dtaq2"]
 
 [node name="Screen" type="PanelContainer"]
 anchors_preset = 15
@@ -17,23 +18,42 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 24
 metadata/_edit_use_anchors_ = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 4
+
+[node name="Tools" type="GridContainer" parent="VBoxContainer/HBoxContainer3/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer3/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 text = "Count"
 
-[node name="CountSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="CountSpinBox" type="SpinBox" parent="VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-metadata/_edit_use_anchors_ = true
+
+[node name="DieSplayControl" parent="VBoxContainer/HBoxContainer3/VBoxContainer" instance=ExtResource("3_dtaq2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
 
 [connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="item_selected" from="VBoxContainer/OptionButton" to="." method="_on_option_button_item_selected"]
-[connection signal="value_changed" from="VBoxContainer/HBoxContainer2/CountSpinBox" to="." method="_on_count_spin_box_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer3/VBoxContainer/HBoxContainer2/CountSpinBox" to="." method="_on_count_spin_box_value_changed"]
