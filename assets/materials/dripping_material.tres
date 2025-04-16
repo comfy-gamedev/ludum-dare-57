@@ -13,4 +13,5 @@ gradient = SubResource("Gradient_c45gg")
 [resource]
 shader = ExtResource("1_c45gg")
 shader_parameter/factor = 200.0
+shader_parameter/fps_limit = 240.0
 shader_parameter/gradient_texture = SubResource("GradientTexture1D_4x8uy")

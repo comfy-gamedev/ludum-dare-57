@@ -2,6 +2,7 @@
 shader_type canvas_item;
 
 uniform float factor = 200.0;
+uniform float fps_limit = 240.0;
 uniform sampler2D gradient_texture: filter_nearest;
 
 float rand(vec2 n) {
@@ -26,7 +27,7 @@ void fragment()
 	st.y *= -res.y/res.x;
 	st *= 21.3;
 
-	float x = factor * noise(st + vec2(0, round(TIME*12.0)/12.0)) * fract(st.y - 0.45);
+	float x = factor * noise(st + vec2(0, round(TIME*fps_limit)/fps_limit)) * fract(st.y - 0.45);
 
 	COLOR = texture(gradient_texture, vec2(x, 0.5));
 }
