@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://jq8y55fa3yvs"]
+
+[ext_resource type="StyleBox" uid="uid://c0t4t8cfljujc" path="res://assets/textures/ui_border_filled_stylebox.tres" id="1_8qqnm"]
+[ext_resource type="PackedScene" uid="uid://cff4h2l4k8hw4" path="res://actors/die_splay_control.tscn" id="1_u33x7"]
+[ext_resource type="Texture2D" uid="uid://dhyhbbmxpjapb" path="res://assets/textures/inventory_panels/weapon1.png" id="2_kijh2"]
+[ext_resource type="Texture2D" uid="uid://c5hlq3gnbudap" path="res://assets/textures/weapon_sprites/Slimy Lead Pipe.png" id="3_oejlh"]
+[ext_resource type="PackedScene" uid="uid://db46o3d7kmanp" path="res://actors/die_sprite.tscn" id="5_twgjb"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_e7mxj"]
+viewport_path = NodePath("SubViewport")
+
+[node name="ItemInventory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DieSplayControl" parent="." instance=ExtResource("1_u33x7")]
+visible = false
+layout_mode = 2
+offset_left = 16.0
+offset_top = 121.0
+offset_right = 272.0
+offset_bottom = 313.0
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 272.0
+theme_override_styles/panel = ExtResource("1_8qqnm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="Panel/VBoxContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Weapon ([img]res://assets/textures/die_icon.png[/img]×6)"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+
+[node name="PanelContainer" type="TextureRect" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("2_kijh2")
+
+[node name="TextureRect2" type="TextureRect" parent="Panel/VBoxContainer/PanelContainer"]
+layout_mode = 2
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("3_oejlh")
+stretch_mode = 5
+
+[node name="Control" type="Control" parent="Panel/VBoxContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="DieSprite" parent="Panel/VBoxContainer/Control" instance=ExtResource("5_twgjb")]
+texture = SubResource("ViewportTexture_e7mxj")
+centered = false

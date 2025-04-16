@@ -7,9 +7,14 @@ extends Control
 	set(v):
 		if remote_node == v:
 			return
+		if remote_node:
+			remote_node.minimum_size_changed.disconnect(update_minimum_size)
 		remote_node = v
+		if remote_node:
+			remote_node.minimum_size_changed.connect(update_minimum_size)
 		if is_inside_tree():
 			_update_remote()
+		update_minimum_size()
 		update_configuration_warnings()
 
 ## If true, global coordinates are used. If false, local coordinates are used.

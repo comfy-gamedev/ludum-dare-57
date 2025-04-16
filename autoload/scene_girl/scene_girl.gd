@@ -21,6 +21,7 @@ var default_transition_scene: PackedScene = preload("res://autoload/scene_girl/d
 var default_loading_screen_scene: PackedScene = preload("res://autoload/scene_girl/default_loading_screen.tscn")
 
 @onready var scene_root: Node = get_tree().root
+@onready var transition_root: Node = scene_root
 @onready var current_scene: Node = get_tree().current_scene
 
 var _default_transition: AnimationPlayer = null
@@ -71,6 +72,9 @@ func _process(delta: float) -> void:
 func set_scene_root(node: Node) -> void:
 	scene_root = node
 
+func set_transition_root(node: Node) -> void:
+	transition_root = node
+
 ## Initiates a scene change.
 ##
 ## Immediately pauses the scene and begins loading [param scene_file] in the background.
@@ -102,7 +106,7 @@ func change_scene(scene_file: String, unload_current: bool = true) -> void:
 	
 	if not _current_transition:
 		_default_transition = default_transition_scene.instantiate()
-		scene_root.add_child(_default_transition)
+		transition_root.add_child(_default_transition)
 		_current_transition = _default_transition
 	
 	_current_transition.play("out")
@@ -153,7 +157,7 @@ func _on_out_animation_finished(anim_name: StringName) -> void:
 	
 	if default_loading_screen_scene:
 		_loading_screen = default_loading_screen_scene.instantiate()
-		scene_root.add_child(_loading_screen)
+		transition_root.add_child(_loading_screen)
 
 func _finish_change_scene(next_scene: Node) -> void:
 	if _pending_change_unload_current:
@@ -182,7 +186,7 @@ func _add_current_scene(next_scene: Node) -> void:
 	if not _current_transition:
 		if not _default_transition:
 			_default_transition = default_transition_scene.instantiate()
-			scene_root.add_child(_default_transition)
+			transition_root.add_child(_default_transition)
 		_current_transition = _default_transition
 	else:
 		if _default_transition:

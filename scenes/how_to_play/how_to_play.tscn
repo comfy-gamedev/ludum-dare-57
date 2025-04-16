@@ -1,9 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://2s7ckdyp7cto"]
+[gd_scene load_steps=13 format=3 uid="uid://2s7ckdyp7cto"]
 
 [ext_resource type="Script" uid="uid://bqdatf30o7yrb" path="res://scenes/how_to_play/how_to_play.gd" id="1_ki7tk"]
 [ext_resource type="Texture2D" uid="uid://b61dxxjjth410" path="res://assets/textures/brownBrick.png" id="2_exv6s"]
 [ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="3_mnrnl"]
+[ext_resource type="Script" uid="uid://dhhpqfjfoesq3" path="res://node_types/remote_control.gd" id="4_6f42e"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_mwq5a"]
+[ext_resource type="Script" uid="uid://cxhl2e5rcopul" path="res://node_types/remote_canvas_layer.gd" id="5_ki7tk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g61f5"]
 bg_color = Color(0.129155, 0.21273, 0.16645, 0.815686)
@@ -20,6 +22,14 @@ content_margin_bottom = 16.0
 bg_color = Color(0.121569, 0.168627, 0.141176, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hb5a5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hb5a5"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.8, 0.8, 0.8, 0)
 
 [node name="how_to_play" type="Control"]
 layout_mode = 3
@@ -64,20 +74,68 @@ size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_g61f5")
 metadata/_edit_group_ = true
 
+[node name="RemoteClipControl" type="Control" parent="Panel" node_paths=PackedStringArray("remote_node")]
+layout_mode = 2
+script = ExtResource("4_6f42e")
+remote_node = NodePath("../../RemoteCanvasLayer/ClipControl")
+
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_exv6s")
 metadata/_edit_group_ = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Panel/ScrollContainer"]
+[node name="RemoteRichTextLabel" type="Control" parent="Panel/ScrollContainer" node_paths=PackedStringArray("remote_node")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("4_6f42e")
+remote_node = NodePath("../../../RemoteCanvasLayer/ClipControl/RichTextLabel")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 373.0
+offset_top = 482.0
+offset_right = 575.0
+offset_bottom = 537.0
+theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_focus_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_colors/font_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ki7tk")
+theme_override_styles/hover = SubResource("StyleBoxFlat_6f42e")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hb5a5")
+text = "Back to Menu"
+
+[node name="RemoteCanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("5_ki7tk")
+
+[node name="ClipControl" type="Panel" parent="RemoteCanvasLayer"]
+clip_children = 1
+offset_left = 79.0
+offset_top = 22.0
+offset_right = 886.0
+offset_bottom = 480.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hb5a5")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="RemoteCanvasLayer/ClipControl"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 783.0
+offset_bottom = 1473.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
 theme_override_colors/default_color = Color(0.87451, 0.878431, 0.729412, 1)
 theme_override_fonts/normal_font = ExtResource("4_mwq5a")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
 text = "Roll your dice to fight the enemies. Earn better dice by collecting items. Gain abilities by collecting mutations. As you delve ever deeper into the sewers, you will encounter many things in the three acts:
+
+
+
 
 [img=42]res://assets/textures/tiles/enemy_atlas_texture.tres[/img]: Rooms with enemies, and some items to loot
 
@@ -107,21 +165,6 @@ Your Dice are here to help you! Here is what they do:
 
 [img=52]res://assets/textures/pip_slime.png[/img]: Slime so they can't move an inch
 "
-
-[node name="Button" type="Button" parent="."]
-layout_mode = 0
-offset_left = 373.0
-offset_top = 482.0
-offset_right = 575.0
-offset_bottom = 537.0
-theme_override_colors/font_hover_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_colors/font_hover_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_colors/font_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_colors/font_focus_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_colors/font_pressed_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_styles/focus = SubResource("StyleBoxEmpty_ki7tk")
-theme_override_styles/hover = SubResource("StyleBoxFlat_6f42e")
-theme_override_styles/normal = SubResource("StyleBoxEmpty_hb5a5")
-text = "Back to Menu"
+fit_content = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

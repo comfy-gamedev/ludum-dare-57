@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://cy6gwsvlnrel7"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cy6gwsvlnrel7"]
 
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="1_c2e4w"]
 
@@ -47,6 +47,19 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
+[sub_resource type="FontVariation" id="FontVariation_c2e4w"]
+base_font = ExtResource("1_c2e4w")
+variation_embolden = 1.0
+
+[sub_resource type="FontVariation" id="FontVariation_2yuk3"]
+base_font = ExtResource("1_c2e4w")
+variation_embolden = 1.0
+variation_transform = Transform2D(1, 0.3, 0, 1, 0, 0)
+
+[sub_resource type="FontVariation" id="FontVariation_d0250"]
+base_font = ExtResource("1_c2e4w")
+variation_transform = Transform2D(1, 0.3, 0, 1, 0, 0)
+
 [resource]
 Control/font_sizes/font_size = 38
 Control/fonts/font = ExtResource("1_c2e4w")
@@ -56,3 +69,13 @@ MainMenuButton/styles/focus = SubResource("StyleBoxFlat_ejf61")
 MainMenuButton/styles/hover = SubResource("StyleBoxFlat_dttv6")
 MainMenuButton/styles/normal = SubResource("StyleBoxEmpty_w3mof")
 MainMenuButton/styles/pressed = SubResource("StyleBoxFlat_2yd22")
+RichTextLabel/font_sizes/bold_font_size = 32
+RichTextLabel/font_sizes/bold_italics_font_size = 32
+RichTextLabel/font_sizes/italics_font_size = 32
+RichTextLabel/font_sizes/mono_font_size = 32
+RichTextLabel/font_sizes/normal_font_size = 32
+RichTextLabel/fonts/bold_font = SubResource("FontVariation_c2e4w")
+RichTextLabel/fonts/bold_italics_font = SubResource("FontVariation_2yuk3")
+RichTextLabel/fonts/italics_font = SubResource("FontVariation_d0250")
+RichTextLabel/fonts/mono_font = ExtResource("1_c2e4w")
+RichTextLabel/fonts/normal_font = ExtResource("1_c2e4w")

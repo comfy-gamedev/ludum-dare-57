@@ -120,11 +120,12 @@ shader_parameter/radius = 0.5
 
 [node name="DefaultSceneTransition" type="AnimationPlayer"]
 libraries = {
-"": SubResource("AnimationLibrary_ni0qf")
+&"": SubResource("AnimationLibrary_ni0qf")
 }
 speed_scale = 2.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 128
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
 material = SubResource("ShaderMaterial_luw0b")

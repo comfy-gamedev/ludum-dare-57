@@ -68,7 +68,6 @@ func _on_character_state_changed() -> void:
 	rerolls_label.text = str(character_state.rerolls)
 	_set_status_pips(character_state.status_pips)
 
-
 func _set_status_pips(pips: Dictionary[Enums.PIP_TYPE, int]) -> void:
 	var pip_list = PipUtils.deconstruct_pips(pips, MAX_PIPS)
 	

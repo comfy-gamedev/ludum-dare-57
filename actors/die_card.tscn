@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://xknio6dqaw0v"]
+[gd_scene load_steps=8 format=3 uid="uid://xknio6dqaw0v"]
 
 [ext_resource type="StyleBox" uid="uid://c0t4t8cfljujc" path="res://assets/textures/ui_border_filled_stylebox.tres" id="1_ryvm6"]
 [ext_resource type="Script" uid="uid://dv6lip3fw4ijp" path="res://actors/die_card.gd" id="2_761x5"]
 [ext_resource type="Texture2D" uid="uid://d0lqm1lyoy25u" path="res://assets/textures/weapon_sprites/Pipe Wrench.png" id="3_1blfs"]
 [ext_resource type="Script" uid="uid://dxsmi4nq323ng" path="res://actors/scale_container.gd" id="4_761x5"]
 [ext_resource type="PackedScene" uid="uid://cff4h2l4k8hw4" path="res://actors/die_splay_control.tscn" id="4_fpafn"]
+[ext_resource type="Script" uid="uid://dhhpqfjfoesq3" path="res://node_types/remote_control.gd" id="5_fpafn"]
+[ext_resource type="Script" uid="uid://cxhl2e5rcopul" path="res://node_types/remote_canvas_layer.gd" id="7_memsh"]
 
 [node name="DieCard" type="PanelContainer"]
 offset_left = -157.0
@@ -28,13 +30,26 @@ stretch_mode = 5
 layout_mode = 2
 script = ExtResource("4_761x5")
 
-[node name="Name" type="Label" parent="VBoxContainer/ScaleContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+[node name="RemoteName" type="Control" parent="VBoxContainer/ScaleContainer" node_paths=PackedStringArray("remote_node")]
 layout_mode = 2
-text = "Greataxe"
-horizontal_alignment = 1
+size_flags_vertical = 4
+script = ExtResource("5_fpafn")
+remote_node = NodePath("../../../RemoteCanvasLayer/Name")
 
 [node name="DieSplayControl" parent="VBoxContainer" instance=ExtResource("4_fpafn")]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="RemoteCanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("7_memsh")
+viewport_path = NodePath("/root/SceneRoot/AspectRatioContainer/HighRes/HighResSubViewport")
+
+[node name="Name" type="Label" parent="RemoteCanvasLayer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+offset_left = -141.0
+offset_top = 9.0
+offset_right = 115.0
+offset_bottom = 48.0
+text = "Greataxe"
+horizontal_alignment = 1

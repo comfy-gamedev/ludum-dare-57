@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://vv8xcc8umdr"]
+[gd_scene load_steps=11 format=3 uid="uid://vv8xcc8umdr"]
 
 [ext_resource type="Script" uid="uid://5j4xrkvyx77b" path="res://scenes/intro_panel/intro_panel.gd" id="1_mtplt"]
 [ext_resource type="Material" uid="uid://c6s6v33wd1okn" path="res://assets/materials/dripping_material.tres" id="2_7n4cr"]
 [ext_resource type="Texture2D" uid="uid://dm7cd1eses6k" path="res://assets/textures/brick.png" id="2_mtplt"]
+[ext_resource type="Script" uid="uid://dhhpqfjfoesq3" path="res://node_types/remote_control.gd" id="4_g61f5"]
 [ext_resource type="FontFile" uid="uid://ba2sqadr7at8k" path="res://assets/fonts/Beholden-Regular.ttf" id="4_uiwe1"]
+[ext_resource type="Script" uid="uid://cxhl2e5rcopul" path="res://node_types/remote_canvas_layer.gd" id="5_jks7m"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g61f5"]
 bg_color = Color(0.129155, 0.21273, 0.16645, 0.815686)
@@ -30,20 +32,15 @@ material = ExtResource("2_7n4cr")
 offset_right = 960.0
 offset_bottom = 585.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-top_level = true
+[node name="RemoteRichTextLabel" type="Control" parent="." node_paths=PackedStringArray("remote_node")]
+layout_mode = 3
+anchors_preset = 0
 offset_left = 91.0
 offset_top = 69.0
 offset_right = 878.0
 offset_bottom = 475.0
-theme_override_colors/default_color = Color(0.87451, 0.878431, 0.729412, 1)
-theme_override_fonts/normal_font = ExtResource("4_uiwe1")
-theme_override_font_sizes/normal_font_size = 44
-bbcode_enabled = true
-text = "[wave]Where are you?...
-Deep in the bowels of the sewers
-Why are you here?...
-It's hard to remember now, it's been so long. A lifetime ago, before you mutated, you had a home once. And then they flushed you down the toilet! Now you must fight to survive..."
+script = ExtResource("4_g61f5")
+remote_node = NodePath("../RemoteCanvasLayer/RichTextLabel")
 
 [node name="Panel" type="Panel" parent="."]
 light_mask = 0
@@ -67,5 +64,24 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_mtplt")
 theme_override_styles/hover = SubResource("StyleBoxFlat_uiwe1")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_g61f5")
 text = "Continue?"
+
+[node name="RemoteCanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("5_jks7m")
+viewport_path = NodePath("/root/SceneRoot/AspectRatioContainer/HighRes/HighResSubViewport")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="RemoteCanvasLayer"]
+top_level = true
+offset_left = 91.0
+offset_top = 69.0
+offset_right = 878.0
+offset_bottom = 475.0
+theme_override_colors/default_color = Color(0.87451, 0.878431, 0.729412, 1)
+theme_override_fonts/normal_font = ExtResource("4_uiwe1")
+theme_override_font_sizes/normal_font_size = 44
+bbcode_enabled = true
+text = "[wave]Where are you?...
+Deep in the bowels of the sewers
+Why are you here?...
+It's hard to remember now, it's been so long. A lifetime ago, before you mutated, you had a home once. And then they flushed you down the toilet! Now you must fight to survive..."
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

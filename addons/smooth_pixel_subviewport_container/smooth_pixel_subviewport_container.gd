@@ -57,6 +57,7 @@ const SHADER = preload("smooth_pixel_subviewport_container.gdshader")
 var _smooth_viewport_shader_material: ShaderMaterial
 
 func _ready() -> void:
+	resized.connect(_on_resized)
 	_smooth_viewport_shader_material = ShaderMaterial.new()
 	_smooth_viewport_shader_material.shader = SHADER
 	_configure()
@@ -68,6 +69,12 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	if RenderingServer.frame_pre_draw.is_connected(_on_rendering_server_frame_pre_draw):
 		RenderingServer.frame_pre_draw.disconnect(_on_rendering_server_frame_pre_draw)
+
+func _on_resized() -> void:
+	if stretch:
+		for c in get_children():
+			if c is SubViewport:
+				c.size = c.size_2d_override
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var first_subviewport: SubViewport = null
@@ -95,6 +102,7 @@ func enable_antialiasing(v: bool) -> void:
 func _configure() -> void:
 	if smoothcam_enabled or antialiasing_enabled:
 		material = _smooth_viewport_shader_material
+		stretch = true
 	else:
 		material = null
 	

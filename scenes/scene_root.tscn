@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://de81q4o2s5ysb" path="res://scenes/scene_root.gd" id="1_3v20e"]
 [ext_resource type="Shader" uid="uid://bmke2ja1th6m7" path="res://addons/smooth_pixel_subviewport_container/smooth_pixel_subviewport_container.gdshader" id="2_tinwa"]
-[ext_resource type="Script" uid="uid://ysl2dbjmah24" path="res://addons/smooth_pixel_subviewport_container/smooth_pixel_subviewport_container.gd" id="3_lpcpv"]
+[ext_resource type="Script" uid="uid://cmidb70k32kfd" path="res://node_types/texture_rect_sub_viewport.gd" id="3_tinwa"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tinwa"]
 shader = ExtResource("2_tinwa")
@@ -37,14 +37,14 @@ grow_horizontal = 2
 grow_vertical = 2
 ratio = 1.7778
 
-[node name="SmoothPixelSubViewportContainer" type="SubViewportContainer" parent="AspectRatioContainer"]
+[node name="SmoothPixelSubViewportContainer" type="Control" parent="AspectRatioContainer"]
 texture_filter = 2
 texture_repeat = 1
 material = SubResource("ShaderMaterial_tinwa")
 layout_mode = 2
-stretch = true
-script = ExtResource("3_lpcpv")
-metadata/_custom_type_script = "uid://ysl2dbjmah24"
+focus_mode = 1
+script = ExtResource("3_tinwa")
+metadata/_custom_type_script = "uid://cmidb70k32kfd"
 
 [node name="PixelSubViewport" type="SubViewport" parent="AspectRatioContainer/SmoothPixelSubViewportContainer"]
 unique_name_in_owner = true
@@ -53,9 +53,7 @@ handle_input_locally = false
 snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
 physics_object_picking = true
-size = Vector2i(960, 539)
-size_2d_override = Vector2i(960, 540)
-size_2d_override_stretch = true
+size = Vector2i(960, 540)
 render_target_update_mode = 4
 
 [node name="HighRes" type="SubViewportContainer" parent="AspectRatioContainer"]
@@ -69,10 +67,11 @@ unique_name_in_owner = true
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
-snap_2d_vertices_to_pixel = true
+snap_2d_transforms_to_pixel = true
 canvas_item_default_texture_filter = 0
 size = Vector2i(960, 539)
 size_2d_override = Vector2i(960, 540)
+size_2d_override_stretch = true
 render_target_update_mode = 4
 
 [node name="SceneTransition" type="AnimationPlayer" parent="."]
