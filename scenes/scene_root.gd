@@ -26,4 +26,3 @@ func _on_high_res_sub_viewport_size_changed() -> void:
 		ts.font_set_global_oversampling(os if not is_inf(os) else 1.0)
 		get_tree().root.propagate_notification(Control.NOTIFICATION_THEME_CHANGED)
 	).call_deferred()
-
